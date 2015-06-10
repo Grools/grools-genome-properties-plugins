@@ -1,0 +1,118 @@
+import java.text.SimpleDateFormat
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'be.jlr-home.gradle:plantumlPlugin:0.1.+'
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.+'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'plantuml'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'findbugs'
+apply plugin: 'com.bmuschko.nexus'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+version = '1.0'
+group = 'fr.cea.ig'
+description = projectDescription
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url "http://repository.jboss.org/nexus/content/groups/public"
+    }
+    maven {
+        url "https://gsphere.genoscope.cns.fr/nexus/content/groups/public"
+    }
+}
+
+dependencies {
+    testCompile group: 'junit',             name: 'junit',              version: '4.11'
+    compile     group: 'javax.validation',  name: 'validation-api',     version: '1.1.0.Final'
+    compile     group: 'joda-time',         name: 'joda-time',          version: '2.7'
+    compile     group: 'ch.qos.logback',    name: 'logback-classic',    version: '1.1.2'
+    compile     group: 'org.drools',        name: 'drools-compiler',    version: droolsVersion
+    compile     group: 'org.drools',        name: 'knowledge-api',      version: droolsVersion
+//    compile     group: 'org.drools',        name: 'drools-reteoo',      version: droolsVersion
+}
+
+jar {
+    manifest {
+        attributes( "Implementation-Title":         projectName,
+                    "Implementation-Version":       version,
+                    "Implementation-Vendor":        "Genoscope, LABGeM",
+                    "Product-Name":                 projectName,
+                    "provider":                     "Genoscope",
+                    "Created-By":                   "LABGeM",
+                    "description":                  "GROOLS Application.",
+                    "Build-Date":                   new SimpleDateFormat("yyyy-MM-dd").format(new Date()),
+                    "Build-JDK":                    System.getProperty("java.version"),
+                    "Build-Gradle":                 project.gradle.gradleVersion
+                   )
+    }
+    baseName = projectName
+}
+
+tasks.withType(Test) {
+    jvmArgs  "-Dcom.sun.management.jmxremote.port=19988", "-Dcom.sun.management.jmxremote.ssl=false", "-Dcom.sun.management.jmxremote.authenticate=false", "-Ddrools.mbeans=enabled"
+}
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
+
+plantuml{
+    fileFormat = 'SVG'
+}
+findbugs {
+    effort = "max"
+    ignoreFailures = true
+}
+
+modifyPom {
+    project {
+        name          projectName
+        description   projectDescription
+        url           projectUrlBase+projectUrlCore
+        inceptionYear '2014'
+        scm {
+            url                   projectUrlBase+projectUrlCore
+            connection            projectUrlBase+projectUrlCore+'.git'
+            developerConnection   projectGitBase+projectUrlCore+'.git'
+        }
+        licenses {
+            license {
+                name          'CeCILL-C'
+                url           'http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.txt'
+                distribution  'repo'
+            }
+        }
+        developers {
+            developer {
+                id    'jmercier'
+                name  'Jonathan MERCIER'
+                email 'jmercier@genoscope.cns.fr'
+            }
+        }
+    }
+}
+
+extraArchive {
+    sources  = true
+    tests    = true
+    javadoc  = true
+}
+nexus {
+    sign                  = false
+    repositoryUrl         = 'https://gsphere.genoscope.cns.fr/nexus/content/repositories/releases/'
+    snapshotRepositoryUrl = 'https://gsphere.genoscope.cns.fr/nexus/content/repositories/snapshots/'
+}

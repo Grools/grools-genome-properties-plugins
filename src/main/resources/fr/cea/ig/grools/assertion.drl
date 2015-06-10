@@ -1,0 +1,235 @@
+/*
+* Copyright LABGeM (2014)
+*
+* author: Jonathan MERCIER
+*
+* Tis software is a computer program whose purpose is to annotate a complete genome.
+*
+* Tis software is governed by the CeCILL license under French law and
+* abiding by the rules of distribution of free software. You can use,
+* modify and/ or redistribute the software under the terms of the CeCILL
+* license as circulated by CEA, CNRS and INRIA at the following URL
+* "http://www.cecill.info".
+*
+* As a counterpart to the access to the source code and rights to copy,
+* modify and redistribute granted by the license, users are provided only
+* with a limited warranty and the software's author, the holder of the
+* economic rights, and the successive licensors have only limited
+* liability.
+*
+* In tis respect, the user's attention is drawn to the risks associated
+* with loading, using, modifying and/or developing or reproducing the
+* software by the user in light of its specific status of free software,
+* that may mean that it is complicated to manipulate, and that also
+* therefore means that it is reserved for developers and experienced
+* professionals having in-depth computer Concept. Users are therefore
+* encouraged to load and test the software's suitability as regards their
+* requirements in conditions enabling the security of their systems and/or
+* data to be ensured and, more generally, to use and operate it in the
+* same conditions as regards security.
+*
+* The fact that you are presently reading tis means that you have had
+* Concept of the CeCILL license and that you accept its terms.
+*/
+
+package fr.cea.ig.grools;
+
+import fr.cea.ig.grools.model.Knowledge;
+import fr.cea.ig.grools.model.FiveState;
+import fr.cea.ig.grools.model.Conclusion;
+import fr.cea.ig.grools.model.Assertion;
+import java.util.List;
+
+dialect "mvel"
+
+
+rule "Present knowledge without avoided or required assertion: conclusion is unconfirmed presence"
+    when
+        $k: Knowledge( $kid := id, presence == FiveState.TRUE, conclusion == Conclusion.UNEVALUATED )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+    then
+        modify($k){
+            conclusion = Conclusion.UNCONFIRMED_PRESENCE;
+        }
+end
+
+
+rule "Absent knowledge without avoided or required assertion: conclusion is unconfirmed absence"
+    when
+        $k: Knowledge( $kid := id, presence == FiveState.FALSE, conclusion == Conclusion.UNEVALUATED )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+    then
+        modify($k){
+            conclusion = Conclusion.UNCONFIRMED_ABSENCE;
+        }
+end
+
+
+rule "Present and absent knowledge without avoided or required assertion: conclusion is unconfirmed contradictory"
+    when
+        $k: Knowledge( $kid := id, presence == FiveState.BOTH, conclusion == Conclusion.UNEVALUATED )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+    then
+        modify($k){
+            conclusion = Conclusion.UNCONFIRMED_CONTRADICTORY;
+        }
+end
+
+
+rule "Not observed knowledge without avoided or required assertion: conclusion is unknown"
+    when
+        $k: Knowledge($kid := id, presence == FiveState.UNKNOWN, conclusion == Conclusion.UNEVALUATED )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+    then
+        modify($k){
+            conclusion = Conclusion.UNKNOWN;
+        }
+end
+
+
+rule "Present knowledge has required assertion: conclusion is confirmed presence"
+    when
+        $k: Knowledge($kid := id, presence == FiveState.TRUE, conclusion == Conclusion.UNEVALUATED )
+        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+    then
+        modify($k){
+            conclusion = Conclusion.CONFIRMED_PRESENCE;
+        }
+end
+
+
+rule "Absent knowledge has required assertion: conclusion is an unexpected absence"
+    when
+        $k: Knowledge($kid := id,  presence == FiveState.FALSE, conclusion == Conclusion.UNEVALUATED )
+        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+    then
+        modify($k){
+            conclusion = Conclusion.UNEXPECTED_ABSENCE;
+        }
+end
+
+
+rule "Present and absent knowledge has required assertion: conclusion is a contradictory absence"
+    when
+        $k: Knowledge($kid := id, presence == FiveState.BOTH, conclusion == Conclusion.UNEVALUATED )
+        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+    then
+        modify($k){
+            conclusion = Conclusion.CONTRADICTORY_ABSENCE;
+        }
+end
+
+
+rule "Not observed knowledge has required assertion: conclusion is missing"
+    when
+        $k: Knowledge( $kid := id,  presence == FiveState.UNKNOWN, conclusion == Conclusion.UNEVALUATED )
+        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+    then
+        modify($k){
+            conclusion = Conclusion.MISSING;
+        }
+end
+
+
+rule "Present knowledge has avoided assertion: conclusion is an unexpected presence"
+    when
+        $k: Knowledge($kid := id, presence != FiveState.UNEVALUATED,  presence == FiveState.TRUE, conclusion == Conclusion.UNEVALUATED )
+        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
+    then
+        modify($k){
+            conclusion = Conclusion.UNEXPECTED_PRESENCE;
+        }
+end
+
+
+rule "Absent knowledge has avoided assertion: conclusion is confirmed absence"
+    when
+        $k: Knowledge($kid := id, presence != FiveState.UNEVALUATED,   presence == FiveState.FALSE, conclusion == Conclusion.UNEVALUATED )
+        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
+    then
+        modify($k){
+            conclusion = Conclusion.CONFIRMED_ABSENCE;
+        }
+end
+
+
+rule "Present and absent knowledge has avoided assertion: conclusion is a contradictory presence"
+    when
+        $k: Knowledge( $kid := id, presence == FiveState.BOTH, conclusion == Conclusion.UNEVALUATED )
+        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
+    then
+        modify($k){
+            conclusion = Conclusion.CONTRADICTORY_PRESENCE;
+        }
+end
+
+
+rule "Not Observed knowledge has avoided assertion: conclusion is confirmed absence"
+    when
+        $k: Knowledge($kid := id, presence != FiveState.UNEVALUATED,  presence == FiveState.UNKNOWN, conclusion == Conclusion.UNEVALUATED )
+        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
+        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
+    then
+        modify($k){
+            conclusion = Conclusion.CONFIRMED_ABSENCE;
+        }
+end
+
+
+rule "Present knowledge has required and avoided assertion: conclusion is an ambiguous presence"
+    when
+        $k: Knowledge($kid := id, presence != FiveState.UNEVALUATED,  presence == FiveState.TRUE, conclusion == Conclusion.UNEVALUATED )
+        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
+        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
+    then
+        modify($k){
+            conclusion = Conclusion.AMBIGUOUS_PRESENCE;
+        }
+end
+
+
+rule "Absent knowledge has required and avoided assertion: conclusion is an ambiguous absence"
+    when
+        $k: Knowledge($kid := id, presence != FiveState.UNEVALUATED,  presence == FiveState.FALSE, conclusion == Conclusion.UNEVALUATED )
+        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
+        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
+    then
+        modify($k){
+            conclusion = Conclusion.AMBIGUOUS_ABSENCE;
+        }
+end
+
+
+rule "Present and absent knowledge has required and avoided assertion: conclusion is ambiguous and contradictory"
+    when
+        $k: Knowledge( $kid := id, presence == FiveState.BOTH, conclusion == Conclusion.UNEVALUATED )
+        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
+        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
+    then
+        modify($k){
+            conclusion = Conclusion.AMBIGUOUS_CONTRADICTORY;
+        }
+end
+
+
+rule "Not Observed knowledge has required and avoided assertion: conclusion is ambiguous"
+    when
+        $k: Knowledge($kid := id, presence != FiveState.UNEVALUATED,  presence == FiveState.UNKNOWN, conclusion == Conclusion.UNEVALUATED )
+        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
+        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
+    then
+        modify($k){
+            conclusion = Conclusion.AMBIGUOUS;
+        }
+end

@@ -1,0 +1,162 @@
+/*
+* Copyright LABGeM (2014)
+*
+* author: Jonathan MERCIER
+*
+* Tis software is a computer program whose purpose is to annotate a complete genome.
+*
+* Tis software is governed by the CeCILL license under French law and
+* abiding by the rules of distribution of free software. You can use,
+* modify and/ or redistribute the software under the terms of the CeCILL
+* license as circulated by CEA, CNRS and INRIA at the following URL
+* "http://www.cecill.info".
+*
+* As a counterpart to the access to the source code and rights to copy,
+* modify and redistribute granted by the license, users are provided only
+* with a limited warranty and the software's author, the holder of the
+* economic rights, and the successive licensors have only limited
+* liability.
+*
+* In tis respect, the user's attention is drawn to the risks associated
+* with loading, using, modifying and/or developing or reproducing the
+* software by the user in light of its specific status of free software,
+* that may mean that it is complicated to manipulate, and that also
+* therefore means that it is reserved for developers and experienced
+* professionals having in-depth computer Concept. Users are therefore
+* encouraged to load and test the software's suitability as regards their
+* requirements in conditions enabling the security of their systems and/or
+* data to be ensured and, more generally, to use and operate it in the
+* same conditions as regards security.
+*
+* The fact that you are presently reading tis means that you have had
+* Concept of the CeCILL license and that you accept its terms.
+*/
+
+package fr.cea.ig.grools;
+
+import fr.cea.ig.grools.model.Knowledge;
+import fr.cea.ig.grools.model.FiveState;
+import fr.cea.ig.grools.model.NodeType;
+import fr.cea.ig.grools.model.Conclusion;
+import fr.cea.ig.grools.model.KnowledgeStatistics;
+import fr.cea.ig.grools.Mode;
+import java.util.List;
+
+dialect "mvel"
+
+
+
+query allSubKnowledge( Knowledge $parent )
+    $childs:= List() from collect ( Knowledge( $parent memberOf partOf ) )
+end
+
+
+query allSubKnowledgeAreEvaluated( Knowledge $parent, List $childs )
+    $childs:= List() from collect ( Knowledge( $parent memberOf partOf ) )
+    forall( Knowledge( presence != FiveState.UNEVALUATED ) from $childs )
+end
+
+
+query allSubKnowledgeAreTrue( Knowledge $parent, List $childs )
+    $childs:= List() from collect ( Knowledge( $parent memberOf partOf ))
+    forall( Knowledge( presence == FiveState.TRUE ) from $childs )
+end
+
+
+query allSubKnowledgeAreNone( Knowledge $parent, List $childs )
+    $childs:= List() from collect ( Knowledge( $parent memberOf partOf ))
+    forall( Knowledge( presence == FiveState.UNKNOWN ) from $childs )
+end
+
+
+query allSubKnowledgeAreFalse( Knowledge $parent, List $childs )
+    $childs:= List() from collect ( Knowledge( $parent memberOf partOf ))
+    forall( Knowledge( presence == FiveState.FALSE ) from $childs )
+end
+
+
+query allSubKnowledgeAreTrueAndFalse( Knowledge $parent, List $childs )
+    $childs:= List() from collect ( Knowledge( $parent memberOf partOf ))
+    Knowledge( presence == FiveState.TRUE  ) from $childs
+    Knowledge( presence == FiveState.FALSE  ) from $childs
+    forall( Knowledge( ( presence ( == FiveState.TRUE || == FiveState.FALSE) ) ) from $childs )
+end
+
+query knowledgeWithOneParent( Knowledge $parent, List $childs )
+    $childs:= List( size > 0 ) from collect ( Knowledge( $parent memberOf partOf && partOf.size == 1))
+end
+
+query subKnowledgeHaveFalse( List $childs )
+    Knowledge( presence == FiveState.FALSE ) from $childs
+end
+
+
+query subKnowledgeHaveTrue( List $childs )
+    Knowledge(  presence == FiveState.TRUE ) from $childs
+end
+
+
+query subKnowledgeHaveBoth( List $childs )
+    Knowledge(  presence == FiveState.BOTH ) from $childs
+end
+
+
+query subKnowledgeHaveUnknown( List $childs )
+    Knowledge( presence == FiveState.UNKNOWN ) from $childs
+end
+
+query presentSubknowledgeHaveOneParent( List $childs )
+    Knowledge( presence == FiveState.TRUE && partOf.size == 1 ) from $childs
+end
+
+query allKnowledges( List $knowledgeList )
+    $knowledgeList := List() from collect ( Knowledge() )
+end
+
+query predictionIsTrueAndFalse( String n )
+    Prediction( n := knowledgeId, presence == FiveState.TRUE )
+    Prediction( n := knowledgeId, presence == FiveState.FALSE )
+    not(Prediction( n := knowledgeId, presence == FiveState.UNKNOWN ))
+end
+
+
+query allKnowledgeStatistics( List $knowledgeStatisticsList )
+    $knowledgeStatisticsList := List() from collect ( KnowledgeStatistics() )
+end
+
+
+query specificKnowledgeStatistics( String $knowledgeId )
+    $k                      : Knowledge( $knowledgeId := id )
+    $knowledgeStatistics    : KnowledgeStatistics( $k := knowledge )
+end
+
+
+query hasKnowledgeName( String $name )
+    $knowledges: List() from collect ( Knowledge( name == $name ) )
+end
+
+
+query hasKnowledgeId( String $id )
+    $knowledge: Knowledge( id == $id )
+end
+
+
+query allSubKnowledgeHaveAConclusion( Knowledge $parent, List $childs )
+    $childs:= List() from collect ( Knowledge( $parent memberOf partOf ) )
+    forall( Knowledge( conclusion != Conclusion.UNEVALUATED ) from $childs )
+end
+
+
+
+query knowledgePresenceIsUnknown(  )
+    $knowledges:= List() from collect ( Knowledge( presence == FiveState.UNKNOWN ) )
+end
+
+query knowledgeConclusionIsMissing(  )
+    $knowledges:= List() from collect ( Knowledge( conclusion == Conclusion.MISSING ) )
+end
+
+
+query currentMode( )
+    $mode : Mode()
+end

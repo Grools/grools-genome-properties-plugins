@@ -1,0 +1,193 @@
+/*
+* Copyright LABGeM (2014)
+*
+* author: Jonathan MERCIER
+*
+* Tis software is a computer program whose purpose is to annotate a complete genome.
+*
+* Tis software is governed by the CeCILL license under French law and
+* abiding by the rules of distribution of free software. You can use,
+* modify and/ or redistribute the software under the terms of the CeCILL
+* license as circulated by CEA, CNRS and INRIA at the following URL
+* "http://www.cecill.info".
+*
+* As a counterpart to the access to the source code and rights to copy,
+* modify and redistribute granted by the license, users are provided only
+* with a limited warranty and the software's author, the holder of the
+* economic rights, and the successive licensors have only limited
+* liability.
+*
+* In tis respect, the user's attention is drawn to the risks associated
+* with loading, using, modifying and/or developing or reproducing the
+* software by the user in light of its specific status of free software,
+* that may mean that it is complicated to manipulate, and that also
+* therefore means that it is reserved for developers and experienced
+* professionals having in-depth computer Concept. Users are therefore
+* encouraged to load and test the software's suitability as regards their
+* requirements in conditions enabling the security of their systems and/or
+* data to be ensured and, more generally, to use and operate it in the
+* same conditions as regards security.
+*
+* The fact that you are presently reading tis means that you have had
+* Concept of the CeCILL license and that you accept its terms.
+*/
+
+package fr.cea.ig.grools;
+
+import fr.cea.ig.grools.model.Knowledge;
+import fr.cea.ig.grools.model.FiveState;
+import fr.cea.ig.grools.model.NodeType;
+import fr.cea.ig.grools.Mode;
+import java.util.List;
+
+dialect "mvel"
+
+rule "And Knowledge is unknown strong mode"
+    when
+        $k: Knowledge( presence == FiveState.UNEVALUATED, nodeType == NodeType.AND )
+        Mode( mode == "STRONG")
+        $childs: List() from collect ( Knowledge( $k memberOf partOf ) )
+        forall( Knowledge( presence != FiveState.UNEVALUATED ) from $childs )
+        Knowledge( presence == FiveState.UNKNOWN ) from $childs
+        not( Knowledge( presence ( == FiveState.FALSE || == FiveState.BOTH ) ) from $childs )
+    then
+        modify( $k ){
+            presence = FiveState.UNKNOWN
+        }
+end
+
+rule "And Knowledge is unknown weak mode"
+    when
+        $k: Knowledge( presence == FiveState.UNEVALUATED, nodeType == NodeType.AND )
+        Mode( mode == "WEAK")
+        $childs: List() from collect ( Knowledge( $k memberOf partOf ) )
+        forall( Knowledge( presence != FiveState.UNEVALUATED ) from $childs )
+        Knowledge( presence == FiveState.UNKNOWN ) from $childs
+        Knowledge( presence == FiveState.TRUE && partOf.size == 1 ) from $childs
+        not( Knowledge( presence ( == FiveState.FALSE || == FiveState.BOTH  ) ) from $childs )
+    then
+        modify( $k ){
+            presence = FiveState.UNKNOWN
+        }
+end
+
+
+rule "And Knowledge is present/absent"
+    when
+        $k: Knowledge( presence == FiveState.UNEVALUATED, nodeType == NodeType.AND )
+        $childs: List() from collect ( Knowledge( $k memberOf partOf ) )
+        forall( Knowledge( presence != FiveState.UNEVALUATED ) from $childs )
+        (
+            (
+                and
+                Knowledge(  presence == FiveState.TRUE ) from $childs
+                Knowledge( presence == FiveState.FALSE ) from $childs
+            )
+            or
+            (
+                and
+                Knowledge(  presence == FiveState.BOTH ) from $childs
+                not( Knowledge( presence == FiveState.FALSE  ) from $childs )
+            )
+        )
+
+    then
+        modify( $k ){
+            presence = FiveState.BOTH
+        }
+end
+
+
+rule "And Knowledge is absent"
+    when
+        $k: Knowledge( presence == FiveState.UNEVALUATED, nodeType == NodeType.AND )
+        $childs: List() from collect ( Knowledge( $k memberOf partOf ) )
+        forall( Knowledge( presence != FiveState.UNEVALUATED ) from $childs )
+        Knowledge( presence == FiveState.FALSE ) from $childs
+        not(Knowledge(  presence == FiveState.TRUE ) from $childs )
+    then
+        modify( $k ){
+            presence = FiveState.FALSE
+        }
+end
+
+
+rule "And Knowledge is present strong mode"
+    when
+        $k: Knowledge( presence == FiveState.UNEVALUATED, nodeType == NodeType.AND )
+        Mode( mode == "STRONG")
+        $childs:= List() from collect ( Knowledge( $k memberOf partOf ))
+        forall( Knowledge( presence == FiveState.TRUE ) from $childs )
+    then
+        modify( $k ){
+            presence = FiveState.TRUE
+        }
+end
+
+
+rule "And Knowledge is present weak mode"
+    when
+        $k: Knowledge( presence == FiveState.UNEVALUATED, nodeType == NodeType.AND )
+        Mode( mode == "WEAK")
+        $childs:= List( size > 0 ) from collect ( Knowledge( $k memberOf partOf && partOf.size == 1))
+        Knowledge(  presence == FiveState.TRUE ) from $childs
+    then
+        modify( $k ){
+            presence = FiveState.TRUE
+        }
+end
+
+
+rule "Or Knowledge is unknown"
+    when
+        $k: Knowledge( presence == FiveState.UNEVALUATED, nodeType == NodeType.OR )
+        $childs: List() from collect ( Knowledge( $k memberOf partOf ) )
+        forall( Knowledge( presence != FiveState.UNEVALUATED ) from $childs )
+        Knowledge( presence == FiveState.UNKNOWN ) from $childs
+        not( Knowledge( presence == FiveState.TRUE ) )
+    then
+        modify( $k ){
+            presence = FiveState.UNKNOWN
+        }
+end
+
+
+rule "Or Knowledge is present/absent"
+    when
+        $k: Knowledge( presence == FiveState.UNEVALUATED, nodeType == NodeType.OR )
+        $childs: List() from collect ( Knowledge( $k memberOf partOf ) )
+        forall( Knowledge( presence != FiveState.UNEVALUATED ) from $childs )
+        not( Knowledge(  presence == FiveState.TRUE ) from $childs )
+        Knowledge(  presence == FiveState.BOTH ) from $childs
+        Knowledge( presence ( == FiveState.FALSE || == FiveState.BOTH ) ) from $childs
+    then
+        modify( $k ){
+            presence = FiveState.BOTH
+        }
+end
+
+
+rule "Or Knowledge is absent"
+    when
+        $k: Knowledge( presence == FiveState.UNEVALUATED, nodeType == NodeType.OR )
+        $childs: List() from collect ( Knowledge( $k memberOf partOf ))
+        forall( Knowledge( presence == FiveState.FALSE ) from $childs )
+    then
+        modify( $k ){
+            presence = FiveState.FALSE
+        }
+end
+
+
+
+rule "Or Knowledge is present"
+    when
+        $k: Knowledge( presence == FiveState.UNEVALUATED, nodeType == NodeType.OR )
+        $childs: List() from collect ( Knowledge( $k memberOf partOf ) )
+        forall( Knowledge( presence != FiveState.UNEVALUATED ) from $childs )
+        Knowledge(  presence == FiveState.TRUE ) from $childs
+    then
+        modify( $k ){
+            presence = FiveState.TRUE
+        }
+end
