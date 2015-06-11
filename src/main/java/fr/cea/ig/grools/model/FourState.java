@@ -38,20 +38,19 @@ package fr.cea.ig.grools.model;
  */
 /*
  * @startuml
- * enum FiveState {
+ * enum FourState {
  *     TRUE
  *     FALSE
  *     BOTH
  *     UNKNOWN
  *     UNEVALUATED
  * }
- * hide FiveState methods
+ * hide FourState methods
  * @enduml
  */
-public enum FiveState {
+public enum FourState {
     TRUE,
     FALSE,
     BOTH,
-    UNKNOWN,
-    UNEVALUATED
+    UNKNOWN
 }

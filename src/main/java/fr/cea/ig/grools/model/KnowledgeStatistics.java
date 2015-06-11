@@ -34,6 +34,8 @@ package fr.cea.ig.grools.model;
  */
 
 
+import java.math.BigDecimal;
+
 /**
  *
  */
@@ -54,32 +56,32 @@ package fr.cea.ig.grools.model;
 public class KnowledgeStatistics implements LogicStatistics {
     private final   Knowledge   knowledge;
 
-    private         Float       completeness;
-    private         Float       consistency;
+    private         BigDecimal       completeness;
+    private         BigDecimal       consistency;
 
     public KnowledgeStatistics( final Knowledge knowledge ){
         this.knowledge  = knowledge;
-        completeness    = null;
-        consistency     = null;
+        completeness    = new BigDecimal(0);
+        consistency     = new BigDecimal(0);
     }
 
     public Knowledge getKnowledge(){
         return knowledge;
     }
 
-    public Float getCompleteness() {
+    public BigDecimal getCompleteness() {
         return completeness;
     }
 
-    public void setCompleteness(final Float completeness) {
+    public void setCompleteness(final BigDecimal completeness) {
         this.completeness = completeness;
     }
 
-    public Float getConsistency() {
+    public BigDecimal getConsistency() {
         return consistency;
     }
 
-    public void setConsistency(final Float consistency) {
+    public void setConsistency(final BigDecimal consistency) {
         this.consistency = consistency;
     }
 

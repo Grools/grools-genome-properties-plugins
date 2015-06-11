@@ -1,7 +1,7 @@
 package fr.cea.ig.grools.biology;
 
 import fr.cea.ig.grools.model.Evidence;
-import fr.cea.ig.grools.model.FiveState;
+import fr.cea.ig.grools.model.FourState;
 import org.joda.time.DateTime;
 
 import javax.validation.constraints.NotNull;
@@ -12,8 +12,8 @@ public final class BioAssertionBuilder {
     private String      knowledgeId     = "";
     private String      source          = "";
     private DateTime    date            = DateTime.now();
-    private FiveState presence        = FiveState.TRUE;
-    private Evidence evidence        = Evidence.MEDIUM;
+    private FourState presence          = FourState.TRUE;
+    private Evidence evidence           = Evidence.MEDIUM;
 
     @NotNull
     public BioAssertionBuilder setName(@NotNull final String name) {
@@ -46,7 +46,7 @@ public final class BioAssertionBuilder {
     }
 
     @NotNull
-    public BioAssertionBuilder setPresence(@NotNull final FiveState presence) {
+    public BioAssertionBuilder setPresence(@NotNull final FourState presence) {
         this.presence = presence;
         return this;
     }

@@ -35,13 +35,15 @@ package fr.cea.ig.grools.biology;
 
 import ch.qos.logback.classic.Logger;
 import fr.cea.ig.grools.Grools;
-import fr.cea.ig.grools.model.FiveState;
+import fr.cea.ig.grools.model.FourState;
 import fr.cea.ig.grools.model.KnowledgeStatistics;
 import fr.cea.ig.grools.model.NodeType;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.runtime.KieSession;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -77,12 +79,12 @@ public class StatisticsTest {
         BioPrediction bp01= new BioPredictionBuilder().setName("bp01")
                 .setKnowledgeName("bk01")
                 .setSource("junit")
-                .setPresence(FiveState.FALSE)
+                .setPresence(FourState.FALSE)
                 .create();
         BioPrediction bp02= new BioPredictionBuilder().setName("bp02")
                 .setKnowledgeName("bk02")
                 .setSource("junit")
-                .setPresence(FiveState.FALSE)
+                .setPresence(FourState.FALSE)
                 .create();
 
         grools.insert( bk0 );
@@ -94,8 +96,8 @@ public class StatisticsTest {
 
         final KnowledgeStatistics ks  =  grools.getStatistics( bk0.getName()  );
         LOG.debug(ks.toString());
-        assert( Float.floatToIntBits(ks.getCompleteness()) == Float.floatToIntBits( 0.0f ) );
-        assert( Float.floatToIntBits(ks.getConsistency()) == Float.floatToIntBits( 100.0f ) );
+        assert( ks.getCompleteness().compareTo( new BigDecimal( 0 ) ) == 0 );
+        assert( ks.getConsistency().compareTo( new BigDecimal( 100 ) ) == 0 );
     }
 
     @Test
@@ -116,12 +118,12 @@ public class StatisticsTest {
         BioPrediction bp01= new BioPredictionBuilder().setName("bp01")
                 .setKnowledgeName("bk01")
                 .setSource("junit")
-                .setPresence(FiveState.TRUE)
+                .setPresence(FourState.TRUE)
                 .create();
         BioPrediction bp02= new BioPredictionBuilder().setName("bp02")
                 .setKnowledgeName("bk02")
                 .setSource("junit")
-                .setPresence(FiveState.TRUE)
+                .setPresence(FourState.TRUE)
                 .create();
 
         grools.insert( bk0 );
@@ -133,8 +135,8 @@ public class StatisticsTest {
 
         final KnowledgeStatistics ks  =  grools.getStatistics( bk0.getName()  );
 
-        assert( Float.floatToIntBits(ks.getCompleteness()) == Float.floatToIntBits( 100.0f ) );
-        assert( Float.floatToIntBits(ks.getConsistency()) == Float.floatToIntBits( 100.0f ) );
+        assert( ks.getCompleteness().compareTo( new BigDecimal( 100 ) ) == 0 );
+        assert( ks.getConsistency().compareTo( new BigDecimal( 100 ) ) == 0 );
     }
 
     @Test
@@ -155,17 +157,17 @@ public class StatisticsTest {
         BioPrediction bp01= new BioPredictionBuilder().setName("bp01")
                 .setKnowledgeName("bk01")
                 .setSource("junit")
-                .setPresence(FiveState.FALSE)
+                .setPresence(FourState.FALSE)
                 .create();
         BioPrediction bp02= new BioPredictionBuilder().setName("bp02")
                 .setKnowledgeName("bk02")
                 .setSource("junit")
-                .setPresence(FiveState.FALSE)
+                .setPresence(FourState.FALSE)
                 .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                 .setKnowledgeId("bk0")
                 .setSource("junit")
-                .setPresence(FiveState.TRUE)
+                .setPresence(FourState.TRUE)
                 .create();
 
         grools.insert( bk0 );
@@ -178,8 +180,13 @@ public class StatisticsTest {
 
         final KnowledgeStatistics ks  =  grools.getStatistics( bk0.getName()  );
         LOG.debug(ks.toString());
-        assert( Float.floatToIntBits(ks.getCompleteness()) == Float.floatToIntBits( 0.0f ) );
-        assert( Float.floatToIntBits(ks.getConsistency()) == Float.floatToIntBits( 66.0f ) );
+        System.out.println(ks.getConsistency());
+        System.out.println(new BigDecimal( 2f*100f/3f ) );
+        BigDecimal consistencyExpected = new BigDecimal(2f * 100f / 3f).setScale(3, BigDecimal.ROUND_HALF_UP);
+        BigDecimal consistency = ks.getConsistency().setScale(3, BigDecimal.ROUND_HALF_UP);
+        System.out.println( consistency.compareTo(consistencyExpected) );
+        assert( ks.getCompleteness().compareTo( new BigDecimal(0) ) == 0 );
+        assert( consistency.compareTo(consistencyExpected) == 0);
 
     }
 }

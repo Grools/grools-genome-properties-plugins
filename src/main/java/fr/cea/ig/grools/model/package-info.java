@@ -44,7 +44,7 @@ package fr.cea.ig.grools.model;
  *   !include Observation.java
  *   !include Evidence.java
  *   !include Conclusion.java
- *   !include FiveState.java
+ *   !include FourState.java
  *   !include Knowledge.java
  *   !include Fact.java
  *   !include User.java

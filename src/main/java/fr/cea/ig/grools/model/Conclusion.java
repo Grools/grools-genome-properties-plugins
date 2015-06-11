@@ -70,7 +70,6 @@ public enum Conclusion {
     UNCONFIRMED_ABSENCE         ("unconfirmed absence"),
     UNCONFIRMED_CONTRADICTORY   ("unconfirmed contradictory"),
     MISSING                     ("missing"),
-    UNEVALUATED                 ("unevaluated"),
     UNKNOWN                     ("unknown"),
     AMBIGUOUS                   ("ambiguous"),
     AMBIGUOUS_PRESENCE          ("ambiguous "),

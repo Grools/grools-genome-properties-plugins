@@ -35,7 +35,7 @@
 package fr.cea.ig.grools;
 
 import fr.cea.ig.grools.model.Knowledge;
-import fr.cea.ig.grools.model.FiveState;
+import fr.cea.ig.grools.model.FourState;
 import fr.cea.ig.grools.model.NodeType;
 import fr.cea.ig.grools.model.Conclusion;
 import fr.cea.ig.grools.model.KnowledgeStatistics;
@@ -51,35 +51,29 @@ query allSubKnowledge( Knowledge $parent )
 end
 
 
-query allSubKnowledgeAreEvaluated( Knowledge $parent, List $childs )
-    $childs:= List() from collect ( Knowledge( $parent memberOf partOf ) )
-    forall( Knowledge( presence != FiveState.UNEVALUATED ) from $childs )
-end
-
-
 query allSubKnowledgeAreTrue( Knowledge $parent, List $childs )
     $childs:= List() from collect ( Knowledge( $parent memberOf partOf ))
-    forall( Knowledge( presence == FiveState.TRUE ) from $childs )
+    forall( Knowledge( presence == FourState.TRUE ) from $childs )
 end
 
 
 query allSubKnowledgeAreNone( Knowledge $parent, List $childs )
     $childs:= List() from collect ( Knowledge( $parent memberOf partOf ))
-    forall( Knowledge( presence == FiveState.UNKNOWN ) from $childs )
+    forall( Knowledge( presence == FourState.UNKNOWN ) from $childs )
 end
 
 
 query allSubKnowledgeAreFalse( Knowledge $parent, List $childs )
     $childs:= List() from collect ( Knowledge( $parent memberOf partOf ))
-    forall( Knowledge( presence == FiveState.FALSE ) from $childs )
+    forall( Knowledge( presence == FourState.FALSE ) from $childs )
 end
 
 
 query allSubKnowledgeAreTrueAndFalse( Knowledge $parent, List $childs )
     $childs:= List() from collect ( Knowledge( $parent memberOf partOf ))
-    Knowledge( presence == FiveState.TRUE  ) from $childs
-    Knowledge( presence == FiveState.FALSE  ) from $childs
-    forall( Knowledge( ( presence ( == FiveState.TRUE || == FiveState.FALSE) ) ) from $childs )
+    Knowledge( presence == FourState.TRUE  ) from $childs
+    Knowledge( presence == FourState.FALSE  ) from $childs
+    forall( Knowledge( ( presence ( == FourState.TRUE || == FourState.FALSE) ) ) from $childs )
 end
 
 query knowledgeWithOneParent( Knowledge $parent, List $childs )
@@ -87,26 +81,26 @@ query knowledgeWithOneParent( Knowledge $parent, List $childs )
 end
 
 query subKnowledgeHaveFalse( List $childs )
-    Knowledge( presence == FiveState.FALSE ) from $childs
+    Knowledge( presence == FourState.FALSE ) from $childs
 end
 
 
 query subKnowledgeHaveTrue( List $childs )
-    Knowledge(  presence == FiveState.TRUE ) from $childs
+    Knowledge(  presence == FourState.TRUE ) from $childs
 end
 
 
 query subKnowledgeHaveBoth( List $childs )
-    Knowledge(  presence == FiveState.BOTH ) from $childs
+    Knowledge(  presence == FourState.BOTH ) from $childs
 end
 
 
 query subKnowledgeHaveUnknown( List $childs )
-    Knowledge( presence == FiveState.UNKNOWN ) from $childs
+    Knowledge( presence == FourState.UNKNOWN ) from $childs
 end
 
 query presentSubknowledgeHaveOneParent( List $childs )
-    Knowledge( presence == FiveState.TRUE && partOf.size == 1 ) from $childs
+    Knowledge( presence == FourState.TRUE && partOf.size == 1 ) from $childs
 end
 
 query allKnowledges( List $knowledgeList )
@@ -114,9 +108,9 @@ query allKnowledges( List $knowledgeList )
 end
 
 query predictionIsTrueAndFalse( String n )
-    Prediction( n := knowledgeId, presence == FiveState.TRUE )
-    Prediction( n := knowledgeId, presence == FiveState.FALSE )
-    not(Prediction( n := knowledgeId, presence == FiveState.UNKNOWN ))
+    Prediction( n := knowledgeId, presence == FourState.TRUE )
+    Prediction( n := knowledgeId, presence == FourState.FALSE )
+    not(Prediction( n := knowledgeId, presence == FourState.UNKNOWN ))
 end
 
 
@@ -141,15 +135,8 @@ query hasKnowledgeId( String $id )
 end
 
 
-query allSubKnowledgeHaveAConclusion( Knowledge $parent, List $childs )
-    $childs:= List() from collect ( Knowledge( $parent memberOf partOf ) )
-    forall( Knowledge( conclusion != Conclusion.UNEVALUATED ) from $childs )
-end
-
-
-
 query knowledgePresenceIsUnknown(  )
-    $knowledges:= List() from collect ( Knowledge( presence == FiveState.UNKNOWN ) )
+    $knowledges:= List() from collect ( Knowledge( presence == FourState.UNKNOWN ) )
 end
 
 query knowledgeConclusionIsMissing(  )

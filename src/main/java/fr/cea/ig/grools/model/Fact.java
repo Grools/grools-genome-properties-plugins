@@ -45,7 +45,7 @@ import javax.validation.constraints.NotNull;
  *  + getName()      : String
  *  + getSource()    : String
  *  + getDate()      : DateTime
- *  + getPresence()  : FiveState
+ *  + getPresence()  : FourState
  * }
  * hide Fact fields
  * @enduml
@@ -60,5 +60,5 @@ public interface Fact {
     @NotNull
     public DateTime     getDate();
     @NotNull
-    public FiveState    getPresence();
+    public FourState getPresence();
 }

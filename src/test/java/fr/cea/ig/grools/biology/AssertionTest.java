@@ -35,7 +35,7 @@ package fr.cea.ig.grools.biology;
 
 
 import ch.qos.logback.classic.Logger;
-import fr.cea.ig.grools.model.FiveState;
+import fr.cea.ig.grools.model.FourState;
 import fr.cea.ig.grools.Grools;
 import fr.cea.ig.grools.model.Conclusion;
 import fr.cea.ig.grools.model.NodeType;
@@ -66,19 +66,19 @@ public class AssertionTest {
         LOG.debug("Present knowledge without avoided or required assertion: conclusion is unconfirmed presence (1)");
 
         BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
-                                                    .setId("bk0")
-                                                    .setSource("junit")
-                                                    .create();
+                .setId("bk0")
+                .setSource("junit")
+                .create();
         BioPrediction bp0= new BioPredictionBuilder().setName("bp0")
-                                                    .setId("bp0")
-                                                     .setKnowledgeName("bk0")
-                                                     .create();
+                .setId("bp0")
+                .setKnowledgeName("bk0")
+                .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
-                                                    .setId("ba0")
-                                                    .setKnowledgeId("bk0")
-                                                    .setSource("junit")
-                                                    .setPresence(FiveState.UNKNOWN)
-                                                    .create();
+                .setId("ba0")
+                .setKnowledgeId("bk0")
+                .setSource("junit")
+                .setPresence(FourState.UNKNOWN)
+                .create();
 
         grools.insert( bk0 );
         grools.insert( bp0 );
@@ -101,7 +101,7 @@ public class AssertionTest {
                                                      .setId("bp0")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.FALSE)
+                                                     .setPresence(FourState.FALSE)
                                                      .create();
 
         grools.insert( bk0 );
@@ -125,13 +125,13 @@ public class AssertionTest {
                                                      .setId("bp0")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.FALSE)
+                                                     .setPresence(FourState.FALSE)
                                                      .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                                                     .setId("ba0")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.UNKNOWN)
+                                                    .setPresence(FourState.UNKNOWN)
                                                     .create();
 
         grools.insert( bk0 );
@@ -156,13 +156,13 @@ public class AssertionTest {
                                                      .setId("bp0")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.BOTH)
+                                                     .setPresence(FourState.BOTH)
                                                      .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                                                     .setId("ba0")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.UNKNOWN)
+                                                    .setPresence(FourState.UNKNOWN)
                                                     .create();
 
         grools.insert( bk0 );
@@ -185,19 +185,19 @@ public class AssertionTest {
                                                     .setId("bp1")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.TRUE)
+                                                     .setPresence(FourState.TRUE)
                                                      .create();
         BioPrediction bp2= new BioPredictionBuilder().setName("bp2")
                                                      .setId("bp2")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.FALSE)
+                                                     .setPresence(FourState.FALSE)
                                                      .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                                                     .setId("ba0")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.UNKNOWN)
+                                                    .setPresence(FourState.UNKNOWN)
                                                     .create();
 
         grools.insert( bk0 );
@@ -234,25 +234,25 @@ public class AssertionTest {
                                                      .setId("bp1a")
                                                      .setKnowledgeName("bk1")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.TRUE)
+                                                     .setPresence(FourState.TRUE)
                                                      .create();
         BioPrediction bp1b= new BioPredictionBuilder().setName("bp1z")
                                                      .setId("bp1z")
                                                      .setKnowledgeName("bk1")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.FALSE)
+                                                     .setPresence(FourState.FALSE)
                                                      .create();
         BioPrediction bp2= new BioPredictionBuilder().setName("bp2")
                                                      .setId("bp2")
                                                      .setKnowledgeName("bk2")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.FALSE)
+                                                     .setPresence(FourState.FALSE)
                                                      .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                                                     .setId("ba0")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.UNKNOWN)
+                                                    .setPresence(FourState.UNKNOWN)
                                                     .create();
 
         grools.insert( bk0 );
@@ -296,13 +296,13 @@ public class AssertionTest {
                                                      .setId("bp0")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.TRUE)
+                                                     .setPresence(FourState.TRUE)
                                                      .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                                                     .setId("ba0")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -325,13 +325,13 @@ public class AssertionTest {
                                                      .setId("bp0")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.FALSE)
+                                                     .setPresence(FourState.FALSE)
                                                      .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                                                     .setId("ba0")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -354,19 +354,19 @@ public class AssertionTest {
                                                      .setId("bp1")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.TRUE)
+                                                     .setPresence(FourState.TRUE)
                                                      .create();
         BioPrediction bp2= new BioPredictionBuilder().setName("bp2")
                                                      .setId("bp2")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.FALSE)
+                                                     .setPresence(FourState.FALSE)
                                                      .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                                                     .setId("ba0")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -390,7 +390,7 @@ public class AssertionTest {
                                                     .setId("ba0")
                                                     .setSource("junit")
                                                     .setKnowledgeId("bk0")
-                .setPresence(FiveState.TRUE)
+                .setPresence(FourState.TRUE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -413,13 +413,13 @@ public class AssertionTest {
                                                      .setId("bp0")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.UNKNOWN)
+                                                     .setPresence(FourState.UNKNOWN)
                                                      .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                                                     .setId("ba0")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -443,13 +443,13 @@ public class AssertionTest {
                                                      .setId("bp0")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.TRUE)
+                                                     .setPresence(FourState.TRUE)
                                                      .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                                                     .setId("ba0")
                                                     .setSource("junit")
                                                     .setKnowledgeId("bk0")
-                .setPresence(FiveState.FALSE)
+                .setPresence(FourState.FALSE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -472,13 +472,13 @@ public class AssertionTest {
                                                      .setId("bp0")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.FALSE)
+                                                     .setPresence(FourState.FALSE)
                                                      .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                                                     .setId("ba0")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.FALSE)
+                                                    .setPresence(FourState.FALSE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -501,18 +501,18 @@ public class AssertionTest {
                                                      .setId("bp1")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.TRUE)
+                                                     .setPresence(FourState.TRUE)
                                                      .create();
         BioPrediction bp2= new BioPredictionBuilder().setName("bp2")
                                                      .setId("bp2")
                                                      .setKnowledgeName("bk0")
-                                                     .setPresence(FiveState.FALSE)
+                                                     .setPresence(FourState.FALSE)
                                                      .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                                                     .setId("ba0")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.FALSE)
+                                                    .setPresence(FourState.FALSE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -536,13 +536,13 @@ public class AssertionTest {
                                                     .setId("bk1")
                                                      .setKnowledgeName("bk0")
                                                     .setSource("junit")
-                                                     .setPresence(FiveState.UNKNOWN)
+                                                     .setPresence(FourState.UNKNOWN)
                                                      .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                                                     .setId("ba0")
                                                     .setKnowledgeId("bk0")
                                                     .setSource("junit")
-                                                    .setPresence(FiveState.FALSE)
+                                                    .setPresence(FourState.FALSE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -565,7 +565,7 @@ public class AssertionTest {
                                                     .setId("ba0")
                                                     .setKnowledgeId("bk0")
                                                     .setSource("junit")
-                                                    .setPresence(FiveState.FALSE)
+                                                    .setPresence(FourState.FALSE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -585,18 +585,18 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp1= new BioPredictionBuilder().setName("bp1")
                                                      .setKnowledgeName("bk0")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
         BioAssertion ba1 = new BioAssertionBuilder().setName("ba1")
                                                     .setId("ba1")
                                                     .setKnowledgeId("bk0")
                                                     .setSource("junit")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
         BioAssertion ba2 = new BioAssertionBuilder().setName("ba2")
                                                     .setKnowledgeId("bk0")
                                                     .setSource("junit")
-                                                    .setPresence(FiveState.FALSE)
+                                                    .setPresence(FourState.FALSE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -620,19 +620,19 @@ public class AssertionTest {
                                                     .setId("bp1")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.FALSE)
+                                                     .setPresence(FourState.FALSE)
                                                      .create();
         BioAssertion ba1 = new BioAssertionBuilder().setName("ba1")
                                                     .setId("ba1")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
         BioAssertion ba2 = new BioAssertionBuilder().setName("ba2")
                                                     .setId("ba2")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.FALSE)
+                                                    .setPresence(FourState.FALSE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -655,23 +655,23 @@ public class AssertionTest {
         BioPrediction bp1= new BioPredictionBuilder().setName("bp1")
                                                      .setKnowledgeName("bk0")
                                                      .setSource("junit")
-                                                     .setPresence(FiveState.FALSE)
+                                                     .setPresence(FourState.FALSE)
                                                      .create();
         BioPrediction bp2= new BioPredictionBuilder().setName("bp2")
                                                      .setId("bp2")
                                                      .setKnowledgeName("bk0")
-                .setPresence(FiveState.TRUE)
+                .setPresence(FourState.TRUE)
                 .create();
         BioAssertion ba1 = new BioAssertionBuilder().setName("ba1")
                                                     .setId("ba1")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
         BioAssertion ba2 = new BioAssertionBuilder().setName("ba2")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.FALSE)
+                                                    .setPresence(FourState.FALSE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -695,19 +695,19 @@ public class AssertionTest {
         BioPrediction bp1= new BioPredictionBuilder().setName("bp1")
                                                     .setId("bp1")
                                                      .setKnowledgeName("bk0")
-                                                     .setPresence(FiveState.UNKNOWN)
+                                                     .setPresence(FourState.UNKNOWN)
                                                      .create();
         BioAssertion ba1 = new BioAssertionBuilder().setName("ba1")
                                                     .setId("ba1")
                                                     .setSource("junit")
                                                     .setKnowledgeId("bk0")
-                .setPresence(FiveState.TRUE)
+                .setPresence(FourState.TRUE)
                                                     .create();
         BioAssertion ba2 = new BioAssertionBuilder().setName("ba2")
                                                     .setId("ba2")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.FALSE)
+                                                    .setPresence(FourState.FALSE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -730,13 +730,13 @@ public class AssertionTest {
                                                     .setId("ba1")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
         BioAssertion ba2 = new BioAssertionBuilder().setName("ba2")
                                                     .setId("ba2")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.FALSE)
+                                                    .setPresence(FourState.FALSE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -774,21 +774,21 @@ public class AssertionTest {
 
         BioPrediction bp011 = new BioPredictionBuilder().setName("bp011")
                                                       .setKnowledgeName("bk011")
-                                                      .setPresence(FiveState.TRUE)
+                                                      .setPresence(FourState.TRUE)
                                                       .create();
         BioPrediction bp012 = new BioPredictionBuilder().setName("bp012")
                                                         .setKnowledgeName("bk012")
-                                                        .setPresence(FiveState.TRUE)
+                                                        .setPresence(FourState.TRUE)
                                                         .create();
         BioPrediction bp02 = new BioPredictionBuilder().setName("bp02")
                                                        .setKnowledgeName("bk02")
-                                                       .setPresence(FiveState.FALSE)
+                                                       .setPresence(FourState.FALSE)
                                                        .create();
 
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                                                     .setKnowledgeId("bk0")
                 .setSource("junit")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
         grools.insert( bk0 );
         grools.insert( bk01 );
@@ -801,11 +801,11 @@ public class AssertionTest {
         grools.insert( ba0 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.BOTH);
-        assertTrue(bk01.getPresence() == FiveState.TRUE);
-        assertTrue(bk02.getPresence() == FiveState.FALSE);
-        assertTrue(bk011.getPresence() == FiveState.TRUE);
-        assertTrue(bk012.getPresence() == FiveState.TRUE);
+        assertTrue(bk0.getPresence() == FourState.BOTH);
+        assertTrue(bk01.getPresence() == FourState.TRUE);
+        assertTrue(bk02.getPresence() == FourState.FALSE);
+        assertTrue(bk011.getPresence() == FourState.TRUE);
+        assertTrue(bk012.getPresence() == FourState.TRUE);
     }
 
 
@@ -845,31 +845,31 @@ public class AssertionTest {
 
         BioPrediction bp011   = new BioPredictionBuilder().setName("bp011")
                 .setKnowledgeName("bk011")
-                .setPresence(FiveState.TRUE)
+                .setPresence(FourState.TRUE)
                 .create();
         BioPrediction bp012   = new BioPredictionBuilder().setName("bp012")
                 .setKnowledgeName("bk012")
-                .setPresence(FiveState.TRUE)
+                .setPresence(FourState.TRUE)
                 .create();
         BioPrediction bp02   = new BioPredictionBuilder().setName("bp02")
                 .setKnowledgeName("bk02")
-                .setPresence(FiveState.FALSE)
+                .setPresence(FourState.FALSE)
                 .create();
         BioPrediction bp031   = new BioPredictionBuilder().setName("bp031")
                 .setKnowledgeName("bk031")
-                .setPresence(FiveState.TRUE)
+                .setPresence(FourState.TRUE)
                 .create();
 
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                 .setKnowledgeId("bk0")
                 .setSource("junit")
-                .setPresence(FiveState.TRUE)
+                .setPresence(FourState.TRUE)
                 .create();
 
         BioAssertion ba03 = new BioAssertionBuilder().setName("ba03")
                 .setKnowledgeId("bk03")
                 .setSource("junit")
-                .setPresence(FiveState.TRUE)
+                .setPresence(FourState.TRUE)
                 .create();
 
         grools.insert( bk0 );
@@ -887,10 +887,96 @@ public class AssertionTest {
         grools.insert( ba03 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.TRUE);
-        assertTrue(bk01.getPresence() == FiveState.TRUE);
-        assertTrue(bk02.getPresence() == FiveState.FALSE);
-        assertTrue(bk011.getPresence() == FiveState.TRUE);
-        assertTrue(bk012.getPresence() == FiveState.TRUE);
+        assertTrue(bk0.getPresence() == FourState.TRUE);
+        assertTrue(bk01.getPresence() == FourState.TRUE);
+        assertTrue(bk02.getPresence() == FourState.FALSE);
+        assertTrue(bk011.getPresence() == FourState.TRUE);
+        assertTrue(bk012.getPresence() == FourState.TRUE);
+    }
+
+
+    @Test
+    public void complex2Unordered(){
+        LOG.debug("complex2 unordered");
+        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+                .setSource("junit")
+                .setNodeType(NodeType.OR)
+                .create();
+        BioKnowledge bk01 = new BioKnowledgeBuilder().setName("bk01")
+                .setNodeType(NodeType.AND)
+                .setSource("junit")
+                .addPartOf(bk0)
+                .create();
+        BioKnowledge bk02 = new BioKnowledgeBuilder().setName("bk02")
+                .setSource("junit")
+                .addPartOf(bk0)
+                .create();
+        BioKnowledge bk03 = new BioKnowledgeBuilder().setName("bk03")
+                .setNodeType(NodeType.AND)
+                .setSource("junit")
+                .addPartOf(bk0)
+                .create();
+        BioKnowledge bk011 = new BioKnowledgeBuilder().setName("bk011")
+                .setSource("junit")
+                .addPartOf(bk01)
+                .create();
+        BioKnowledge bk012 = new BioKnowledgeBuilder().setName("bk012")
+                .setSource("junit")
+                .addPartOf(bk01)
+                .create();
+        BioKnowledge bk031 = new BioKnowledgeBuilder().setName("bk031")
+                .setSource("junit")
+                .addPartOf(bk03)
+                .create();
+
+        BioPrediction bp011   = new BioPredictionBuilder().setName("bp011")
+                .setKnowledgeName("bk011")
+                .setPresence(FourState.TRUE)
+                .create();
+        BioPrediction bp012   = new BioPredictionBuilder().setName("bp012")
+                .setKnowledgeName("bk012")
+                .setPresence(FourState.TRUE)
+                .create();
+        BioPrediction bp02   = new BioPredictionBuilder().setName("bp02")
+                .setKnowledgeName("bk02")
+                .setPresence(FourState.FALSE)
+                .create();
+        BioPrediction bp031   = new BioPredictionBuilder().setName("bp031")
+                .setKnowledgeName("bk031")
+                .setPresence(FourState.TRUE)
+                .create();
+
+        BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
+                .setKnowledgeId("bk0")
+                .setSource("junit")
+                .setPresence(FourState.TRUE)
+                .create();
+
+        BioAssertion ba03 = new BioAssertionBuilder().setName("ba03")
+                .setKnowledgeId("bk03")
+                .setSource("junit")
+                .setPresence(FourState.TRUE)
+                .create();
+
+        grools.insert( bk012 );
+        grools.insert( bp012 );
+        grools.insert( bk01 );
+        grools.insert( ba03 );
+        grools.insert( bk02 );
+        grools.insert( bk011 );
+        grools.insert( bk03 );
+        grools.insert( bk031 );
+        grools.insert( bk0 );
+        grools.insert( bp011 );
+        grools.insert( bp02 );
+        grools.insert( bp031 );
+        grools.insert( ba0 );
+        grools.fireAllRules();
+
+        assertTrue(bk0.getPresence() == FourState.TRUE);
+        assertTrue(bk01.getPresence() == FourState.TRUE);
+        assertTrue(bk02.getPresence() == FourState.FALSE);
+        assertTrue(bk011.getPresence() == FourState.TRUE);
+        assertTrue(bk012.getPresence() == FourState.TRUE);
     }
 }

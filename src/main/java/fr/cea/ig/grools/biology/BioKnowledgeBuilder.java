@@ -1,7 +1,7 @@
 package fr.cea.ig.grools.biology;
 
 import fr.cea.ig.grools.model.Conclusion;
-import fr.cea.ig.grools.model.FiveState;
+import fr.cea.ig.grools.model.FourState;
 import fr.cea.ig.grools.model.Knowledge;
 import fr.cea.ig.grools.model.NodeType;
 import org.joda.time.DateTime;
@@ -15,8 +15,8 @@ public final class BioKnowledgeBuilder {
     private List<Knowledge> partOf      = new ArrayList<>();
     private NodeType        nodeType    = NodeType.LEAF;
     private DateTime        date        = DateTime.now();
-    private FiveState       presence    = FiveState.UNEVALUATED;
-    private Conclusion      conclusion  = Conclusion.UNEVALUATED;
+    private FourState       presence    = FourState.UNKNOWN;
+    private Conclusion      conclusion  = Conclusion.UNKNOWN;
     private String          name        = "";
     private String          id          = "";
     private String          source      = "";
@@ -76,7 +76,7 @@ public final class BioKnowledgeBuilder {
     }
 
     @NotNull
-    public BioKnowledgeBuilder setPresence(@NotNull final FiveState presence) {
+    public BioKnowledgeBuilder setPresence(@NotNull final FourState presence) {
         this.presence = presence;
         return this;
     }

@@ -34,8 +34,8 @@ package fr.cea.ig.grools.biology;
  */
 
 
-import fr.cea.ig.grools.model.FiveState;
 import fr.cea.ig.grools.model.Conclusion;
+import fr.cea.ig.grools.model.FourState;
 import fr.cea.ig.grools.model.Knowledge;
 import fr.cea.ig.grools.model.NodeType;
 import org.joda.time.DateTime;
@@ -63,10 +63,10 @@ public final class BioKnowledge implements Knowledge {
     private final String      name;
     private final String      source;
     private final DateTime    date;
-    private FiveState presence;
+    private FourState presence;
     private       Conclusion  conclusion;
 
-    public BioKnowledge( @NotNull final List<Knowledge> isA, @NotNull final Knowledge[] partOf, @NotNull final NodeType nodeType, @NotNull final String id, @NotNull final String name, @NotNull final String source, @NotNull final DateTime date, @NotNull final FiveState presence, @NotNull final Conclusion conclusion) {
+    public BioKnowledge( @NotNull final List<Knowledge> isA, @NotNull final Knowledge[] partOf, @NotNull final NodeType nodeType, @NotNull final String id, @NotNull final String name, @NotNull final String source, @NotNull final DateTime date, @NotNull final FourState presence, @NotNull final Conclusion conclusion) {
         this.isA        = isA;
         this.partOf     = partOf.clone();
         this.nodeType   = nodeType;
@@ -109,7 +109,7 @@ public final class BioKnowledge implements Knowledge {
     }
 
     @Override
-    public void setPresence(final FiveState presence) {
+    public void setPresence(final FourState presence) {
         this.presence = presence;
     }
 
@@ -135,7 +135,7 @@ public final class BioKnowledge implements Knowledge {
     }
 
     @Override @NotNull
-    public FiveState getPresence() {
+    public FourState getPresence() {
         return presence;
     }
 

@@ -60,7 +60,7 @@ public interface Knowledge extends Fact{
     public Conclusion   getConclusion();
 
     public void setConclusion( final @NotNull Conclusion conclusion);
-    public void  setPresence( final @NotNull FiveState presence );
+    public void  setPresence( final @NotNull FourState presence );
 
     @NotNull
     List<Knowledge> getIsA();

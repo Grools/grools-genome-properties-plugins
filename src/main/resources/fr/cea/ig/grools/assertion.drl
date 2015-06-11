@@ -35,7 +35,7 @@
 package fr.cea.ig.grools;
 
 import fr.cea.ig.grools.model.Knowledge;
-import fr.cea.ig.grools.model.FiveState;
+import fr.cea.ig.grools.model.FourState;
 import fr.cea.ig.grools.model.Conclusion;
 import fr.cea.ig.grools.model.Assertion;
 import java.util.List;
@@ -45,9 +45,9 @@ dialect "mvel"
 
 rule "Present knowledge without avoided or required assertion: conclusion is unconfirmed presence"
     when
-        $k: Knowledge( $kid := id, presence == FiveState.TRUE, conclusion == Conclusion.UNEVALUATED )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+        $k: Knowledge( $kid := id, presence == FourState.TRUE, conclusion != Conclusion.UNCONFIRMED_PRESENCE )
+        not( Assertion( $kid := knowledgeId, presence == FourState.TRUE ) )
+        not( Assertion( $kid := knowledgeId, presence == FourState.FALSE ) )
     then
         modify($k){
             conclusion = Conclusion.UNCONFIRMED_PRESENCE;
@@ -57,9 +57,9 @@ end
 
 rule "Absent knowledge without avoided or required assertion: conclusion is unconfirmed absence"
     when
-        $k: Knowledge( $kid := id, presence == FiveState.FALSE, conclusion == Conclusion.UNEVALUATED )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+        $k: Knowledge( $kid := id, presence == FourState.FALSE, conclusion != Conclusion.UNCONFIRMED_ABSENCE )
+        not( Assertion( $kid := knowledgeId, presence == FourState.TRUE ) )
+        not( Assertion( $kid := knowledgeId, presence == FourState.FALSE ) )
     then
         modify($k){
             conclusion = Conclusion.UNCONFIRMED_ABSENCE;
@@ -69,9 +69,9 @@ end
 
 rule "Present and absent knowledge without avoided or required assertion: conclusion is unconfirmed contradictory"
     when
-        $k: Knowledge( $kid := id, presence == FiveState.BOTH, conclusion == Conclusion.UNEVALUATED )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+        $k: Knowledge( $kid := id, presence == FourState.BOTH, conclusion != Conclusion.UNCONFIRMED_CONTRADICTORY )
+        not( Assertion( $kid := knowledgeId, presence == FourState.TRUE ) )
+        not( Assertion( $kid := knowledgeId, presence == FourState.FALSE ) )
     then
         modify($k){
             conclusion = Conclusion.UNCONFIRMED_CONTRADICTORY;
@@ -81,9 +81,9 @@ end
 
 rule "Not observed knowledge without avoided or required assertion: conclusion is unknown"
     when
-        $k: Knowledge($kid := id, presence == FiveState.UNKNOWN, conclusion == Conclusion.UNEVALUATED )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+        $k: Knowledge($kid := id, presence == FourState.UNKNOWN, conclusion != Conclusion.UNKNOWN )
+        not( Assertion( $kid := knowledgeId, presence == FourState.TRUE ) )
+        not( Assertion( $kid := knowledgeId, presence == FourState.FALSE ) )
     then
         modify($k){
             conclusion = Conclusion.UNKNOWN;
@@ -93,9 +93,9 @@ end
 
 rule "Present knowledge has required assertion: conclusion is confirmed presence"
     when
-        $k: Knowledge($kid := id, presence == FiveState.TRUE, conclusion == Conclusion.UNEVALUATED )
-        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+        $k: Knowledge($kid := id, presence == FourState.TRUE, conclusion != Conclusion.CONFIRMED_PRESENCE )
+        Assertion( $kid := knowledgeId, presence == FourState.TRUE )
+        not( Assertion( $kid := knowledgeId, presence == FourState.FALSE ) )
     then
         modify($k){
             conclusion = Conclusion.CONFIRMED_PRESENCE;
@@ -105,9 +105,9 @@ end
 
 rule "Absent knowledge has required assertion: conclusion is an unexpected absence"
     when
-        $k: Knowledge($kid := id,  presence == FiveState.FALSE, conclusion == Conclusion.UNEVALUATED )
-        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+        $k: Knowledge($kid := id,  presence == FourState.FALSE, conclusion != Conclusion.UNEXPECTED_ABSENCE )
+        Assertion( $kid := knowledgeId, presence == FourState.TRUE )
+        not( Assertion( $kid := knowledgeId, presence == FourState.FALSE ) )
     then
         modify($k){
             conclusion = Conclusion.UNEXPECTED_ABSENCE;
@@ -117,9 +117,9 @@ end
 
 rule "Present and absent knowledge has required assertion: conclusion is a contradictory absence"
     when
-        $k: Knowledge($kid := id, presence == FiveState.BOTH, conclusion == Conclusion.UNEVALUATED )
-        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+        $k: Knowledge($kid := id, presence == FourState.BOTH, conclusion != Conclusion.CONTRADICTORY_ABSENCE )
+        Assertion( $kid := knowledgeId, presence == FourState.TRUE )
+        not( Assertion( $kid := knowledgeId, presence == FourState.FALSE ) )
     then
         modify($k){
             conclusion = Conclusion.CONTRADICTORY_ABSENCE;
@@ -129,9 +129,9 @@ end
 
 rule "Not observed knowledge has required assertion: conclusion is missing"
     when
-        $k: Knowledge( $kid := id,  presence == FiveState.UNKNOWN, conclusion == Conclusion.UNEVALUATED )
-        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.FALSE ) )
+        $k: Knowledge( $kid := id,  presence == FourState.UNKNOWN, conclusion != Conclusion.MISSING )
+        Assertion( $kid := knowledgeId, presence == FourState.TRUE )
+        not( Assertion( $kid := knowledgeId, presence == FourState.FALSE ) )
     then
         modify($k){
             conclusion = Conclusion.MISSING;
@@ -141,9 +141,9 @@ end
 
 rule "Present knowledge has avoided assertion: conclusion is an unexpected presence"
     when
-        $k: Knowledge($kid := id, presence != FiveState.UNEVALUATED,  presence == FiveState.TRUE, conclusion == Conclusion.UNEVALUATED )
-        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
+        $k: Knowledge($kid := id, presence == FourState.TRUE, conclusion != Conclusion.UNEXPECTED_PRESENCE )
+        Assertion( $kid := knowledgeId, presence == FourState.FALSE )
+        not( Assertion( $kid := knowledgeId, presence == FourState.TRUE ) )
     then
         modify($k){
             conclusion = Conclusion.UNEXPECTED_PRESENCE;
@@ -153,9 +153,9 @@ end
 
 rule "Absent knowledge has avoided assertion: conclusion is confirmed absence"
     when
-        $k: Knowledge($kid := id, presence != FiveState.UNEVALUATED,   presence == FiveState.FALSE, conclusion == Conclusion.UNEVALUATED )
-        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
+        $k: Knowledge($kid := id, presence == FourState.FALSE, conclusion != Conclusion.CONFIRMED_ABSENCE )
+        Assertion( $kid := knowledgeId, presence == FourState.FALSE )
+        not( Assertion( $kid := knowledgeId, presence == FourState.TRUE ) )
     then
         modify($k){
             conclusion = Conclusion.CONFIRMED_ABSENCE;
@@ -165,9 +165,9 @@ end
 
 rule "Present and absent knowledge has avoided assertion: conclusion is a contradictory presence"
     when
-        $k: Knowledge( $kid := id, presence == FiveState.BOTH, conclusion == Conclusion.UNEVALUATED )
-        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
+        $k: Knowledge( $kid := id, presence == FourState.BOTH, conclusion != Conclusion.CONTRADICTORY_PRESENCE )
+        Assertion( $kid := knowledgeId, presence == FourState.FALSE )
+        not( Assertion( $kid := knowledgeId, presence == FourState.TRUE ) )
     then
         modify($k){
             conclusion = Conclusion.CONTRADICTORY_PRESENCE;
@@ -177,9 +177,9 @@ end
 
 rule "Not Observed knowledge has avoided assertion: conclusion is confirmed absence"
     when
-        $k: Knowledge($kid := id, presence != FiveState.UNEVALUATED,  presence == FiveState.UNKNOWN, conclusion == Conclusion.UNEVALUATED )
-        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
-        not( Assertion( $kid := knowledgeId, presence == FiveState.TRUE ) )
+        $k: Knowledge($kid := id, presence == FourState.UNKNOWN, conclusion != Conclusion.CONFIRMED_ABSENCE )
+        Assertion( $kid := knowledgeId, presence == FourState.FALSE )
+        not( Assertion( $kid := knowledgeId, presence == FourState.TRUE ) )
     then
         modify($k){
             conclusion = Conclusion.CONFIRMED_ABSENCE;
@@ -189,9 +189,9 @@ end
 
 rule "Present knowledge has required and avoided assertion: conclusion is an ambiguous presence"
     when
-        $k: Knowledge($kid := id, presence != FiveState.UNEVALUATED,  presence == FiveState.TRUE, conclusion == Conclusion.UNEVALUATED )
-        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
-        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
+        $k: Knowledge($kid := id, presence == FourState.TRUE, conclusion != Conclusion.AMBIGUOUS_PRESENCE )
+        Assertion( $kid := knowledgeId, presence == FourState.FALSE )
+        Assertion( $kid := knowledgeId, presence == FourState.TRUE )
     then
         modify($k){
             conclusion = Conclusion.AMBIGUOUS_PRESENCE;
@@ -201,9 +201,9 @@ end
 
 rule "Absent knowledge has required and avoided assertion: conclusion is an ambiguous absence"
     when
-        $k: Knowledge($kid := id, presence != FiveState.UNEVALUATED,  presence == FiveState.FALSE, conclusion == Conclusion.UNEVALUATED )
-        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
-        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
+        $k: Knowledge($kid := id,presence == FourState.FALSE, conclusion != Conclusion.AMBIGUOUS_ABSENCE )
+        Assertion( $kid := knowledgeId, presence == FourState.FALSE )
+        Assertion( $kid := knowledgeId, presence == FourState.TRUE )
     then
         modify($k){
             conclusion = Conclusion.AMBIGUOUS_ABSENCE;
@@ -213,9 +213,9 @@ end
 
 rule "Present and absent knowledge has required and avoided assertion: conclusion is ambiguous and contradictory"
     when
-        $k: Knowledge( $kid := id, presence == FiveState.BOTH, conclusion == Conclusion.UNEVALUATED )
-        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
-        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
+        $k: Knowledge( $kid := id, presence == FourState.BOTH, conclusion != Conclusion.AMBIGUOUS_CONTRADICTORY )
+        Assertion( $kid := knowledgeId, presence == FourState.FALSE )
+        Assertion( $kid := knowledgeId, presence == FourState.TRUE )
     then
         modify($k){
             conclusion = Conclusion.AMBIGUOUS_CONTRADICTORY;
@@ -225,9 +225,9 @@ end
 
 rule "Not Observed knowledge has required and avoided assertion: conclusion is ambiguous"
     when
-        $k: Knowledge($kid := id, presence != FiveState.UNEVALUATED,  presence == FiveState.UNKNOWN, conclusion == Conclusion.UNEVALUATED )
-        Assertion( $kid := knowledgeId, presence == FiveState.FALSE )
-        Assertion( $kid := knowledgeId, presence == FiveState.TRUE )
+        $k: Knowledge($kid := id, presence == FourState.UNKNOWN, conclusion != Conclusion.AMBIGUOUS )
+        Assertion( $kid := knowledgeId, presence == FourState.FALSE )
+        Assertion( $kid := knowledgeId, presence == FourState.TRUE )
     then
         modify($k){
             conclusion = Conclusion.AMBIGUOUS;

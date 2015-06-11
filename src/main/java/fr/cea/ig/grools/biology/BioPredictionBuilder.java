@@ -1,6 +1,6 @@
 package fr.cea.ig.grools.biology;
 
-import fr.cea.ig.grools.model.FiveState;
+import fr.cea.ig.grools.model.FourState;
 import fr.cea.ig.grools.model.Evidence;
 import org.joda.time.DateTime;
 
@@ -12,7 +12,7 @@ public final class BioPredictionBuilder {
     private String      knowledgeName   = "";
     private String      source          = "";
     private DateTime    date            = DateTime.now();
-    private FiveState presence        = FiveState.TRUE;
+    private FourState   presence        = FourState.TRUE;
     private Evidence    evidence        = Evidence.MEDIUM;
 
     @NotNull
@@ -46,7 +46,7 @@ public final class BioPredictionBuilder {
     }
 
     @NotNull
-    public BioPredictionBuilder setPresence(@NotNull final FiveState presence) {
+    public BioPredictionBuilder setPresence(@NotNull final FourState presence) {
         this.presence = presence;
         return this;
     }

@@ -36,7 +36,7 @@ package fr.cea.ig.grools.biology;
 
 import ch.qos.logback.classic.Logger;
 import fr.cea.ig.grools.Grools;
-import fr.cea.ig.grools.model.FiveState;
+import fr.cea.ig.grools.model.FourState;
 import fr.cea.ig.grools.model.NodeType;
 import org.junit.Before;
 import org.junit.Test;
@@ -83,7 +83,7 @@ public class KnowledgeTest {
         grools.getObjects().stream().filter(o -> o instanceof BioKnowledge).forEach(o -> {
             final BioKnowledge bk = ((BioKnowledge) o);
             LOG.debug(bk.toString());
-            assertTrue(bk.getPresence() == FiveState.UNKNOWN);
+            assertTrue(bk.getPresence() == FourState.UNKNOWN);
         });
 
     }
@@ -106,7 +106,7 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1 = new BioPredictionBuilder().setName("bp1")
                                                     .setKnowledgeName("bk1")
-                                                    .setPresence(FiveState.UNKNOWN)
+                                                    .setPresence(FourState.UNKNOWN)
                                                     .create();
 
         grools.insert( bk0 );
@@ -118,7 +118,7 @@ public class KnowledgeTest {
         grools.getKnowledges().forEach(o -> {
             final BioKnowledge bk = ((BioKnowledge) o);
             LOG.debug(bk.toString());
-            assertTrue(bk.getPresence() == FiveState.UNKNOWN);
+            assertTrue(bk.getPresence() == FourState.UNKNOWN);
         });
 
     }
@@ -141,7 +141,7 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1 = new BioPredictionBuilder().setName("bp1")
                                                     .setKnowledgeName("bk1")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -154,8 +154,8 @@ public class KnowledgeTest {
             final BioKnowledge bk = ((BioKnowledge) o);
             LOG.debug(bk.toString());
             switch (bk.getName()) {
-                case "bk1": assertTrue(bk.getPresence() == FiveState.TRUE); break;
-                default:assertTrue(bk.getPresence() == FiveState.UNKNOWN); break;
+                case "bk1": assertTrue(bk.getPresence() == FourState.TRUE); break;
+                default:assertTrue(bk.getPresence() == FourState.UNKNOWN); break;
             }
         });
 
@@ -179,11 +179,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
                                                         .setKnowledgeName("bk1")
-                                                        .setPresence(FiveState.TRUE)
+                                                        .setPresence(FourState.TRUE)
                                                         .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
                                                         .setKnowledgeName("bk2")
-                                                        .setPresence(FiveState.BOTH)
+                                                        .setPresence(FourState.BOTH)
                                                         .create();
 
         grools.insert( bk0 );
@@ -193,9 +193,9 @@ public class KnowledgeTest {
         grools.insert( bp2 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.BOTH);
-        assertTrue(bk1.getPresence() == FiveState.TRUE);
-        assertTrue(bk2.getPresence() == FiveState.BOTH);
+        assertTrue(bk0.getPresence() == FourState.BOTH);
+        assertTrue(bk1.getPresence() == FourState.TRUE);
+        assertTrue(bk2.getPresence() == FourState.BOTH);
     }
 
     @Test
@@ -215,11 +215,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
                                                         .setKnowledgeName("bk1")
-                                                        .setPresence(FiveState.BOTH)
+                                                        .setPresence(FourState.BOTH)
                                                         .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
                                                         .setKnowledgeName("bk2")
-                                                        .setPresence(FiveState.BOTH)
+                                                        .setPresence(FourState.BOTH)
                                                         .create();
 
         grools.insert( bk0 );
@@ -229,9 +229,9 @@ public class KnowledgeTest {
         grools.insert( bp2 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.BOTH);
-        assertTrue(bk1.getPresence() == FiveState.BOTH);
-        assertTrue(bk2.getPresence() == FiveState.BOTH);
+        assertTrue(bk0.getPresence() == FourState.BOTH);
+        assertTrue(bk1.getPresence() == FourState.BOTH);
+        assertTrue(bk2.getPresence() == FourState.BOTH);
 
     }
     @Test
@@ -251,11 +251,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
                                                         .setKnowledgeName("bk1")
-                                                        .setPresence(FiveState.UNKNOWN)
+                                                        .setPresence(FourState.UNKNOWN)
                                                         .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
                                                         .setKnowledgeName("bk2")
-                                                        .setPresence(FiveState.BOTH)
+                                                        .setPresence(FourState.BOTH)
                                                         .create();
 
         grools.insert( bk0 );
@@ -265,9 +265,9 @@ public class KnowledgeTest {
         grools.insert( bp2 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.BOTH);
-        assertTrue(bk1.getPresence() == FiveState.UNKNOWN);
-        assertTrue(bk2.getPresence() == FiveState.BOTH);
+        assertTrue(bk0.getPresence() == FourState.BOTH);
+        assertTrue(bk1.getPresence() == FourState.UNKNOWN);
+        assertTrue(bk2.getPresence() == FourState.BOTH);
     }
 
 
@@ -288,11 +288,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
                                                     .setKnowledgeName("bk1")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
                                                     .setKnowledgeName("bk2")
-                                                    .setPresence(FiveState.FALSE)
+                                                    .setPresence(FourState.FALSE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -302,9 +302,9 @@ public class KnowledgeTest {
         grools.insert( bp2 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.BOTH);
-        assertTrue(bk1.getPresence() == FiveState.TRUE);
-        assertTrue(bk2.getPresence() == FiveState.FALSE);
+        assertTrue(bk0.getPresence() == FourState.BOTH);
+        assertTrue(bk1.getPresence() == FourState.TRUE);
+        assertTrue(bk2.getPresence() == FourState.FALSE);
     }
 
 
@@ -325,11 +325,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1 = new BioPredictionBuilder().setName("bp1")
                                                       .setKnowledgeName("bk1")
-                                                      .setPresence(FiveState.FALSE)
+                                                      .setPresence(FourState.FALSE)
                 .create();
         BioPrediction bp2 = new BioPredictionBuilder().setName("bp2")
                                                       .setKnowledgeName("bk2")
-                                                      .setPresence(FiveState.TRUE)
+                                                      .setPresence(FourState.TRUE)
                 .create();
 
         grools.insert( bk0 );
@@ -339,9 +339,9 @@ public class KnowledgeTest {
         grools.insert( bp2 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.BOTH);
-        assertTrue(bk1.getPresence() == FiveState.FALSE);
-        assertTrue(bk2.getPresence() == FiveState.TRUE);
+        assertTrue(bk0.getPresence() == FourState.BOTH);
+        assertTrue(bk1.getPresence() == FourState.FALSE);
+        assertTrue(bk2.getPresence() == FourState.TRUE);
     }
 
 
@@ -362,11 +362,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
                                                         .setKnowledgeName("bk1")
-                                                        .setPresence(FiveState.FALSE)
+                                                        .setPresence(FourState.FALSE)
                                                         .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
                                                         .setKnowledgeName("bk2")
-                                                        .setPresence(FiveState.FALSE)
+                                                        .setPresence(FourState.FALSE)
                                                         .create();
 
         assertTrue(bk1.getPartOf()[0] == bk0);
@@ -378,9 +378,9 @@ public class KnowledgeTest {
         grools.insert( bp2 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.FALSE);
-        assertTrue(bk1.getPresence() == FiveState.FALSE);
-        assertTrue(bk2.getPresence() == FiveState.FALSE);
+        assertTrue(bk0.getPresence() == FourState.FALSE);
+        assertTrue(bk1.getPresence() == FourState.FALSE);
+        assertTrue(bk2.getPresence() == FourState.FALSE);
     }
 
 
@@ -401,11 +401,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
                                                         .setKnowledgeName("bk1")
-                                                        .setPresence(FiveState.FALSE)
+                                                        .setPresence(FourState.FALSE)
                                                         .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
                                                         .setKnowledgeName("bk2")
-                                                        .setPresence(FiveState.BOTH)
+                                                        .setPresence(FourState.BOTH)
                                                         .create();
 
         grools.insert( bk0 );
@@ -415,9 +415,9 @@ public class KnowledgeTest {
         grools.insert( bp2 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.FALSE);
-        assertTrue(bk1.getPresence() == FiveState.FALSE);
-        assertTrue(bk2.getPresence() == FiveState.BOTH);
+        assertTrue(bk0.getPresence() == FourState.FALSE);
+        assertTrue(bk1.getPresence() == FourState.FALSE);
+        assertTrue(bk2.getPresence() == FourState.BOTH);
     }
 
 
@@ -438,11 +438,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
                                                         .setKnowledgeName("bk1")
-                                                        .setPresence(FiveState.UNKNOWN)
+                                                        .setPresence(FourState.UNKNOWN)
                                                         .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
                                                         .setKnowledgeName("bk2")
-                                                        .setPresence(FiveState.UNKNOWN)
+                                                        .setPresence(FourState.UNKNOWN)
                                                         .create();
 
         grools.insert( bk0 );
@@ -452,9 +452,9 @@ public class KnowledgeTest {
         grools.insert(bp2);
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.UNKNOWN);
-        assertTrue(bk1.getPresence() == FiveState.UNKNOWN   );
-        assertTrue(bk2.getPresence() == FiveState.UNKNOWN);
+        assertTrue(bk0.getPresence() == FourState.UNKNOWN);
+        assertTrue(bk1.getPresence() == FourState.UNKNOWN   );
+        assertTrue(bk2.getPresence() == FourState.UNKNOWN);
     }
 
 
@@ -476,11 +476,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
                                                     .setKnowledgeName("bk1")
-                                                    .setPresence(FiveState.BOTH)
+                                                    .setPresence(FourState.BOTH)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
                                                     .setKnowledgeName("bk2")
-                                                    .setPresence(FiveState.FALSE)
+                                                    .setPresence(FourState.FALSE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -490,9 +490,9 @@ public class KnowledgeTest {
         grools.insert( bp2 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.BOTH);
-        assertTrue(bk1.getPresence() == FiveState.BOTH);
-        assertTrue(bk2.getPresence() == FiveState.FALSE);
+        assertTrue(bk0.getPresence() == FourState.BOTH);
+        assertTrue(bk1.getPresence() == FourState.BOTH);
+        assertTrue(bk2.getPresence() == FourState.FALSE);
     }
 
 
@@ -514,11 +514,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
                                                     .setKnowledgeName("bk1")
-                                                    .setPresence(FiveState.BOTH)
+                                                    .setPresence(FourState.BOTH)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
                                                     .setKnowledgeName("bk2")
-                                                    .setPresence(FiveState.BOTH)
+                                                    .setPresence(FourState.BOTH)
                                                     .create();
 
         grools.insert( bk0 );
@@ -528,9 +528,9 @@ public class KnowledgeTest {
         grools.insert(bp2);
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.BOTH);
-        assertTrue(bk1.getPresence() == FiveState.BOTH);
-        assertTrue(bk2.getPresence() == FiveState.BOTH);
+        assertTrue(bk0.getPresence() == FourState.BOTH);
+        assertTrue(bk1.getPresence() == FourState.BOTH);
+        assertTrue(bk2.getPresence() == FourState.BOTH);
     }
 
 
@@ -551,11 +551,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
                                                     .setKnowledgeName("bk1")
-                                                    .setPresence(FiveState.FALSE)
+                                                    .setPresence(FourState.FALSE)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
                                                     .setKnowledgeName("bk2")
-                                                    .setPresence(FiveState.FALSE)
+                                                    .setPresence(FourState.FALSE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -565,9 +565,9 @@ public class KnowledgeTest {
         grools.insert( bp2 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.FALSE);
-        assertTrue(bk1.getPresence() == FiveState.FALSE);
-        assertTrue(bk2.getPresence() == FiveState.FALSE);
+        assertTrue(bk0.getPresence() == FourState.FALSE);
+        assertTrue(bk1.getPresence() == FourState.FALSE);
+        assertTrue(bk2.getPresence() == FourState.FALSE);
     }
 
 
@@ -588,11 +588,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
                                                     .setKnowledgeName("bk1")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
                                                     .setKnowledgeName("bk2")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -602,9 +602,9 @@ public class KnowledgeTest {
         grools.insert( bp2 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.TRUE);
-        assertTrue(bk1.getPresence() == FiveState.TRUE);
-        assertTrue(bk2.getPresence() == FiveState.TRUE);
+        assertTrue(bk0.getPresence() == FourState.TRUE);
+        assertTrue(bk1.getPresence() == FourState.TRUE);
+        assertTrue(bk2.getPresence() == FourState.TRUE);
     }
 
 
@@ -625,11 +625,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
                                                     .setKnowledgeName("bk1")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
                                                     .setKnowledgeName("bk2")
-                                                    .setPresence(FiveState.FALSE)
+                                                    .setPresence(FourState.FALSE)
                                                     .create();
 
         grools.insert( bk0 );
@@ -639,9 +639,9 @@ public class KnowledgeTest {
         grools.insert( bp2 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.TRUE);
-        assertTrue(bk1.getPresence() == FiveState.TRUE);
-        assertTrue(bk2.getPresence() == FiveState.FALSE);
+        assertTrue(bk0.getPresence() == FourState.TRUE);
+        assertTrue(bk1.getPresence() == FourState.TRUE);
+        assertTrue(bk2.getPresence() == FourState.FALSE);
     }
 
 
@@ -662,11 +662,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
                                                     .setKnowledgeName("bk1")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
                                                     .setKnowledgeName("bk2")
-                                                    .setPresence(FiveState.BOTH)
+                                                    .setPresence(FourState.BOTH)
                                                     .create();
 
         grools.insert( bk0 );
@@ -676,9 +676,9 @@ public class KnowledgeTest {
         grools.insert( bp2 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.TRUE);
-        assertTrue(bk1.getPresence() == FiveState.TRUE);
-        assertTrue(bk2.getPresence() == FiveState.BOTH);
+        assertTrue(bk0.getPresence() == FourState.TRUE);
+        assertTrue(bk1.getPresence() == FourState.TRUE);
+        assertTrue(bk2.getPresence() == FourState.BOTH);
     }
 
 
@@ -699,11 +699,11 @@ public class KnowledgeTest {
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
                                                     .setKnowledgeName("bk1")
-                                                    .setPresence(FiveState.TRUE)
+                                                    .setPresence(FourState.TRUE)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
                                                     .setKnowledgeName("bk2")
-                                                    .setPresence(FiveState.UNKNOWN)
+                                                    .setPresence(FourState.UNKNOWN)
                                                     .create();
 
         grools.insert( bk0 );
@@ -713,9 +713,9 @@ public class KnowledgeTest {
         grools.insert( bp2 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FiveState.TRUE);
-        assertTrue(bk1.getPresence() == FiveState.TRUE);
-        assertTrue(bk2.getPresence() == FiveState.UNKNOWN);
+        assertTrue(bk0.getPresence() == FourState.TRUE);
+        assertTrue(bk1.getPresence() == FourState.TRUE);
+        assertTrue(bk2.getPresence() == FourState.UNKNOWN);
     }
 
 

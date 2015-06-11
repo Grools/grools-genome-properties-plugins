@@ -34,6 +34,8 @@ package fr.cea.ig.grools.model;
  */
 
 
+import java.math.BigDecimal;
+
 /**
  *
  */
@@ -52,12 +54,12 @@ public interface LogicStatistics {
 
     public Knowledge getKnowledge();
 
-    public Float getCompleteness();
+    public BigDecimal getCompleteness();
 
-    public void setCompleteness(final Float completeness);
+    public void setCompleteness(final BigDecimal completeness);
 
-    public Float getConsistency();
+    public BigDecimal getConsistency();
 
-    public void setConsistency(final Float consistencies);
+    public void setConsistency(final BigDecimal consistencies);
 
 }
