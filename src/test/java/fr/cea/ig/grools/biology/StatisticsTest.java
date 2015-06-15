@@ -64,15 +64,15 @@ public class StatisticsTest {
     @Test
     public void completeness1() {
         LOG.debug("completeness (1)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                 .setSource("junit")
                 .setNodeType(NodeType.AND)
                 .create();
-        BioKnowledge bk01 = new BioKnowledgeBuilder().setName("bk01")
+        BioPriorKnowledge bk01 = new BioKnowledgeBuilder().setName("bk01")
                 .setSource("junit")
                 .addPartOf(bk0)
                 .create();
-        BioKnowledge bk02 = new BioKnowledgeBuilder().setName("bk02")
+        BioPriorKnowledge bk02 = new BioKnowledgeBuilder().setName("bk02")
                 .setSource("junit")
                 .addPartOf(bk0)
                 .create();
@@ -103,15 +103,15 @@ public class StatisticsTest {
     @Test
     public void completeness2() {
         LOG.debug("completeness (2)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                 .setSource("junit")
                 .setNodeType(NodeType.AND)
                 .create();
-        BioKnowledge bk01 = new BioKnowledgeBuilder().setName("bk01")
+        BioPriorKnowledge bk01 = new BioKnowledgeBuilder().setName("bk01")
                 .setSource("junit")
                 .addPartOf(bk0)
                 .create();
-        BioKnowledge bk02 = new BioKnowledgeBuilder().setName("bk02")
+        BioPriorKnowledge bk02 = new BioKnowledgeBuilder().setName("bk02")
                 .setSource("junit")
                 .addPartOf(bk0)
                 .create();
@@ -142,15 +142,15 @@ public class StatisticsTest {
     @Test
     public void completeness3() {
         LOG.debug("completeness (3)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                 .setSource("junit")
                 .setNodeType(NodeType.AND)
                 .create();
-        BioKnowledge bk01 = new BioKnowledgeBuilder().setName("bk01")
+        BioPriorKnowledge bk01 = new BioKnowledgeBuilder().setName("bk01")
                 .setSource("junit")
                 .addPartOf(bk0)
                 .create();
-        BioKnowledge bk02 = new BioKnowledgeBuilder().setName("bk02")
+        BioPriorKnowledge bk02 = new BioKnowledgeBuilder().setName("bk02")
                 .setSource("junit")
                 .addPartOf(bk0)
                 .create();

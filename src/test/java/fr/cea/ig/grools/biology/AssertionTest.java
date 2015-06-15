@@ -65,7 +65,7 @@ public class AssertionTest {
     public void presentKnowledgeIsNotAvoidedNorRequiredConclusionIsUnconfirmedPresence1(){
         LOG.debug("Present knowledge without avoided or required assertion: conclusion is unconfirmed presence (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                 .setId("bk0")
                 .setSource("junit")
                 .create();
@@ -93,7 +93,7 @@ public class AssertionTest {
     public void absentKnowledgeIsNotRequiredNorAvoidedConclusionIsUnconfirmedAbsence1(){
         LOG.debug("Absent knowledge without avoided or required assertion: conclusion is unconfirmed absence (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -117,7 +117,7 @@ public class AssertionTest {
     public void absentKnowledgeIsNotRequiredNorAvoidedConclusionIsUnconfirmedAbsence2(){
         LOG.debug("Absent knowledge without avoided or required assertion: conclusion is unconfirmed absence (2)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -148,7 +148,7 @@ public class AssertionTest {
     public void presentAndAbsentKnowledgeIsNotRequiredNorAvoidedConclusionIsUnconfirmedContradictory1(){
         LOG.debug("Present and absent knowledge without avoided or required assertion: conclusion is unconfirmed contradictory (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -177,7 +177,7 @@ public class AssertionTest {
     public void presentAndAbsentKnowledgeIsNotRequiredNorAvoidedConclusionIsUnconfirmedContradictory2(){
         LOG.debug("Present and absent knowledge without avoided or required assertion: conclusion is unconfirmed contradictory (2)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -215,17 +215,17 @@ public class AssertionTest {
     public void presentAndAbsentKnowledgeIsNotRequiredNorAvoidedConclusionIsContradictory3(){
         LOG.debug("Present and absent knowledge without avoided or required assertion: conclusion is unconfirmed contradictory (3)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.OR)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setId("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setId("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
@@ -273,7 +273,7 @@ public class AssertionTest {
     @Test
     public void notObservedKnowledgeIsNotRequiredNorAvoidedConclusionIsNormal1(){
         LOG.debug("Not observed knowledge without avoided or required assertion: conclusion is unknown (1)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -288,7 +288,7 @@ public class AssertionTest {
     public void presentKnowledgeIsRequiredConclusionIsNormal1(){
         LOG.debug("Present knowledge has required assertion: conclusion is confirmed presence (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -317,7 +317,7 @@ public class AssertionTest {
     public void absentKnowledgeIsRequiredConclusionIsAnUnexpectedAbsence1(){
         LOG.debug("Absent knowledge has required assertion: conclusion is an unexpected absence (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -346,7 +346,7 @@ public class AssertionTest {
     public void presentAndAbsentKnowledgeIsRequiredConclusionIsAcontradictoryAbsence1(){
         LOG.debug("Present and absent knowledge has required assertion: conclusion is a contradictory absence (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -382,7 +382,7 @@ public class AssertionTest {
     public void notObservedKnowledgeIsRequiredConclusionIsMissing1(){
         LOG.debug("Not observed knowledge has required assertion: conclusion is missing (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -405,7 +405,7 @@ public class AssertionTest {
     public void notObservedKnowledgeIsRequiredConclusionIsMissing2(){
         LOG.debug("Not observed knowledge has required assertion: conclusion is missing (2)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -435,7 +435,7 @@ public class AssertionTest {
     public void presentKnowledgeIsAvoidedConclusionIsAnUnexpectedPresence1(){
         LOG.debug("Present knowledge has avoided assertion: conclusion is an unexpected presence (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -464,7 +464,7 @@ public class AssertionTest {
     public void absentKnowledgeIsAvoidedConclusionIsNormal1(){
         LOG.debug("Absent knowledge has avoided assertion: conclusion is confirmed absence (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -493,7 +493,7 @@ public class AssertionTest {
     public void presentAndAbsentKnowledgeIsAvoidedConclusionIsAcontradictoryPresence1(){
         LOG.debug("Present and absent knowledge has avoided assertion: conclusion is a contradictory presence (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -528,7 +528,7 @@ public class AssertionTest {
     public void notObservedKnowledgeIsAvoidedConclusionIsNormal1(){
         LOG.debug("Not Observed knowledge has avoided assertion: conclusion is confirmed absence (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -557,7 +557,7 @@ public class AssertionTest {
     public void notObservedKnowledgeIsAvoidedConclusionIsNormal2(){
         LOG.debug("NNot Observed knowledge has avoided assertion: conclusion is confirmed absence (2)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -579,7 +579,7 @@ public class AssertionTest {
     public void presentKnowledgeIsRequiredAndAvoidedConclusionIsAnAmbiguousPresence1(){
         LOG.debug("Present knowledge has required and avoided assertion: conclusion is an ambiguous presence (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -612,7 +612,7 @@ public class AssertionTest {
     public void absentKnowledgeIsRequiredAndAvoidedConclusionIsAnAmbiguousAbsence1(){
         LOG.debug("Absent knowledge has required and avoided assertion: conclusion is an ambiguous absence (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -648,7 +648,7 @@ public class AssertionTest {
     public void presentAndAbsentKnowledgeIsRequiredAndAvoidedConclusioIsAnAmbiguousPresenceAbsence1(){
         LOG.debug("Present and absent knowledge has required and avoided assertion: conclusion is contradictory (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -688,7 +688,7 @@ public class AssertionTest {
     public void notObservedKnowledgeIsRequiredAndAvoidedConclusionIsAmbiguous1(){
         LOG.debug("Not Observed knowledge is required and avoided conclusion is ambiguous (1)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setId("bk0")
                                                     .setSource("junit")
                                                     .create();
@@ -723,7 +723,7 @@ public class AssertionTest {
     public void notObservedKnowledgeIsRequiredAndAvoidedConclusionIsAmbiguous2(){
         LOG.debug("Not Observed knowledge has required and avoided assertion: conclusion is ambiguous (2)");
 
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                 .setSource("junit")
                 .create();
         BioAssertion ba1 = new BioAssertionBuilder().setName("ba1")
@@ -750,24 +750,24 @@ public class AssertionTest {
     @Test
     public void complex1(){
         LOG.debug("complex1");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.AND)
                                                     .create();
-        BioKnowledge bk01 = new BioKnowledgeBuilder().setName("bk01")
+        BioPriorKnowledge bk01 = new BioKnowledgeBuilder().setName("bk01")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.AND)
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk02 = new BioKnowledgeBuilder().setName("bk02")
+        BioPriorKnowledge bk02 = new BioKnowledgeBuilder().setName("bk02")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk011 = new BioKnowledgeBuilder().setName("bk011")
+        BioPriorKnowledge bk011 = new BioKnowledgeBuilder().setName("bk011")
                                                       .setSource("junit")
                                                       .addPartOf(bk01)
                                                       .create();
-        BioKnowledge bk012 = new BioKnowledgeBuilder().setName("bk012")
+        BioPriorKnowledge bk012 = new BioKnowledgeBuilder().setName("bk012")
                                                       .setSource("junit")
                                                       .addPartOf(bk01)
                                                       .create();
@@ -812,33 +812,33 @@ public class AssertionTest {
     @Test
     public void complex2(){
         LOG.debug("complex2");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                 .setSource("junit")
                 .setNodeType(NodeType.OR)
                 .create();
-        BioKnowledge bk01 = new BioKnowledgeBuilder().setName("bk01")
+        BioPriorKnowledge bk01 = new BioKnowledgeBuilder().setName("bk01")
                 .setNodeType(NodeType.AND)
                 .setSource("junit")
                 .addPartOf(bk0)
                 .create();
-        BioKnowledge bk02 = new BioKnowledgeBuilder().setName("bk02")
+        BioPriorKnowledge bk02 = new BioKnowledgeBuilder().setName("bk02")
                 .setSource("junit")
                 .addPartOf(bk0)
                 .create();
-        BioKnowledge bk03 = new BioKnowledgeBuilder().setName("bk03")
+        BioPriorKnowledge bk03 = new BioKnowledgeBuilder().setName("bk03")
                 .setNodeType(NodeType.AND)
                 .setSource("junit")
                 .addPartOf(bk0)
                 .create();
-        BioKnowledge bk011 = new BioKnowledgeBuilder().setName("bk011")
+        BioPriorKnowledge bk011 = new BioKnowledgeBuilder().setName("bk011")
                 .setSource("junit")
                 .addPartOf(bk01)
                 .create();
-        BioKnowledge bk012 = new BioKnowledgeBuilder().setName("bk012")
+        BioPriorKnowledge bk012 = new BioKnowledgeBuilder().setName("bk012")
                 .setSource("junit")
                 .addPartOf(bk01)
                 .create();
-        BioKnowledge bk031 = new BioKnowledgeBuilder().setName("bk031")
+        BioPriorKnowledge bk031 = new BioKnowledgeBuilder().setName("bk031")
                 .setSource("junit")
                 .addPartOf(bk03)
                 .create();
@@ -898,33 +898,33 @@ public class AssertionTest {
     @Test
     public void complex2Unordered(){
         LOG.debug("complex2 unordered");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                 .setSource("junit")
                 .setNodeType(NodeType.OR)
                 .create();
-        BioKnowledge bk01 = new BioKnowledgeBuilder().setName("bk01")
+        BioPriorKnowledge bk01 = new BioKnowledgeBuilder().setName("bk01")
                 .setNodeType(NodeType.AND)
                 .setSource("junit")
                 .addPartOf(bk0)
                 .create();
-        BioKnowledge bk02 = new BioKnowledgeBuilder().setName("bk02")
+        BioPriorKnowledge bk02 = new BioKnowledgeBuilder().setName("bk02")
                 .setSource("junit")
                 .addPartOf(bk0)
                 .create();
-        BioKnowledge bk03 = new BioKnowledgeBuilder().setName("bk03")
+        BioPriorKnowledge bk03 = new BioKnowledgeBuilder().setName("bk03")
                 .setNodeType(NodeType.AND)
                 .setSource("junit")
                 .addPartOf(bk0)
                 .create();
-        BioKnowledge bk011 = new BioKnowledgeBuilder().setName("bk011")
+        BioPriorKnowledge bk011 = new BioKnowledgeBuilder().setName("bk011")
                 .setSource("junit")
                 .addPartOf(bk01)
                 .create();
-        BioKnowledge bk012 = new BioKnowledgeBuilder().setName("bk012")
+        BioPriorKnowledge bk012 = new BioKnowledgeBuilder().setName("bk012")
                 .setSource("junit")
                 .addPartOf(bk01)
                 .create();
-        BioKnowledge bk031 = new BioKnowledgeBuilder().setName("bk031")
+        BioPriorKnowledge bk031 = new BioKnowledgeBuilder().setName("bk031")
                 .setSource("junit")
                 .addPartOf(bk03)
                 .create();

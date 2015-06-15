@@ -63,7 +63,7 @@ public class PredictionTest {
     @Test
     public void predictionInferHisNoneExistence1(){
         LOG.debug("Prediction infer his none existence");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .create();
 
@@ -76,7 +76,7 @@ public class PredictionTest {
     @Test
     public void predictionInferHisNoneExistence2(){
         LOG.debug("Prediction infer his none existence");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .create();
         BioPrediction bp0   = new BioPredictionBuilder().setName("bp0")
@@ -93,7 +93,7 @@ public class PredictionTest {
     @Test
     public void predictionInferHisPresenceAbsence1(){
         LOG.debug("Prediction infer his presence/absence");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .create();
         BioPrediction bp0   = new BioPredictionBuilder().setName("bp0")
@@ -117,7 +117,7 @@ public class PredictionTest {
     @Test
     public void predictionInferHisPresenceAbsence2(){
         LOG.debug("Prediction infer his presence/absence");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .create();
         BioPrediction bp0   = new BioPredictionBuilder().setName("bp0")
@@ -135,7 +135,7 @@ public class PredictionTest {
     @Test
     public void predictionInferHisAbsence(){
         LOG.debug("Prediction infer his none existence");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .create();
         BioPrediction bp0   = new BioPredictionBuilder().setName("bp0")
@@ -153,7 +153,7 @@ public class PredictionTest {
     @Test
     public void predictionInferHisPresence(){
         LOG.debug("Prediction infer his none existence");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .create();
         BioPrediction bp0   = new BioPredictionBuilder().setName("bp0")

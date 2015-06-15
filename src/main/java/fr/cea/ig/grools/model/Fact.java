@@ -41,11 +41,11 @@ import javax.validation.constraints.NotNull;
 /*
  * @startuml
  * interface Fact {
- *  + getId()      : String
- *  + getName()      : String
- *  + getSource()    : String
- *  + getDate()      : DateTime
- *  + getPresence()  : FourState
+ *  + getId()           : String
+ *  + getName()         : String
+ *  + getSource()       : String
+ *  + getDate()         : DateTime
+ *  + getPresence()     : FourState
  * }
  * hide Fact fields
  * @enduml

@@ -42,9 +42,10 @@ import java.math.BigDecimal;
 /*
  * @startuml
  * interface LogicStatistics{
- * + getCompleteness()              : Float
+ * + getPriorKnowledge()            : PriorKnowledge
+ * + getCompleteness()              : BigDecimal
  * + setCompleteness(int)           : void
- * + getConsistency()               : Float
+ * + getConsistency()               : BigDecimal
  * + setConsistency(int)            : void
  * }
  * hide  LogicStatistics fields
@@ -52,7 +53,7 @@ import java.math.BigDecimal;
  */
 public interface LogicStatistics {
 
-    public Knowledge getKnowledge();
+    public PriorKnowledge getPriorKnowledge();
 
     public BigDecimal getCompleteness();
 

@@ -46,8 +46,8 @@ import org.slf4j.LoggerFactory;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class KnowledgeTest {
-    private static final Logger LOG = (Logger) LoggerFactory.getLogger(KnowledgeTest.class);
+public class PriorKnowledgeTest {
+    private static final Logger LOG = (Logger) LoggerFactory.getLogger(PriorKnowledgeTest.class);
 
     private Grools grools;
 
@@ -62,15 +62,15 @@ public class KnowledgeTest {
     @Test
     public void andKnowledgeHasUnknownExistence1() {
         LOG.debug("And Knowledge has an unknown existence (1)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.AND)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -80,8 +80,8 @@ public class KnowledgeTest {
         grools.insert( bk2 );
         grools.fireAllRules();
 
-        grools.getObjects().stream().filter(o -> o instanceof BioKnowledge).forEach(o -> {
-            final BioKnowledge bk = ((BioKnowledge) o);
+        grools.getObjects().stream().filter(o -> o instanceof BioPriorKnowledge).forEach(o -> {
+            final BioPriorKnowledge bk = ((BioPriorKnowledge) o);
             LOG.debug(bk.toString());
             assertTrue(bk.getPresence() == FourState.UNKNOWN);
         });
@@ -92,15 +92,15 @@ public class KnowledgeTest {
     @Test
     public void andKnowledgeHasUnknownExistence2() {
         LOG.debug("And Knowledge has an unknown existence (2)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.AND)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -116,7 +116,7 @@ public class KnowledgeTest {
         grools.fireAllRules();
 
         grools.getKnowledges().forEach(o -> {
-            final BioKnowledge bk = ((BioKnowledge) o);
+            final BioPriorKnowledge bk = ((BioPriorKnowledge) o);
             LOG.debug(bk.toString());
             assertTrue(bk.getPresence() == FourState.UNKNOWN);
         });
@@ -127,15 +127,15 @@ public class KnowledgeTest {
     @Test
     public void andKnowledgeHasUnknownExistence3() {
         LOG.debug("And Knowledge has an unknown existence (3)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.AND)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -151,7 +151,7 @@ public class KnowledgeTest {
         grools.fireAllRules();
 
         grools.getKnowledges().forEach(o -> {
-            final BioKnowledge bk = ((BioKnowledge) o);
+            final BioPriorKnowledge bk = ((BioPriorKnowledge) o);
             LOG.debug(bk.toString());
             switch (bk.getName()) {
                 case "bk1": assertTrue(bk.getPresence() == FourState.TRUE); break;
@@ -165,15 +165,15 @@ public class KnowledgeTest {
     @Test
     public void andKnowledgeIsPresentAbsent1() {
         LOG.debug("And Knowledge is present/absent (1)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.AND)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -201,15 +201,15 @@ public class KnowledgeTest {
     @Test
     public void andKnowledgeIsPresentAbsent2() {
         LOG.debug("And Knowledge is present/absent (2)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.AND)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -237,15 +237,15 @@ public class KnowledgeTest {
     @Test
     public void andKnowledgeIsPresentAbsent3() {
         LOG.debug("And Knowledge is present/absent (3)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.AND)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -274,15 +274,15 @@ public class KnowledgeTest {
     @Test
     public void andKnowledgeIsPresentAbsent4(){
         LOG.debug("And Knowledge is present/absent (4)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.AND)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -311,15 +311,15 @@ public class KnowledgeTest {
     @Test
     public void andKnowledgeIsPresentAbsent5(){
         LOG.debug("And Knowledge is present/absent (5)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.AND)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -348,15 +348,15 @@ public class KnowledgeTest {
     @Test
     public void andKnowledgeIsAbsent1(){
             LOG.debug("And Knowledge is absent (1)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.AND)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -387,15 +387,15 @@ public class KnowledgeTest {
     @Test
     public void andKnowledgeIsAbsent2(){
         LOG.debug("And Knowledge is absent (2)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.AND)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -424,15 +424,15 @@ public class KnowledgeTest {
     @Test
     public void orKnowledgeHasNoneExistence1(){
         LOG.debug("Or Knowledge has an unknown existence(1)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.OR)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -462,15 +462,15 @@ public class KnowledgeTest {
     @Test
     public void orKnowledgeIsPresentAbsent1(){
         LOG.debug("Or Knowledge is present/absent (1)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.OR)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -500,15 +500,15 @@ public class KnowledgeTest {
     @Test
     public void orKnowledgeIsPresentAbsent2(){
         LOG.debug("Or Knowledge is present/absent (2)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.OR)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -537,15 +537,15 @@ public class KnowledgeTest {
     @Test
     public void orKnowledgeIsAbsent1(){
         LOG.debug("Or Knowledge is absent (1)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.OR)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -574,15 +574,15 @@ public class KnowledgeTest {
     @Test
     public void orKnowledgeIsPresent1(){
         LOG.debug("Or Knowledge is present (1)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.OR)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -611,15 +611,15 @@ public class KnowledgeTest {
     @Test
     public void orKnowledgeIsPresent2(){
         LOG.debug("Or Knowledge is present (2)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.OR)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -648,15 +648,15 @@ public class KnowledgeTest {
     @Test
     public void orKnowledgeIsPresent3(){
         LOG.debug("Or Knowledge is present (3)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.OR)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
@@ -685,15 +685,15 @@ public class KnowledgeTest {
     @Test
     public void orKnowledgeIsPresent4(){
         LOG.debug("Or Knowledge is present (4)");
-        BioKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
+        BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
                                                     .setSource("junit")
                                                     .setNodeType(NodeType.OR)
                                                     .create();
-        BioKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
+        BioPriorKnowledge bk1 = new BioKnowledgeBuilder().setName("bk1")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();
-        BioKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
+        BioPriorKnowledge bk2 = new BioKnowledgeBuilder().setName("bk2")
                                                     .setSource("junit")
                                                     .addPartOf(bk0)
                                                     .create();

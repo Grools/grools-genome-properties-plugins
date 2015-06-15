@@ -45,30 +45,30 @@ import java.util.List;
  * @startuml
  * class DuplicatedException{
  *  -id : String
- *  -knowledges: List<Knowledge>
+ *  -priorKnowledges: List<PriorKnowledge>
  *  +DuplicatedException(@NotNull final String id)
- *  +DuplicatedException(@NotNull final String id, @NotNull final List<Knowledge> knowledges)
- *  +add(@NotNull final Knowledge knowledge) : void
+ *  +DuplicatedException(@NotNull final String id, @NotNull final List<PriorKnowledge> priorKnowledges)
+ *  +add(@NotNull final PriorKnowledge knowledge) : void
  *  +getId() : String
- *  +getKnowledges() : List<Knowledge>
+ *  +getKnowledges() : List<PriorKnowledge>
  * }
  * @enduml
  */
 public class DuplicatedException {
     private final String id;
-    private List<Knowledge> knowledges;
+    private List<PriorKnowledge> priorKnowledges;
 
     public DuplicatedException(@NotNull final String id) {
-        this( id, new ArrayList<Knowledge>() );
+        this( id, new ArrayList<PriorKnowledge>() );
     }
 
-    public DuplicatedException(@NotNull final String id, @NotNull final List<Knowledge> knowledges) {
+    public DuplicatedException(@NotNull final String id, @NotNull final List<PriorKnowledge> priorKnowledges) {
         this.id = id;
-        this.knowledges = knowledges;
+        this.priorKnowledges = priorKnowledges;
     }
 
-    public void add(@NotNull final Knowledge knowledge){
-        knowledges.add(knowledge);
+    public void add(@NotNull final PriorKnowledge priorKnowledge){
+        priorKnowledges.add(priorKnowledge);
     }
 
     @NotNull
@@ -77,7 +77,7 @@ public class DuplicatedException {
     }
 
     @NotNull
-    public List<Knowledge> getKnowledges() {
-        return knowledges;
+    public List<PriorKnowledge> getPriorKnowledges() {
+        return priorKnowledges;
     }
 }

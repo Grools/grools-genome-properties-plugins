@@ -41,29 +41,33 @@ import java.util.List;
  */
 /*
  * @startuml
- * interface  Knowledge extends Fact{
- *  + getPartOf()       : Knowledge[]
+ * interface  PriorKnowledge extends Fact{
+ *  + getPartOf()       : PriorKnowledge[]
  *  + getNodeType()     : NodeType
  *  + getConclusion()   : Conclusion
+ *  + getIsA()          : List<PriorKnowledge>
+ *  + addIsA( PriorKnowledge k )             : void
+ *  + setConclusion( Conclusion conclusion ) : void
+ *  + setPresence( FourState presence )      : void
  * }
- * hide  Knowledge fields
+ * hide  PriorKnowledge fields
  * hide  Fact fields
- * Knowledge "0..*" *-- "1" Knowledge
+ * PriorKnowledge "0..*" *-- "1" PriorKnowledge
  * @enduml
  */
-public interface Knowledge extends Fact{
+public interface PriorKnowledge extends Fact{
     @NotNull
-    public Knowledge[]  getPartOf();
+    public PriorKnowledge[]  getPartOf();
     @NotNull
     public NodeType     getNodeType();
     @NotNull
     public Conclusion   getConclusion();
 
     public void setConclusion( final @NotNull Conclusion conclusion);
-    public void  setPresence( final @NotNull FourState presence );
+    public void setPresence( final @NotNull FourState presence );
 
     @NotNull
-    List<Knowledge> getIsA();
+    List<PriorKnowledge> getIsA();
 
-    public void addIsA(@NotNull Knowledge k);
+    public void addIsA(final @NotNull PriorKnowledge k);
 }

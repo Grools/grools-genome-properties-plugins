@@ -34,7 +34,7 @@ package fr.cea.ig.grools;
  */
 
 
-import fr.cea.ig.grools.model.Knowledge;
+import fr.cea.ig.grools.model.PriorKnowledge;
 import fr.cea.ig.grools.model.KnowledgeStatistics;
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
@@ -193,23 +193,23 @@ public final class Grools {
     }
 
 
-    public Knowledge hasKnowledgeId( @NotNull final String id ){
-        return query("hasKnowledgeId", id, "$knowledge",Knowledge.class);
+    public PriorKnowledge hasKnowledgeId( @NotNull final String id ){
+        return query("hasKnowledgeId", id, "$knowledge",PriorKnowledge.class);
     }
 
 
     @NotNull
-    public List<Knowledge> getSubKnowledge( @NotNull final Knowledge knowledge ){
-        final List<Knowledge> results = new ArrayList<>();
-        query("allSubKnowledge", knowledge,"$childs", results );
+    public List<PriorKnowledge> getSubKnowledge( @NotNull final PriorKnowledge priorKnowledge){
+        final List<PriorKnowledge> results = new ArrayList<>();
+        query("allSubKnowledge", priorKnowledge,"$childs", results );
         return results;
 
     }
 
 
     @NotNull
-    public List<Knowledge> getUnknownKnowledgesPresence( ){
-        List<Knowledge> results = new ArrayList<>();
+    public List<PriorKnowledge> getUnknownKnowledgesPresence( ){
+        List<PriorKnowledge> results = new ArrayList<>();
         query("knowledgePresenceIsUnknown", "$knowledges", results);
         return results;
 
@@ -217,8 +217,8 @@ public final class Grools {
 
 
     @NotNull
-    public List<Knowledge> getMissingKnowledgesConclusion( ){
-        List<Knowledge> results = new ArrayList<>();
+    public List<PriorKnowledge> getMissingKnowledgesConclusion( ){
+        List<PriorKnowledge> results = new ArrayList<>();
         query("knowledgeConclusionIsMissing","$knowledges", results);
         return results;
 
@@ -238,8 +238,8 @@ public final class Grools {
     }
 
 
-    public Stream<Knowledge> getKnowledges(){
-        return (Stream<Knowledge>) kieSession.getObjects().stream().filter(o -> o instanceof Knowledge);
+    public Stream<PriorKnowledge> getKnowledges(){
+        return (Stream<PriorKnowledge>) kieSession.getObjects().stream().filter(o -> o instanceof PriorKnowledge);
     }
 
     public Grools copy(){

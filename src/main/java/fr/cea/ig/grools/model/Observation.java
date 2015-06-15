@@ -42,8 +42,8 @@ import javax.validation.constraints.NotNull;
 /*
  * @startuml
  * interface Observation extends Fact {
- *  +getKnowledgeName()    : String
- *  +getEvidence()         : Evidence
+ *  +getPriorKnowledgeId()      : String
+ *  +getEvidence()              : Evidence
  * }
  * hide  Observation fields
  * hide  Fact fields
@@ -51,7 +51,7 @@ import javax.validation.constraints.NotNull;
  */
 public interface Observation extends Fact {
     @NotNull
-    String getKnowledgeId();
+    String getPriorKnowledgeId();
     @NotNull
     public Evidence getEvidence();
 }

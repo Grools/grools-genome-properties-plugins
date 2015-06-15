@@ -34,20 +34,20 @@
 
 package fr.cea.ig.grools;
 
-import fr.cea.ig.grools.model.Knowledge;
+import fr.cea.ig.grools.model.PriorKnowledge;
 import fr.cea.ig.grools.model.Relation;
 
 dialect "mvel"
 
 
-rule "Knowledge is a kind of knowledge"
+rule "PriorKnowledge is a kind of priorKnowledge"
 when
     $relation: Relation( type == "is_a" )
-    $knowledge1: Knowledge( name == $relation.objectIdReferred )
-    $knowledge2: Knowledge( name == $relation.objectIdLinked )
+    $priorKnowledge1: PriorKnowledge( name == $relation.objectIdReferred )
+    $priorKnowledge2: PriorKnowledge( name == $relation.objectIdLinked )
 then
     retract($relation);
-    modify( $knowledge2 ){
-        addIsA( $knowledge1 );
+    modify( $priorKnowledge2 ){
+        addIsA( $priorKnowledge1 );
     }
 end

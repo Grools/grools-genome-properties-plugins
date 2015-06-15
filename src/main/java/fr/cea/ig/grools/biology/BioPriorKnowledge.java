@@ -36,7 +36,7 @@ package fr.cea.ig.grools.biology;
 
 import fr.cea.ig.grools.model.Conclusion;
 import fr.cea.ig.grools.model.FourState;
-import fr.cea.ig.grools.model.Knowledge;
+import fr.cea.ig.grools.model.PriorKnowledge;
 import fr.cea.ig.grools.model.NodeType;
 import org.joda.time.DateTime;
 
@@ -54,10 +54,10 @@ import java.util.List;
  * }
  * @enduml
  */
-public final class BioKnowledge implements Knowledge {
+public final class BioPriorKnowledge implements PriorKnowledge {
 
-    private List<Knowledge> isA;
-    private final Knowledge[] partOf;
+    private List<PriorKnowledge> isA;
+    private final PriorKnowledge[] partOf;
     private final NodeType    nodeType;
     private final String      id;
     private final String      name;
@@ -66,7 +66,7 @@ public final class BioKnowledge implements Knowledge {
     private FourState presence;
     private       Conclusion  conclusion;
 
-    public BioKnowledge( @NotNull final List<Knowledge> isA, @NotNull final Knowledge[] partOf, @NotNull final NodeType nodeType, @NotNull final String id, @NotNull final String name, @NotNull final String source, @NotNull final DateTime date, @NotNull final FourState presence, @NotNull final Conclusion conclusion) {
+    public BioPriorKnowledge(@NotNull final List<PriorKnowledge> isA, @NotNull final PriorKnowledge[] partOf, @NotNull final NodeType nodeType, @NotNull final String id, @NotNull final String name, @NotNull final String source, @NotNull final DateTime date, @NotNull final FourState presence, @NotNull final Conclusion conclusion) {
         this.isA        = isA;
         this.partOf     = partOf.clone();
         this.nodeType   = nodeType;
@@ -79,17 +79,17 @@ public final class BioKnowledge implements Knowledge {
     }
 
     @Override @NotNull
-    public List<Knowledge> getIsA() {
+    public List<PriorKnowledge> getIsA() {
         return new ArrayList<>(isA);
     }
 
     @Override
-    public void addIsA( @NotNull final Knowledge k) {
+    public void addIsA( @NotNull final PriorKnowledge k) {
         this.isA.add(k);
     }
 
     @Override @NotNull
-    public Knowledge[] getPartOf() {
+    public PriorKnowledge[] getPartOf() {
         return partOf.clone();
     }
 
@@ -144,7 +144,7 @@ public final class BioKnowledge implements Knowledge {
         Formatter formatter = new Formatter();
         StringBuilder tmp = new StringBuilder();
         if( partOf != null && partOf.length > 0) {
-            for (Knowledge k : partOf){
+            for (PriorKnowledge k : partOf){
                 tmp.append(k.getName());
                 tmp.append("-");
             }

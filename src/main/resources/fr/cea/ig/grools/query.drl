@@ -34,7 +34,7 @@
 
 package fr.cea.ig.grools;
 
-import fr.cea.ig.grools.model.Knowledge;
+import fr.cea.ig.grools.model.PriorKnowledge;
 import fr.cea.ig.grools.model.FourState;
 import fr.cea.ig.grools.model.NodeType;
 import fr.cea.ig.grools.model.Conclusion;
@@ -46,71 +46,71 @@ dialect "mvel"
 
 
 
-query allSubKnowledge( Knowledge $parent )
-    $childs:= List() from collect ( Knowledge( $parent memberOf partOf ) )
+query allSubKnowledge( PriorKnowledge $parent )
+    $childs:= List() from collect ( PriorKnowledge( $parent memberOf partOf ) )
 end
 
 
-query allSubKnowledgeAreTrue( Knowledge $parent, List $childs )
-    $childs:= List() from collect ( Knowledge( $parent memberOf partOf ))
-    forall( Knowledge( presence == FourState.TRUE ) from $childs )
+query allSubKnowledgeAreTrue( PriorKnowledge $parent, List $childs )
+    $childs:= List() from collect ( PriorKnowledge( $parent memberOf partOf ))
+    forall( PriorKnowledge( presence == FourState.TRUE ) from $childs )
 end
 
 
-query allSubKnowledgeAreNone( Knowledge $parent, List $childs )
-    $childs:= List() from collect ( Knowledge( $parent memberOf partOf ))
-    forall( Knowledge( presence == FourState.UNKNOWN ) from $childs )
+query allSubKnowledgeAreNone( PriorKnowledge $parent, List $childs )
+    $childs:= List() from collect ( PriorKnowledge( $parent memberOf partOf ))
+    forall( PriorKnowledge( presence == FourState.UNKNOWN ) from $childs )
 end
 
 
-query allSubKnowledgeAreFalse( Knowledge $parent, List $childs )
-    $childs:= List() from collect ( Knowledge( $parent memberOf partOf ))
-    forall( Knowledge( presence == FourState.FALSE ) from $childs )
+query allSubKnowledgeAreFalse( PriorKnowledge $parent, List $childs )
+    $childs:= List() from collect ( PriorKnowledge( $parent memberOf partOf ))
+    forall( PriorKnowledge( presence == FourState.FALSE ) from $childs )
 end
 
 
-query allSubKnowledgeAreTrueAndFalse( Knowledge $parent, List $childs )
-    $childs:= List() from collect ( Knowledge( $parent memberOf partOf ))
-    Knowledge( presence == FourState.TRUE  ) from $childs
-    Knowledge( presence == FourState.FALSE  ) from $childs
-    forall( Knowledge( ( presence ( == FourState.TRUE || == FourState.FALSE) ) ) from $childs )
+query allSubKnowledgeAreTrueAndFalse( PriorKnowledge $parent, List $childs )
+    $childs:= List() from collect ( PriorKnowledge( $parent memberOf partOf ))
+    PriorKnowledge( presence == FourState.TRUE  ) from $childs
+    PriorKnowledge( presence == FourState.FALSE  ) from $childs
+    forall( PriorKnowledge( ( presence ( == FourState.TRUE || == FourState.FALSE) ) ) from $childs )
 end
 
-query knowledgeWithOneParent( Knowledge $parent, List $childs )
-    $childs:= List( size > 0 ) from collect ( Knowledge( $parent memberOf partOf && partOf.size == 1))
+query knowledgeWithOneParent( PriorKnowledge $parent, List $childs )
+    $childs:= List( size > 0 ) from collect ( PriorKnowledge( $parent memberOf partOf && partOf.size == 1))
 end
 
 query subKnowledgeHaveFalse( List $childs )
-    Knowledge( presence == FourState.FALSE ) from $childs
+    PriorKnowledge( presence == FourState.FALSE ) from $childs
 end
 
 
 query subKnowledgeHaveTrue( List $childs )
-    Knowledge(  presence == FourState.TRUE ) from $childs
+    PriorKnowledge(  presence == FourState.TRUE ) from $childs
 end
 
 
 query subKnowledgeHaveBoth( List $childs )
-    Knowledge(  presence == FourState.BOTH ) from $childs
+    PriorKnowledge(  presence == FourState.BOTH ) from $childs
 end
 
 
 query subKnowledgeHaveUnknown( List $childs )
-    Knowledge( presence == FourState.UNKNOWN ) from $childs
+    PriorKnowledge( presence == FourState.UNKNOWN ) from $childs
 end
 
 query presentSubknowledgeHaveOneParent( List $childs )
-    Knowledge( presence == FourState.TRUE && partOf.size == 1 ) from $childs
+    PriorKnowledge( presence == FourState.TRUE && partOf.size == 1 ) from $childs
 end
 
 query allKnowledges( List $knowledgeList )
-    $knowledgeList := List() from collect ( Knowledge() )
+    $knowledgeList := List() from collect ( PriorKnowledge() )
 end
 
 query predictionIsTrueAndFalse( String n )
-    Prediction( n := knowledgeId, presence == FourState.TRUE )
-    Prediction( n := knowledgeId, presence == FourState.FALSE )
-    not(Prediction( n := knowledgeId, presence == FourState.UNKNOWN ))
+    Prediction( n := priorKnowledgeId, presence == FourState.TRUE )
+    Prediction( n := priorKnowledgeId, presence == FourState.FALSE )
+    not(Prediction( n := priorKnowledgeId, presence == FourState.UNKNOWN ))
 end
 
 
@@ -119,28 +119,28 @@ query allKnowledgeStatistics( List $knowledgeStatisticsList )
 end
 
 
-query specificKnowledgeStatistics( String $knowledgeId )
-    $k                      : Knowledge( $knowledgeId := id )
-    $knowledgeStatistics    : KnowledgeStatistics( $k := knowledge )
+query specificKnowledgeStatistics( String $priorKnowledgeId )
+    $k                      : PriorKnowledge( $priorKnowledgeId := id )
+    $knowledgeStatistics    : KnowledgeStatistics( $k := priorKnowledge )
 end
 
 
 query hasKnowledgeName( String $name )
-    $knowledges: List() from collect ( Knowledge( name == $name ) )
+    $knowledges: List() from collect ( PriorKnowledge( name == $name ) )
 end
 
 
 query hasKnowledgeId( String $id )
-    $knowledge: Knowledge( id == $id )
+    $knowledge: PriorKnowledge( id == $id )
 end
 
 
 query knowledgePresenceIsUnknown(  )
-    $knowledges:= List() from collect ( Knowledge( presence == FourState.UNKNOWN ) )
+    $knowledges:= List() from collect ( PriorKnowledge( presence == FourState.UNKNOWN ) )
 end
 
 query knowledgeConclusionIsMissing(  )
-    $knowledges:= List() from collect ( Knowledge( conclusion == Conclusion.MISSING ) )
+    $knowledges:= List() from collect ( PriorKnowledge( conclusion == Conclusion.MISSING ) )
 end
 
 

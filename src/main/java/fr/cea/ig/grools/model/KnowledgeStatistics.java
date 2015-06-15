@@ -42,31 +42,31 @@ import java.math.BigDecimal;
 /*
  * @startuml
  * class KnowledgeStatistics implements LogicStatistics{
- * - knowledge                      : Knowledge
- * - completeness                   : float
- * - consistency                  : float
- * + KnowledgeStatistics(Knowledge) : void
- * + getCompleteness()              : float
- * + setCompleteness(int)           : void
- * + getConsistency()             : float
- * + setConsistency(int)          : void
+ * - priorKnowledge                         : PriorKnowledge
+ * - completeness                           : BigDecimal
+ * - consistency                            : BigDecimal
+ * + KnowledgeStatistics(PriorKnowledge)    : void
+ * + getCompleteness()                      : BigDecimal
+ * + setCompleteness(int)                   : void
+ * + getConsistency()                       : BigDecimal
+ * + setConsistency(int)                    : void
  * }
  * @enduml
  */
 public class KnowledgeStatistics implements LogicStatistics {
-    private final   Knowledge   knowledge;
+    private final PriorKnowledge priorKnowledge;
 
     private         BigDecimal       completeness;
     private         BigDecimal       consistency;
 
-    public KnowledgeStatistics( final Knowledge knowledge ){
-        this.knowledge  = knowledge;
+    public KnowledgeStatistics( final PriorKnowledge priorKnowledge){
+        this.priorKnowledge = priorKnowledge;
         completeness    = new BigDecimal(0);
         consistency     = new BigDecimal(0);
     }
 
-    public Knowledge getKnowledge(){
-        return knowledge;
+    public PriorKnowledge getPriorKnowledge(){
+        return priorKnowledge;
     }
 
     public BigDecimal getCompleteness() {
@@ -87,6 +87,6 @@ public class KnowledgeStatistics implements LogicStatistics {
 
     @Override
     public String toString(){
-        return String.format( "Knowledge %s has : completeness %f consistency %f", knowledge.getName(), completeness, consistency );
+        return String.format( "PriorKnowledge %s has : completeness %f consistency %f", priorKnowledge.getName(), completeness, consistency );
     }
 }

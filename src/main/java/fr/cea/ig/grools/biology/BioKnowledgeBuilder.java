@@ -2,7 +2,7 @@ package fr.cea.ig.grools.biology;
 
 import fr.cea.ig.grools.model.Conclusion;
 import fr.cea.ig.grools.model.FourState;
-import fr.cea.ig.grools.model.Knowledge;
+import fr.cea.ig.grools.model.PriorKnowledge;
 import fr.cea.ig.grools.model.NodeType;
 import org.joda.time.DateTime;
 
@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class BioKnowledgeBuilder {
-    private List<Knowledge> isA         = new ArrayList<>();
-    private List<Knowledge> partOf      = new ArrayList<>();
+    private List<PriorKnowledge> isA         = new ArrayList<>();
+    private List<PriorKnowledge> partOf      = new ArrayList<>();
     private NodeType        nodeType    = NodeType.LEAF;
     private DateTime        date        = DateTime.now();
     private FourState       presence    = FourState.UNKNOWN;
@@ -22,25 +22,25 @@ public final class BioKnowledgeBuilder {
     private String          source      = "";
 
     @NotNull
-    public BioKnowledgeBuilder setIsA( @NotNull final List<Knowledge> isA) {
+    public BioKnowledgeBuilder setIsA( @NotNull final List<PriorKnowledge> isA) {
         this.isA = isA;
         return this;
     }
 
     @NotNull
-    public BioKnowledgeBuilder addIsA( @NotNull final Knowledge k) {
+    public BioKnowledgeBuilder addIsA( @NotNull final PriorKnowledge k) {
         this.isA.add(k);
         return this;
     }
 
     @NotNull
-    public BioKnowledgeBuilder setPartOf( @NotNull final List<Knowledge> partOf) {
+    public BioKnowledgeBuilder setPartOf( @NotNull final List<PriorKnowledge> partOf) {
         this.partOf = partOf;
         return this;
     }
 
     @NotNull
-    public BioKnowledgeBuilder addPartOf( @NotNull final Knowledge k) {
+    public BioKnowledgeBuilder addPartOf( @NotNull final PriorKnowledge k) {
         this.partOf.add(k);
         return this;
     }
@@ -88,12 +88,12 @@ public final class BioKnowledgeBuilder {
     }
 
     @NotNull
-    public BioKnowledge create() {
+    public BioPriorKnowledge create() {
         if ( id.isEmpty() ){
             assert (!name.isEmpty());
             id = name;
         }
-        Knowledge[] array = partOf.toArray( new Knowledge[partOf.size()] );
-        return new BioKnowledge(isA, array, nodeType, id, name, source, date, presence, conclusion);
+        PriorKnowledge[] array = partOf.toArray( new PriorKnowledge[partOf.size()] );
+        return new BioPriorKnowledge(isA, array, nodeType, id, name, source, date, presence, conclusion);
     }
 }

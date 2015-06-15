@@ -34,7 +34,7 @@
 
 package fr.cea.ig.grools;
 
-import fr.cea.ig.grools.model.Knowledge;
+import fr.cea.ig.grools.model.PriorKnowledge;
 import fr.cea.ig.grools.model.KnowledgeStatistics;
 import fr.cea.ig.grools.model.LogicStatistics;
 import fr.cea.ig.grools.model.FourState;
@@ -45,12 +45,12 @@ dialect "mvel"
 
 rule "insert KnowledgeStatistics"
     when
-        $k:    Knowledge( )
+        $k:    PriorKnowledge( )
         not(
-                exists( Knowledge( this memberOf $k.partOf) )
+                exists( PriorKnowledge( this memberOf $k.partOf) )
             )
         not(
-                exists( LogicStatistics( $k := knowledge ) )
+                exists( LogicStatistics( $k := priorKnowledge ) )
             )
     then
         insert( new KnowledgeStatistics( $k ) );
@@ -58,10 +58,10 @@ end
 
 rule "compute completeness when knwoledge is present"
     when
-         $k:    Knowledge( presence == FourState.TRUE )
-         $childs: List() from collect ( Knowledge( $k memberOf partOf ))
-         $counter: Number() from accumulate( $child: Knowledge( presence == FourState.TRUE ) from $childs, count( $child ) )
-         $ls:   LogicStatistics( $k := knowledge, completeness < (($counter+1) * 100.0 / ($childs.size() + 1))-0.00001 )
+         $k:    PriorKnowledge( presence == FourState.TRUE )
+         $childs: List() from collect ( PriorKnowledge( $k memberOf partOf ))
+         $counter: Number() from accumulate( $child: PriorKnowledge( presence == FourState.TRUE ) from $childs, count( $child ) )
+         $ls:   LogicStatistics( $k := priorKnowledge, completeness < (($counter+1) * 100.0 / ($childs.size() + 1))-0.00001 )
     then
         modify( $ls ){
             completeness = ($counter+1) * 100.0 / ($childs.size() + 1);
@@ -70,10 +70,10 @@ end
 
 rule "compute completeness when knwoledge is absent"
     when
-         $k:    Knowledge( presence == FourState.FALSE )
-         $childs: List() from collect ( Knowledge( $k memberOf partOf ))
-         $counter: Number() from accumulate( $child: Knowledge( presence == FourState.TRUE ) from $childs, count( $child ) )
-         $ls:   LogicStatistics( $k := knowledge, completeness < ($counter * 100.0 / ($childs.size() + 1))-0.00001 )
+         $k:    PriorKnowledge( presence == FourState.FALSE )
+         $childs: List() from collect ( PriorKnowledge( $k memberOf partOf ))
+         $counter: Number() from accumulate( $child: PriorKnowledge( presence == FourState.TRUE ) from $childs, count( $child ) )
+         $ls:   LogicStatistics( $k := priorKnowledge, completeness < ($counter * 100.0 / ($childs.size() + 1))-0.00001 )
     then
         modify( $ls ){
             completeness = $counter * 100.0 / ($childs.size() + 1);
@@ -83,16 +83,16 @@ end
 
 rule "compute consistency 1"
     when
-         $k:    Knowledge( conclusion (== Conclusion.CONFIRMED_PRESENCE || == Conclusion.CONFIRMED_ABSENCE || == Conclusion.UNCONFIRMED_PRESENCE || == Conclusion.UNCONFIRMED_ABSENCE) )
-         $childs:  List() from collect ( Knowledge( $k memberOf partOf ))
-         $counter: Number() from accumulate( $child : Knowledge( conclusion (
+         $k:    PriorKnowledge( conclusion (== Conclusion.CONFIRMED_PRESENCE || == Conclusion.CONFIRMED_ABSENCE || == Conclusion.UNCONFIRMED_PRESENCE || == Conclusion.UNCONFIRMED_ABSENCE) )
+         $childs:  List() from collect ( PriorKnowledge( $k memberOf partOf ))
+         $counter: Number() from accumulate( $child : PriorKnowledge( conclusion (
                                                                                 == Conclusion.CONFIRMED_PRESENCE    ||
                                                                                 == Conclusion.CONFIRMED_ABSENCE     ||
                                                                                 == Conclusion.UNCONFIRMED_PRESENCE  ||
                                                                                 == Conclusion.UNCONFIRMED_ABSENCE
                                                                                )
                                                                ) from $childs, count( $child ) )
-         $ls:   LogicStatistics( $k := knowledge, consistency  < (($counter+1) * 100.0 / ($childs.size() +1 ))-0.00001 )
+         $ls:   LogicStatistics( $k := priorKnowledge, consistency  < (($counter+1) * 100.0 / ($childs.size() +1 ))-0.00001 )
     then
         modify( $ls ){
             consistency = ($counter+1) * 100.0 / ($childs.size() +1 );
@@ -103,16 +103,16 @@ end
 
 rule "compute consistency 2"
     when
-         $k:    Knowledge(  )
-         $childs: List() from collect ( Knowledge( $k memberOf partOf ))
-         $counter: Number() from accumulate( $child : Knowledge( conclusion (
+         $k:    PriorKnowledge(  )
+         $childs: List() from collect ( PriorKnowledge( $k memberOf partOf ))
+         $counter: Number() from accumulate( $child : PriorKnowledge( conclusion (
                                                                                 == Conclusion.CONFIRMED_PRESENCE    ||
                                                                                 == Conclusion.CONFIRMED_ABSENCE     ||
                                                                                 == Conclusion.UNCONFIRMED_PRESENCE  ||
                                                                                 == Conclusion.UNCONFIRMED_ABSENCE
                                                                                )
                                                                ) from $childs, count( $child ) )
-         $ls:   LogicStatistics( $k := knowledge, consistency  < ($counter * 100.0 / ($childs.size() +1 ) )-0.00001 )
+         $ls:   LogicStatistics( $k := priorKnowledge, consistency  < ($counter * 100.0 / ($childs.size() +1 ) )-0.00001 )
     then
         modify( $ls ){
             consistency =  $counter * 100.0 / ($childs.size() +1 );

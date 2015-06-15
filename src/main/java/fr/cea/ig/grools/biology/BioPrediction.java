@@ -55,16 +55,16 @@ public final class BioPrediction implements Prediction {
 
     private final   String      id;
     private final   String      name;
-    private final   String      knowledgeId;
+    private final   String      priorKnowledgeId;
     private final   String      source;
     private final   DateTime    date;
     private FourState presence;
     private Evidence evidence;
 
-    public BioPrediction(@NotNull final String id, @NotNull final String name, @NotNull final String knowledgeId, @NotNull final String source, @NotNull final DateTime date, @NotNull final FourState presence, @NotNull final Evidence evidence) {
+    public BioPrediction(@NotNull final String id, @NotNull final String name, @NotNull final String priorKnowledgeId, @NotNull final String source, @NotNull final DateTime date, @NotNull final FourState presence, @NotNull final Evidence evidence) {
         this.id             = id;
         this.name           = name;
-        this.knowledgeId    = knowledgeId;
+        this.priorKnowledgeId    = priorKnowledgeId;
         this.source         = source;
         this.date           = date;
         this.presence       = presence;
@@ -82,8 +82,8 @@ public final class BioPrediction implements Prediction {
     }
 
     @Override @NotNull
-    public String getKnowledgeId() {
-        return knowledgeId;
+    public String getPriorKnowledgeId() {
+        return priorKnowledgeId;
     }
 
     @Override @NotNull
@@ -109,6 +109,6 @@ public final class BioPrediction implements Prediction {
     @Override @NotNull
     public String toString(){
         Formatter formatter = new Formatter();
-        return formatter.format("PREDICTION(%s) SOURCE(%s) KNAME(%s) PRESENCE(%s) EVIDENCE(%s)", name, source, knowledgeId, presence, evidence).toString();
+        return formatter.format("PREDICTION(%s) SOURCE(%s) KNAME(%s) PRESENCE(%s) EVIDENCE(%s)", name, source, priorKnowledgeId, presence, evidence).toString();
     }
 }

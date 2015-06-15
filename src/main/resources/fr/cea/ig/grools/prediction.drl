@@ -34,7 +34,7 @@
 
 package fr.cea.ig.grools;
 
-import fr.cea.ig.grools.model.Knowledge;
+import fr.cea.ig.grools.model.PriorKnowledge;
 import fr.cea.ig.grools.model.FourState;
 import fr.cea.ig.grools.model.Prediction;
 import fr.cea.ig.grools.model.NodeType;
@@ -44,11 +44,11 @@ dialect "mvel"
 
 rule "Prediction infer his none existence"
     when
-        $k: Knowledge( $kid := id, nodeType == NodeType.LEAF, presence != FourState.UNKNOWN )
+        $k: PriorKnowledge( $kid := id, nodeType == NodeType.LEAF, presence != FourState.UNKNOWN )
         (
             or
-            not( Prediction( $kid := knowledgeId ) )
-            Prediction( $kid := knowledgeId, presence == FourState.UNKNOWN )
+            not( Prediction( $kid := priorKnowledgeId ) )
+            Prediction( $kid := priorKnowledgeId, presence == FourState.UNKNOWN )
          )
     then
         modify( $k ){
@@ -59,11 +59,11 @@ end
 
 rule "Prediction infer his presence/absence"
     when
-        $k: Knowledge( $kid := id, nodeType == NodeType.LEAF, presence != FourState.BOTH )
+        $k: PriorKnowledge( $kid := id, nodeType == NodeType.LEAF, presence != FourState.BOTH )
         (
             or
             predictionIsTrueAndFalse( $kid; )
-            Prediction( $kid := knowledgeId, presence == FourState.BOTH )
+            Prediction( $kid := priorKnowledgeId, presence == FourState.BOTH )
          )
     then
         modify( $k ){
@@ -74,9 +74,9 @@ end
 
 rule "Prediction infer his absence"
     when
-        $k: Knowledge( $kid := id, nodeType == NodeType.LEAF, presence != FourState.FALSE )
-        Prediction( $kid := knowledgeId, presence == FourState.FALSE )
-        not( Prediction( $kid := knowledgeId, presence == FourState.TRUE ) )
+        $k: PriorKnowledge( $kid := id, nodeType == NodeType.LEAF, presence != FourState.FALSE )
+        Prediction( $kid := priorKnowledgeId, presence == FourState.FALSE )
+        not( Prediction( $kid := priorKnowledgeId, presence == FourState.TRUE ) )
     then
         modify( $k ){
             presence = FourState.FALSE
@@ -86,9 +86,9 @@ end
 
 rule "Prediction infer his presence"
     when
-        $k: Knowledge( $kid := id, nodeType == NodeType.LEAF, presence != FourState.TRUE )
-        Prediction( $kid := knowledgeId, presence == FourState.TRUE )
-        not( Prediction( $kid := knowledgeId, presence == FourState.FALSE ) )
+        $k: PriorKnowledge( $kid := id, nodeType == NodeType.LEAF, presence != FourState.TRUE )
+        Prediction( $kid := priorKnowledgeId, presence == FourState.TRUE )
+        not( Prediction( $kid := priorKnowledgeId, presence == FourState.FALSE ) )
     then
         modify( $k ){
             presence = FourState.TRUE
