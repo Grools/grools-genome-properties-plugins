@@ -21,19 +21,15 @@ apply plugin: 'com.bmuschko.nexus'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-version = '1.0'
-group = 'fr.cea.ig'
+version     = '1.0'
+group       = 'fr.cea.ig'
 description = projectDescription
 
 repositories {
     mavenLocal()
     mavenCentral()
-    maven {
-        url "http://repository.jboss.org/nexus/content/groups/public"
-    }
-    maven {
-        url "https://gsphere.genoscope.cns.fr/nexus/content/groups/public"
-    }
+    maven { url "http://repository.jboss.org/nexus/content/groups/public" }
+    maven { url "https://gsphere.genoscope.cns.fr/nexus/content/groups/public" }
 }
 
 dependencies {
