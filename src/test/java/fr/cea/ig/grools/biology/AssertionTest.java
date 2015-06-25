@@ -751,31 +751,31 @@ public class AssertionTest {
     public void complex1(){
         LOG.debug("complex1");
         BioPriorKnowledge bk0 = new BioKnowledgeBuilder().setName("bk0")
-                                                    .setSource("junit")
-                                                    .setNodeType(NodeType.AND)
-                                                    .create();
+                                                         .setSource("junit")
+                                                         .setNodeType(NodeType.AND)
+                                                         .create();
         BioPriorKnowledge bk01 = new BioKnowledgeBuilder().setName("bk01")
-                                                    .setSource("junit")
-                                                    .setNodeType(NodeType.AND)
-                                                    .addPartOf(bk0)
-                                                    .create();
+                                                          .setSource("junit")
+                                                          .setNodeType(NodeType.AND)
+                                                          .addPartOf(bk0)
+                                                          .create();
         BioPriorKnowledge bk02 = new BioKnowledgeBuilder().setName("bk02")
-                                                    .setSource("junit")
-                                                    .addPartOf(bk0)
-                                                    .create();
+                                                          .setSource("junit")
+                                                          .addPartOf(bk0)
+                                                          .create();
         BioPriorKnowledge bk011 = new BioKnowledgeBuilder().setName("bk011")
-                                                      .setSource("junit")
-                                                      .addPartOf(bk01)
-                                                      .create();
+                                                           .setSource("junit")
+                                                           .addPartOf(bk01)
+                                                           .create();
         BioPriorKnowledge bk012 = new BioKnowledgeBuilder().setName("bk012")
-                                                      .setSource("junit")
-                                                      .addPartOf(bk01)
-                                                      .create();
+                                                           .setSource("junit")
+                                                           .addPartOf(bk01)
+                                                           .create();
 
         BioPrediction bp011 = new BioPredictionBuilder().setName("bp011")
-                                                      .setKnowledgeName("bk011")
-                                                      .setPresence(FourState.TRUE)
-                                                      .create();
+                                                        .setKnowledgeName("bk011")
+                                                        .setPresence(FourState.TRUE)
+                                                        .create();
         BioPrediction bp012 = new BioPredictionBuilder().setName("bp012")
                                                         .setKnowledgeName("bk012")
                                                         .setPresence(FourState.TRUE)
@@ -787,7 +787,7 @@ public class AssertionTest {
 
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                                                     .setKnowledgeId("bk0")
-                .setSource("junit")
+                                                    .setSource("junit")
                                                     .setPresence(FourState.TRUE)
                                                     .create();
         grools.insert( bk0 );
@@ -801,7 +801,7 @@ public class AssertionTest {
         grools.insert( ba0 );
         grools.fireAllRules();
 
-        assertTrue(bk0.getPresence() == FourState.BOTH);
+        assertTrue(bk0.getPresence() == FourState.FALSE);
         assertTrue(bk01.getPresence() == FourState.TRUE);
         assertTrue(bk02.getPresence() == FourState.FALSE);
         assertTrue(bk011.getPresence() == FourState.TRUE);

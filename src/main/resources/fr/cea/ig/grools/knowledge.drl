@@ -47,20 +47,8 @@ rule "And PriorKnowledge is present/absent"
     when
         $k: PriorKnowledge( presence != FourState.BOTH, nodeType == NodeType.AND )
         $childs: List() from collect ( PriorKnowledge( $k memberOf partOf ) )
-        (
-            (
-                and
-                PriorKnowledge( presence == FourState.TRUE ) from $childs
-                PriorKnowledge( presence == FourState.FALSE ) from $childs
-            )
-            or
-            (
-                and
-                PriorKnowledge(  presence == FourState.BOTH ) from $childs
-                not( PriorKnowledge( presence == FourState.FALSE  ) from $childs )
-            )
-        )
-
+        PriorKnowledge(  presence == FourState.BOTH ) from $childs
+        not( PriorKnowledge( presence == FourState.FALSE  ) from $childs )
     then
         modify( $k ){
             presence = FourState.BOTH
@@ -68,12 +56,26 @@ rule "And PriorKnowledge is present/absent"
 end
 
 
-rule "And PriorKnowledge is absent"
+rule "And PriorKnowledge is absent strong mode"
     when
         $k: PriorKnowledge( presence != FourState.FALSE, nodeType == NodeType.AND )
         $childs: List() from collect ( PriorKnowledge( $k memberOf partOf ) )
+        Mode( mode == "STRONG")
         PriorKnowledge( presence == FourState.FALSE ) from $childs
-        not(PriorKnowledge(  presence == FourState.TRUE ) from $childs )
+    then
+        modify( $k ){
+            presence = FourState.FALSE
+        }
+end
+
+
+rule "And PriorKnowledge is absent weak mode"
+    when
+        $k: PriorKnowledge( presence != FourState.FALSE, nodeType == NodeType.AND )
+        Mode( mode == "WEAK")
+        $childs: List( size > 0 ) from collect ( PriorKnowledge( $k memberOf partOf && partOf.size == 1))
+        not( PriorKnowledge(  presence == FourState.TRUE ) from $childs )
+        PriorKnowledge( presence == FourState.FALSE ) from $childs
     then
         modify( $k ){
             presence = FourState.FALSE
@@ -85,7 +87,7 @@ rule "And PriorKnowledge is present strong mode"
     when
         $k: PriorKnowledge( presence != FourState.TRUE, nodeType == NodeType.AND )
         Mode( mode == "STRONG")
-        $childs:= List() from collect ( PriorKnowledge( $k memberOf partOf ))
+        $childs: List() from collect ( PriorKnowledge( $k memberOf partOf ))
         forall( PriorKnowledge( presence == FourState.TRUE ) from $childs )
     then
         modify( $k ){
@@ -98,7 +100,7 @@ rule "And PriorKnowledge is present weak mode"
     when
         $k: PriorKnowledge( presence != FourState.TRUE, nodeType == NodeType.AND )
         Mode( mode == "WEAK")
-        $childs:= List( size > 0 ) from collect ( PriorKnowledge( $k memberOf partOf && partOf.size == 1))
+        $childs: List( size > 0 ) from collect ( PriorKnowledge( $k memberOf partOf && partOf.size == 1))
         PriorKnowledge(  presence == FourState.TRUE ) from $childs
     then
         modify( $k ){
@@ -113,7 +115,6 @@ rule "Or PriorKnowledge is present/absent"
         $childs: List() from collect ( PriorKnowledge( $k memberOf partOf ) )
         not( PriorKnowledge(  presence == FourState.TRUE ) from $childs )
         PriorKnowledge(  presence == FourState.BOTH ) from $childs
-        PriorKnowledge( presence ( == FourState.FALSE || == FourState.BOTH ) ) from $childs
     then
         modify( $k ){
             presence = FourState.BOTH
