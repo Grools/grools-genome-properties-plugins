@@ -117,5 +117,5 @@ rule "compute consistency 2"
         modify( $ls ){
             consistency =  $counter * 100.0 / ($childs.size() +1 );
         }
-        System.out.println( "consistency =  "+Integer.toString($counter)+" * 100.0 / ("+Integer.toString($childs.size())+" +1)" );
+        //System.out.println( "consistency =  "+Integer.toString($counter)+" * 100.0 / ("+Integer.toString($childs.size())+" +1)" );
 end
