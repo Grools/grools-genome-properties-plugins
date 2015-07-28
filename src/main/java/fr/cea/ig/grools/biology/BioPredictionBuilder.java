@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 public final class BioPredictionBuilder {
     private String      id              = "";
     private String      name            = "";
-    private String      knowledgeName   = "";
+    private String      knowledgeId     = "";
     private String      source          = "";
     private DateTime    date            = DateTime.now();
     private FourState   presence        = FourState.TRUE;
@@ -28,8 +28,8 @@ public final class BioPredictionBuilder {
     }
 
     @NotNull
-    public BioPredictionBuilder setKnowledgeName(@NotNull final String knowledgeName) {
-        this.knowledgeName = knowledgeName;
+    public BioPredictionBuilder setKnowledgeId(@NotNull final String knowledgeId) {
+        this.knowledgeId = knowledgeId;
         return this;
     }
 
@@ -62,6 +62,6 @@ public final class BioPredictionBuilder {
             assert (!name.isEmpty());
             id = name;
         }
-        return new BioPrediction(id, name, knowledgeName, source, date, presence, evidence);
+        return new BioPrediction(id, name, knowledgeId, source, date, presence, evidence);
     }
 }

@@ -77,12 +77,12 @@ public class StatisticsTest {
                 .addPartOf(bk0)
                 .create();
         BioPrediction bp01= new BioPredictionBuilder().setName("bp01")
-                .setKnowledgeName("bk01")
+                .setKnowledgeId("bk01")
                 .setSource("junit")
                 .setPresence(FourState.FALSE)
                 .create();
         BioPrediction bp02= new BioPredictionBuilder().setName("bp02")
-                .setKnowledgeName("bk02")
+                .setKnowledgeId("bk02")
                 .setSource("junit")
                 .setPresence(FourState.FALSE)
                 .create();
@@ -116,12 +116,12 @@ public class StatisticsTest {
                 .addPartOf(bk0)
                 .create();
         BioPrediction bp01= new BioPredictionBuilder().setName("bp01")
-                .setKnowledgeName("bk01")
+                .setKnowledgeId("bk01")
                 .setSource("junit")
                 .setPresence(FourState.TRUE)
                 .create();
         BioPrediction bp02= new BioPredictionBuilder().setName("bp02")
-                .setKnowledgeName("bk02")
+                .setKnowledgeId("bk02")
                 .setSource("junit")
                 .setPresence(FourState.TRUE)
                 .create();
@@ -155,12 +155,12 @@ public class StatisticsTest {
                 .addPartOf(bk0)
                 .create();
         BioPrediction bp01= new BioPredictionBuilder().setName("bp01")
-                .setKnowledgeName("bk01")
+                .setKnowledgeId("bk01")
                 .setSource("junit")
                 .setPresence(FourState.FALSE)
                 .create();
         BioPrediction bp02= new BioPredictionBuilder().setName("bp02")
-                .setKnowledgeName("bk02")
+                .setKnowledgeId("bk02")
                 .setSource("junit")
                 .setPresence(FourState.FALSE)
                 .create();

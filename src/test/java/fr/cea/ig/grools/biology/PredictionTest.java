@@ -80,7 +80,7 @@ public class PredictionTest {
                                                     .setSource("junit")
                                                     .create();
         BioPrediction bp0   = new BioPredictionBuilder().setName("bp0")
-                                                        .setKnowledgeName("bk0")
+                                                        .setKnowledgeId("bk0")
                                                         .setPresence(FourState.UNKNOWN)
                                                         .create();
         grools.insert( bk0 );
@@ -97,11 +97,11 @@ public class PredictionTest {
                                                     .setSource("junit")
                                                     .create();
         BioPrediction bp0   = new BioPredictionBuilder().setName("bp0")
-                                                        .setKnowledgeName("bk0")
+                                                        .setKnowledgeId("bk0")
                                                         .setPresence(FourState.TRUE)
                                                         .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                                                        .setKnowledgeName("bk0")
+                                                        .setKnowledgeId("bk0")
                                                         .setPresence(FourState.FALSE)
                                                         .create();
         grools.insert( bk0 );
@@ -121,7 +121,7 @@ public class PredictionTest {
                                                     .setSource("junit")
                                                     .create();
         BioPrediction bp0   = new BioPredictionBuilder().setName("bp0")
-                                                        .setKnowledgeName("bk0")
+                                                        .setKnowledgeId("bk0")
                                                         .setPresence(FourState.BOTH)
                                                         .create();
         grools.insert( bk0 );
@@ -139,7 +139,7 @@ public class PredictionTest {
                                                     .setSource("junit")
                                                     .create();
         BioPrediction bp0   = new BioPredictionBuilder().setName("bp0")
-                                                        .setKnowledgeName("bk0")
+                                                        .setKnowledgeId("bk0")
                                                         .setPresence(FourState.FALSE)
                                                         .create();
         grools.insert( bk0 );
@@ -157,7 +157,7 @@ public class PredictionTest {
                                                     .setSource("junit")
                                                     .create();
         BioPrediction bp0   = new BioPredictionBuilder().setName("bp0")
-                                                        .setKnowledgeName("bk0")
+                                                        .setKnowledgeId("bk0")
                                                         .setPresence(FourState.TRUE)
                                                         .create();
         grools.insert( bk0 );

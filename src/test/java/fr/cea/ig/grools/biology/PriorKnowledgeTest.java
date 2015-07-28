@@ -105,7 +105,7 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1 = new BioPredictionBuilder().setName("bp1")
-                                                    .setKnowledgeName("bk1")
+                                                    .setKnowledgeId("bk1")
                                                     .setPresence(FourState.UNKNOWN)
                                                     .create();
 
@@ -140,7 +140,7 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1 = new BioPredictionBuilder().setName("bp1")
-                                                    .setKnowledgeName("bk1")
+                                                    .setKnowledgeId("bk1")
                                                     .setPresence(FourState.TRUE)
                                                     .create();
 
@@ -178,11 +178,11 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                                                        .setKnowledgeName("bk1")
+                                                        .setKnowledgeId("bk1")
                                                         .setPresence(FourState.TRUE)
                                                         .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                                                        .setKnowledgeName("bk2")
+                                                        .setKnowledgeId("bk2")
                                                         .setPresence(FourState.BOTH)
                                                         .create();
 
@@ -214,11 +214,11 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                                                        .setKnowledgeName("bk1")
+                                                        .setKnowledgeId("bk1")
                                                         .setPresence(FourState.BOTH)
                                                         .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                                                        .setKnowledgeName("bk2")
+                                                        .setKnowledgeId("bk2")
                                                         .setPresence(FourState.BOTH)
                                                         .create();
 
@@ -250,11 +250,11 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                                                        .setKnowledgeName("bk1")
+                                                        .setKnowledgeId("bk1")
                                                         .setPresence(FourState.UNKNOWN)
                                                         .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                                                        .setKnowledgeName("bk2")
+                                                        .setKnowledgeId("bk2")
                                                         .setPresence(FourState.BOTH)
                                                         .create();
 
@@ -287,15 +287,15 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1a  = new BioPredictionBuilder().setName("bp1")
-                                                    .setKnowledgeName("bk1")
+                                                    .setKnowledgeId("bk1")
                                                     .setPresence(FourState.TRUE)
                                                     .create();
         BioPrediction bp1b  = new BioPredictionBuilder().setName("bp1")
-                                                    .setKnowledgeName("bk1")
+                                                    .setKnowledgeId("bk1")
                                                     .setPresence(FourState.FALSE)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                                                    .setKnowledgeName("bk2")
+                                                    .setKnowledgeId("bk2")
                                                     .setPresence(FourState.BOTH)
                                                     .create();
 
@@ -329,11 +329,11 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                                                        .setKnowledgeName("bk1")
+                                                        .setKnowledgeId("bk1")
                                                         .setPresence(FourState.FALSE)
                                                         .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                                                        .setKnowledgeName("bk2")
+                                                        .setKnowledgeId("bk2")
                                                         .setPresence(FourState.FALSE)
                                                         .create();
 
@@ -368,11 +368,11 @@ public class PriorKnowledgeTest {
                 .addPartOf(bk0)
                 .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                .setKnowledgeName("bk1")
+                .setKnowledgeId("bk1")
                 .setPresence(FourState.FALSE)
                 .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                .setKnowledgeName("bk2")
+                .setKnowledgeId("bk2")
                 .setPresence(FourState.BOTH)
                 .create();
 
@@ -405,11 +405,11 @@ public class PriorKnowledgeTest {
                 .addPartOf(bk0)
                 .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                .setKnowledgeName("bk1")
+                .setKnowledgeId("bk1")
                 .setPresence(FourState.FALSE)
                 .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                .setKnowledgeName("bk2")
+                .setKnowledgeId("bk2")
                 .setPresence(FourState.TRUE)
                 .create();
 
@@ -442,11 +442,11 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                                                        .setKnowledgeName("bk1")
+                                                        .setKnowledgeId("bk1")
                                                         .setPresence(FourState.UNKNOWN)
                                                         .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                                                        .setKnowledgeName("bk2")
+                                                        .setKnowledgeId("bk2")
                                                         .setPresence(FourState.UNKNOWN)
                                                         .create();
 
@@ -480,11 +480,11 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                                                    .setKnowledgeName("bk1")
+                                                    .setKnowledgeId("bk1")
                                                     .setPresence(FourState.BOTH)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                                                    .setKnowledgeName("bk2")
+                                                    .setKnowledgeId("bk2")
                                                     .setPresence(FourState.FALSE)
                                                     .create();
 
@@ -518,11 +518,11 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                                                    .setKnowledgeName("bk1")
+                                                    .setKnowledgeId("bk1")
                                                     .setPresence(FourState.BOTH)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                                                    .setKnowledgeName("bk2")
+                                                    .setKnowledgeId("bk2")
                                                     .setPresence(FourState.BOTH)
                                                     .create();
 
@@ -555,11 +555,11 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                                                    .setKnowledgeName("bk1")
+                                                    .setKnowledgeId("bk1")
                                                     .setPresence(FourState.FALSE)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                                                    .setKnowledgeName("bk2")
+                                                    .setKnowledgeId("bk2")
                                                     .setPresence(FourState.FALSE)
                                                     .create();
 
@@ -592,11 +592,11 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                                                    .setKnowledgeName("bk1")
+                                                    .setKnowledgeId("bk1")
                                                     .setPresence(FourState.TRUE)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                                                    .setKnowledgeName("bk2")
+                                                    .setKnowledgeId("bk2")
                                                     .setPresence(FourState.TRUE)
                                                     .create();
 
@@ -629,11 +629,11 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                                                    .setKnowledgeName("bk1")
+                                                    .setKnowledgeId("bk1")
                                                     .setPresence(FourState.TRUE)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                                                    .setKnowledgeName("bk2")
+                                                    .setKnowledgeId("bk2")
                                                     .setPresence(FourState.FALSE)
                                                     .create();
 
@@ -666,11 +666,11 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                                                    .setKnowledgeName("bk1")
+                                                    .setKnowledgeId("bk1")
                                                     .setPresence(FourState.TRUE)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                                                    .setKnowledgeName("bk2")
+                                                    .setKnowledgeId("bk2")
                                                     .setPresence(FourState.BOTH)
                                                     .create();
 
@@ -703,11 +703,11 @@ public class PriorKnowledgeTest {
                                                     .addPartOf(bk0)
                                                     .create();
         BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
-                                                    .setKnowledgeName("bk1")
+                                                    .setKnowledgeId("bk1")
                                                     .setPresence(FourState.TRUE)
                                                     .create();
         BioPrediction bp2   = new BioPredictionBuilder().setName("bp2")
-                                                    .setKnowledgeName("bk2")
+                                                    .setKnowledgeId("bk2")
                                                     .setPresence(FourState.UNKNOWN)
                                                     .create();
 

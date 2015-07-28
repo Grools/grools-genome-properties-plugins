@@ -62,13 +62,13 @@ public final class BioPrediction implements Prediction {
     private Evidence evidence;
 
     public BioPrediction(@NotNull final String id, @NotNull final String name, @NotNull final String priorKnowledgeId, @NotNull final String source, @NotNull final DateTime date, @NotNull final FourState presence, @NotNull final Evidence evidence) {
-        this.id             = id;
-        this.name           = name;
-        this.priorKnowledgeId    = priorKnowledgeId;
-        this.source         = source;
-        this.date           = date;
-        this.presence       = presence;
-        this.evidence       = evidence;
+        this.id                 = id;
+        this.name               = name;
+        this.priorKnowledgeId   = priorKnowledgeId;
+        this.source             = source;
+        this.date               = date;
+        this.presence           = presence;
+        this.evidence           = evidence;
     }
 
     @Override @NotNull

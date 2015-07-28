@@ -71,7 +71,7 @@ public class AssertionTest {
                 .create();
         BioPrediction bp0= new BioPredictionBuilder().setName("bp0")
                 .setId("bp0")
-                .setKnowledgeName("bk0")
+                .setKnowledgeId("bk0")
                 .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
                 .setId("ba0")
@@ -99,7 +99,7 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp0= new BioPredictionBuilder().setName("bp0")
                                                      .setId("bp0")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.FALSE)
                                                      .create();
@@ -123,7 +123,7 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp0= new BioPredictionBuilder().setName("bp0")
                                                      .setId("bp0")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.FALSE)
                                                      .create();
@@ -154,7 +154,7 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp0= new BioPredictionBuilder().setName("bp0")
                                                      .setId("bp0")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.BOTH)
                                                      .create();
@@ -183,13 +183,13 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp1= new BioPredictionBuilder().setName("bp1")
                                                     .setId("bp1")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.TRUE)
                                                      .create();
         BioPrediction bp2= new BioPredictionBuilder().setName("bp2")
                                                      .setId("bp2")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.FALSE)
                                                      .create();
@@ -232,19 +232,19 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp1a= new BioPredictionBuilder().setName("bp1a")
                                                      .setId("bp1a")
-                                                     .setKnowledgeName("bk1")
+                                                     .setKnowledgeId("bk1")
                                                      .setSource("junit")
                                                      .setPresence(FourState.TRUE)
                                                      .create();
         BioPrediction bp1b= new BioPredictionBuilder().setName("bp1z")
                                                      .setId("bp1z")
-                                                     .setKnowledgeName("bk1")
+                                                     .setKnowledgeId("bk1")
                                                      .setSource("junit")
                                                      .setPresence(FourState.FALSE)
                                                      .create();
         BioPrediction bp2= new BioPredictionBuilder().setName("bp2")
                                                      .setId("bp2")
-                                                     .setKnowledgeName("bk2")
+                                                     .setKnowledgeId("bk2")
                                                      .setSource("junit")
                                                      .setPresence(FourState.FALSE)
                                                      .create();
@@ -294,7 +294,7 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp0= new BioPredictionBuilder().setName("bp0")
                                                      .setId("bp0")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.TRUE)
                                                      .create();
@@ -323,7 +323,7 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp0= new BioPredictionBuilder().setName("bp0")
                                                      .setId("bp0")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.FALSE)
                                                      .create();
@@ -352,13 +352,13 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp1= new BioPredictionBuilder().setName("bp1")
                                                      .setId("bp1")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.TRUE)
                                                      .create();
         BioPrediction bp2= new BioPredictionBuilder().setName("bp2")
                                                      .setId("bp2")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.FALSE)
                                                      .create();
@@ -411,7 +411,7 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp0= new BioPredictionBuilder().setName("bp0")
                                                      .setId("bp0")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.UNKNOWN)
                                                      .create();
@@ -441,7 +441,7 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp0= new BioPredictionBuilder().setName("bp0")
                                                      .setId("bp0")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.TRUE)
                                                      .create();
@@ -470,7 +470,7 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp0= new BioPredictionBuilder().setName("bp0")
                                                      .setId("bp0")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.FALSE)
                                                      .create();
@@ -499,13 +499,13 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp1= new BioPredictionBuilder().setName("bp1")
                                                      .setId("bp1")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.TRUE)
                                                      .create();
         BioPrediction bp2= new BioPredictionBuilder().setName("bp2")
                                                      .setId("bp2")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setPresence(FourState.FALSE)
                                                      .create();
         BioAssertion ba0 = new BioAssertionBuilder().setName("ba0")
@@ -534,7 +534,7 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp1= new BioPredictionBuilder().setName("bp1")
                                                     .setId("bk1")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                     .setSource("junit")
                                                      .setPresence(FourState.UNKNOWN)
                                                      .create();
@@ -584,7 +584,7 @@ public class AssertionTest {
                                                     .setSource("junit")
                                                     .create();
         BioPrediction bp1= new BioPredictionBuilder().setName("bp1")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                     .setPresence(FourState.TRUE)
                                                     .create();
         BioAssertion ba1 = new BioAssertionBuilder().setName("ba1")
@@ -618,7 +618,7 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp1= new BioPredictionBuilder().setName("bp1")
                                                     .setId("bp1")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.FALSE)
                                                      .create();
@@ -653,13 +653,13 @@ public class AssertionTest {
                                                     .setSource("junit")
                                                     .create();
         BioPrediction bp1= new BioPredictionBuilder().setName("bp1")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setSource("junit")
                                                      .setPresence(FourState.FALSE)
                                                      .create();
         BioPrediction bp2= new BioPredictionBuilder().setName("bp2")
                                                      .setId("bp2")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                 .setPresence(FourState.TRUE)
                 .create();
         BioAssertion ba1 = new BioAssertionBuilder().setName("ba1")
@@ -694,7 +694,7 @@ public class AssertionTest {
                                                     .create();
         BioPrediction bp1= new BioPredictionBuilder().setName("bp1")
                                                     .setId("bp1")
-                                                     .setKnowledgeName("bk0")
+                                                     .setKnowledgeId("bk0")
                                                      .setPresence(FourState.UNKNOWN)
                                                      .create();
         BioAssertion ba1 = new BioAssertionBuilder().setName("ba1")
@@ -773,15 +773,15 @@ public class AssertionTest {
                                                            .create();
 
         BioPrediction bp011 = new BioPredictionBuilder().setName("bp011")
-                                                        .setKnowledgeName("bk011")
+                                                        .setKnowledgeId("bk011")
                                                         .setPresence(FourState.TRUE)
                                                         .create();
         BioPrediction bp012 = new BioPredictionBuilder().setName("bp012")
-                                                        .setKnowledgeName("bk012")
+                                                        .setKnowledgeId("bk012")
                                                         .setPresence(FourState.TRUE)
                                                         .create();
         BioPrediction bp02 = new BioPredictionBuilder().setName("bp02")
-                                                       .setKnowledgeName("bk02")
+                                                       .setKnowledgeId("bk02")
                                                        .setPresence(FourState.FALSE)
                                                        .create();
 
@@ -844,19 +844,19 @@ public class AssertionTest {
                 .create();
 
         BioPrediction bp011   = new BioPredictionBuilder().setName("bp011")
-                .setKnowledgeName("bk011")
+                .setKnowledgeId("bk011")
                 .setPresence(FourState.TRUE)
                 .create();
         BioPrediction bp012   = new BioPredictionBuilder().setName("bp012")
-                .setKnowledgeName("bk012")
+                .setKnowledgeId("bk012")
                 .setPresence(FourState.TRUE)
                 .create();
         BioPrediction bp02   = new BioPredictionBuilder().setName("bp02")
-                .setKnowledgeName("bk02")
+                .setKnowledgeId("bk02")
                 .setPresence(FourState.FALSE)
                 .create();
         BioPrediction bp031   = new BioPredictionBuilder().setName("bp031")
-                .setKnowledgeName("bk031")
+                .setKnowledgeId("bk031")
                 .setPresence(FourState.TRUE)
                 .create();
 
@@ -930,19 +930,19 @@ public class AssertionTest {
                 .create();
 
         BioPrediction bp011   = new BioPredictionBuilder().setName("bp011")
-                .setKnowledgeName("bk011")
+                .setKnowledgeId("bk011")
                 .setPresence(FourState.TRUE)
                 .create();
         BioPrediction bp012   = new BioPredictionBuilder().setName("bp012")
-                .setKnowledgeName("bk012")
+                .setKnowledgeId("bk012")
                 .setPresence(FourState.TRUE)
                 .create();
         BioPrediction bp02   = new BioPredictionBuilder().setName("bp02")
-                .setKnowledgeName("bk02")
+                .setKnowledgeId("bk02")
                 .setPresence(FourState.FALSE)
                 .create();
         BioPrediction bp031   = new BioPredictionBuilder().setName("bp031")
-                .setKnowledgeName("bk031")
+                .setKnowledgeId("bk031")
                 .setPresence(FourState.TRUE)
                 .create();
 
