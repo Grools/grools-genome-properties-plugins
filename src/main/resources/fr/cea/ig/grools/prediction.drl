@@ -42,7 +42,7 @@ import fr.cea.ig.grools.model.NodeType;
 dialect "mvel"
 
 
-rule "Prediction infer his none existence"
+rule "Prediction infers PriorKnowledge none existence"
     when
         $k: PriorKnowledge( $kid := id, nodeType == NodeType.LEAF, presence != FourState.UNKNOWN )
         (
@@ -57,7 +57,7 @@ rule "Prediction infer his none existence"
 end
 
 
-rule "Prediction infer his presence/absence"
+rule "Prediction infers PriorKnowledge presence/absence"
     when
         $k: PriorKnowledge( $kid := id, nodeType == NodeType.LEAF, presence != FourState.BOTH )
         (
@@ -72,7 +72,7 @@ rule "Prediction infer his presence/absence"
 end
 
 
-rule "Prediction infer his absence"
+rule "Prediction infers PriorKnowledge absence"
     when
         $k: PriorKnowledge( $kid := id, nodeType == NodeType.LEAF, presence != FourState.FALSE )
         Prediction( $kid := priorKnowledgeId, presence == FourState.FALSE )
@@ -84,7 +84,7 @@ rule "Prediction infer his absence"
 end
 
 
-rule "Prediction infer his presence"
+rule "Prediction infers PriorKnowledge presence"
     when
         $k: PriorKnowledge( $kid := id, nodeType == NodeType.LEAF, presence != FourState.TRUE )
         Prediction( $kid := priorKnowledgeId, presence == FourState.TRUE )
