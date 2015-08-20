@@ -1,1 +1,3 @@
 rootProject.name = 'grools-checker-genome-properties'
+//include 'checker', 'model', 'parser'
+//project(':model').projectDir = new File('parser/model')
