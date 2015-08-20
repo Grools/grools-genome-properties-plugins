@@ -45,6 +45,7 @@ import java.util.List;
  *  + getPartOf()       : PriorKnowledge[]
  *  + getNodeType()     : NodeType
  *  + getConclusion()   : Conclusion
+ *  + getIsMandatory()  : boolean
  *  + getIsA()          : List<PriorKnowledge>
  *  + addIsA( PriorKnowledge k )             : void
  *  + setConclusion( Conclusion conclusion ) : void
@@ -57,17 +58,20 @@ import java.util.List;
  */
 public interface PriorKnowledge extends Fact{
     @NotNull
-    public PriorKnowledge[]  getPartOf();
+    PriorKnowledge[]    getPartOf();
     @NotNull
-    public NodeType     getNodeType();
+    NodeType            getNodeType();
     @NotNull
-    public Conclusion   getConclusion();
+    Conclusion          getConclusion();
+    @NotNull
+    boolean             getIsMandatory();
 
-    public void setConclusion( final @NotNull Conclusion conclusion);
-    public void setPresence( final @NotNull FourState presence );
+
+    void setConclusion( final @NotNull Conclusion conclusion);
+    void setPresence( final @NotNull FourState presence );
 
     @NotNull
     List<PriorKnowledge> getIsA();
 
-    public void addIsA(final @NotNull PriorKnowledge k);
+    void addIsA(final @NotNull PriorKnowledge k);
 }

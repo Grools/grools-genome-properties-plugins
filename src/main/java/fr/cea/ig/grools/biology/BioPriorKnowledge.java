@@ -50,7 +50,23 @@ import java.util.List;
  */
 /*
  * @startuml
- * class BioKnowledge{
+ * class BioPriorKnowledge implements PriorKnowledge{
+ *  - isA               : List<PriorKnowledge>
+ *  - partOf            : PriorKnowledge[]
+ *  - nodeType          : String
+ *  - id                : String
+ *  - name              : String
+ *  - source            : String
+ *  - date              : DateTime
+ *  - isMandatory       : Boolean
+ *  + getPartOf()       : PriorKnowledge[]
+ *  + getNodeType()     : NodeType
+ *  + getConclusion()   : Conclusion
+ *  + getIsMandatory()  : Boolean
+ *  + getIsA()          : List<PriorKnowledge>
+ *  + addIsA( PriorKnowledge k )             : void
+ *  + setConclusion( Conclusion conclusion ) : void
+ *  + setPresence( FourState presence )      : void
  * }
  * @enduml
  */
@@ -58,15 +74,16 @@ public final class BioPriorKnowledge implements PriorKnowledge {
 
     private List<PriorKnowledge> isA;
     private final PriorKnowledge[] partOf;
-    private final NodeType    nodeType;
-    private final String      id;
-    private final String      name;
-    private final String      source;
-    private final DateTime    date;
-    private FourState presence;
-    private       Conclusion  conclusion;
+    private final NodeType      nodeType;
+    private final String        id;
+    private final String        name;
+    private final String        source;
+    private final DateTime      date;
+    private final boolean       isMandatory;
+    private FourState           presence;
+    private Conclusion          conclusion;
 
-    public BioPriorKnowledge(@NotNull final List<PriorKnowledge> isA, @NotNull final PriorKnowledge[] partOf, @NotNull final NodeType nodeType, @NotNull final String id, @NotNull final String name, @NotNull final String source, @NotNull final DateTime date, @NotNull final FourState presence, @NotNull final Conclusion conclusion) {
+    public BioPriorKnowledge(@NotNull final List<PriorKnowledge> isA, @NotNull final PriorKnowledge[] partOf, @NotNull final NodeType nodeType, @NotNull final String id, @NotNull final String name, @NotNull final String source, @NotNull final DateTime date, @NotNull final FourState presence, @NotNull final Conclusion conclusion, @NotNull final Boolean isMandatory) {
         this.isA        = isA;
         this.partOf     = partOf.clone();
         this.nodeType   = nodeType;
@@ -76,9 +93,13 @@ public final class BioPriorKnowledge implements PriorKnowledge {
         this.date       = new DateTime(date);
         this.presence   = presence;
         this.conclusion = conclusion;
+        this.isMandatory= isMandatory;
+    }
+    public BioPriorKnowledge(@NotNull final List<PriorKnowledge> isA, @NotNull final PriorKnowledge[] partOf, @NotNull final NodeType nodeType, @NotNull final String id, @NotNull final String name, @NotNull final String source, @NotNull final DateTime date, @NotNull final FourState presence, @NotNull final Conclusion conclusion ) {
+        this(isA, partOf, nodeType, id, name, source, date, presence, conclusion, true);
     }
 
-    @Override @NotNull
+        @Override @NotNull
     public List<PriorKnowledge> getIsA() {
         return new ArrayList<>(isA);
     }
@@ -101,6 +122,11 @@ public final class BioPriorKnowledge implements PriorKnowledge {
     @Override @NotNull
     public Conclusion getConclusion() {
         return conclusion;
+    }
+
+    @Override
+    public boolean getIsMandatory() {
+        return isMandatory;
     }
 
     @Override

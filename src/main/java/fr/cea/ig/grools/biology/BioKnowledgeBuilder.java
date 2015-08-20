@@ -17,6 +17,7 @@ public final class BioKnowledgeBuilder {
     private DateTime        date        = DateTime.now();
     private FourState       presence    = FourState.UNKNOWN;
     private Conclusion      conclusion  = Conclusion.UNKNOWN;
+    private boolean         isMandatory = true;
     private String          name        = "";
     private String          id          = "";
     private String          source      = "";
@@ -76,6 +77,12 @@ public final class BioKnowledgeBuilder {
     }
 
     @NotNull
+    public BioKnowledgeBuilder setIsMandatory(@NotNull final boolean isMandatory) {
+        this.isMandatory = isMandatory;
+        return this;
+    }
+
+    @NotNull
     public BioKnowledgeBuilder setPresence(@NotNull final FourState presence) {
         this.presence = presence;
         return this;
@@ -94,6 +101,6 @@ public final class BioKnowledgeBuilder {
             id = name;
         }
         PriorKnowledge[] array = partOf.toArray( new PriorKnowledge[partOf.size()] );
-        return new BioPriorKnowledge(isA, array, nodeType, id, name, source, date, presence, conclusion);
+        return new BioPriorKnowledge(isA, array, nodeType, id, name, source, date, presence, conclusion, isMandatory);
     }
 }
