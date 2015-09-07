@@ -48,12 +48,12 @@ import org.slf4j.LoggerFactory;
 import javax.validation.constraints.NotNull;
 import java.io.InputStream;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import fr.cea.ig.grools.Grools;
 
 final public class GenomePropertiesIntegrator {
+    private static  final String SOURCE = "Genome Properties";
     private static  final Logger LOG = (Logger) LoggerFactory.getLogger( GenomePropertiesIntegrator.class );
     private         final Grools grools;
 
@@ -99,18 +99,21 @@ final public class GenomePropertiesIntegrator {
 
             if( accessionSet != null ){
                 for( final String accession: accessionSet) {
-                    final ComponentEvidence     evidence = (ComponentEvidence) rdfParser.getTerm(accession);
+                    final ComponentEvidence     evidence  = (ComponentEvidence) rdfParser.getTerm(accession);
                     final PriorKnowledge        component = toPriorKnowledge(evidence.getSufficientFor(), rdfParser, propertyToEvidence, knowledges);
                     final BioKnowledgeBuilder   evidenceKnowledgeBuilder = new BioKnowledgeBuilder().setName(evidence.getName())
                                                                                                     .setId(evidence.getId())
-                                                                                                    .setNodeType(NodeType.AND)
+                                                                                                    .setNodeType(NodeType.OR)
+                                                                                                    .setSource( SOURCE )
                                                                                                     .addPartOf(component);
                     final PriorKnowledge evidenceKnowledge = evidenceKnowledgeBuilder.create();
+                    knowledges.put(evidenceKnowledge.getName(), evidenceKnowledge );
                     knowledgeBuilder.addPartOf(evidenceKnowledge);
                 }
             }
         }
         knowledgeBuilder.setName( term.getName() )
+                        .setSource(SOURCE)
                         .setId(term.getId());
         if( parentTerm != null ){
             parentKnowledge = knowledges.get(parentTerm.getName());
@@ -126,17 +129,20 @@ final public class GenomePropertiesIntegrator {
     @NotNull
     private static Map<String,Set<String>> getPropertyLinkedToEvidence(@NotNull final Set<Map.Entry<String, Term>> entries, @NotNull final GenomePropertiesParser rdfParser ){
         Map<String,Set<String>> result = new HashMap<>();
+        // value = evidence | key = property
         for(final Map.Entry<String,Term> entry: entries){
             final String value = entry.getValue().getName();
-            if( isGenPropEvidence(entry) ){
-                final GenomeProperty property = rdfParser.getTermFromAccession(entry.getValue().getId() );
+            if( isGenPropEvidence( entry ) ){
+                final GenomeProperty property = rdfParser.getTermFromAccession( entry.getValue().getId() );
+                // Some genprop evidence are not linked to a property ... Nothing to do
                 if( property != null ) {
-                    Set<String> values = result.get(property.getName());
+                    final String propertyName   = property.getName();
+                    Set<String>  values         = result.get( propertyName );
                     if (values == null) {
                         values = new HashSet<>();
                         values.add(value);
                     }
-                    result.put(property.getName(), values);
+                    result.put( propertyName, values);
                 }
             }
         }
@@ -155,26 +161,25 @@ final public class GenomePropertiesIntegrator {
     public void use( @NotNull final InputStream rdf ) throws Exception {
         final Map<String,PriorKnowledge>    knowledges          = new HashMap<>();
         final GenomePropertiesParser        rdfParser           = new GenomePropertiesParser( rdf );
-        final Map<String,Set<String>>            propertyToEvidence  = getPropertyLinkedToEvidence( rdfParser.entrySet(), rdfParser );
-        final Set<ComponentEvidence> evidencesHMM               =  rdfParser.entrySet()
+        final Map<String,Set<String>>       propertyToEvidence  = getPropertyLinkedToEvidence( rdfParser.entrySet(), rdfParser );
+        final Set<ComponentEvidence>        evidencesHMM        = rdfParser.entrySet()
                                                                            .stream()
                                                                            .filter(entry -> isHMMEvidence(entry))
-                                                                           .map(e ->(ComponentEvidence) e.getValue())
-                                                                           .collect(Collectors.toSet());
-        for( final ComponentEvidence evidence : evidencesHMM){
-            final PriorKnowledge        component           = toPriorKnowledge(evidence.getSufficientFor(), rdfParser, propertyToEvidence, knowledges);
+                .map(e -> (ComponentEvidence) e.getValue())
+                .collect(Collectors.toSet());
+        for( final ComponentEvidence evidence : evidencesHMM ){
+            final PriorKnowledge        component          = toPriorKnowledge(evidence.getSufficientFor(), rdfParser, propertyToEvidence, knowledges);
             final BioKnowledgeBuilder   evidenceBuilder    = new BioKnowledgeBuilder();
 
             evidenceBuilder.setName( evidence.getName() )
-                            .setId(evidence.getId())
-                            .setNodeType(NodeType.AND)
-                            .addPartOf(component);
+                    .setId(evidence.getId())
+                           .setNodeType(NodeType.AND)
+                           .addPartOf(component);
             knowledges.put(evidence.getName(), evidenceBuilder.create());
         }
         // Now create leaf from evidencesHMM
-        //leaf =
         final Map<String, Set<ComponentEvidence>>leafSet = new HashMap<>();
-        for( final ComponentEvidence evidence : evidencesHMM){
+        for( final ComponentEvidence evidence : evidencesHMM ){
             Set<ComponentEvidence> values = leafSet.get(evidence.getId() );
             if( values == null )
                 values = new HashSet<>();
@@ -182,15 +187,21 @@ final public class GenomePropertiesIntegrator {
             leafSet.put(evidence.getId(), values);
         }
         for( final Map.Entry<String, Set<ComponentEvidence>> entry : leafSet.entrySet() ){
-            List<PriorKnowledge> parents = entry.getValue().stream().map(evidence -> knowledges.get(evidence.getName())).collect(Collectors.toList());
-            final BioKnowledgeBuilder   leafBuilder    = new BioKnowledgeBuilder();
+            final List<PriorKnowledge>  parents     = entry.getValue()
+                                                           .stream()
+                    .map(evidence -> knowledges.get(evidence.getName()))
+                                                           .collect(Collectors.toList());
+            final BioKnowledgeBuilder   leafBuilder = new BioKnowledgeBuilder();
             leafBuilder.setName( entry.getKey() )
-                            .setId(entry.getKey())
-                            .setNodeType(NodeType.LEAF)
-                            .setPartOf(parents);
+                       .setId(entry.getKey())
+                       .setSource( SOURCE )
+                       .setNodeType(NodeType.LEAF)
+                       .setPartOf(parents);
             knowledges.put(entry.getKey(), leafBuilder.create());
         }
-        knowledges.entrySet().parallelStream().forEach( (entry) -> grools.insert(entry.getValue()) );
+        knowledges.entrySet()
+                  .parallelStream()
+                  .forEach((entry) -> grools.insert(entry.getValue()) );
     }
 
 }

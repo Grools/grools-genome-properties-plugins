@@ -38,5 +38,15 @@ public class GenomePropertiesIntegratorTest {
         final List<PriorKnowledge> variants = grools.getSubKnowledge(knowledge);
         assertNotNull( variants );
     }
+    @Test
+    public void testComponentEvidenceOrNode() {
+        final PriorKnowledge knowledge = grools.hasKnowledgeId("GenProp0698");
+        assertNotNull(knowledge);
+        assertTrue(knowledge.getId().equals("GenProp0698"));
+        assertTrue(knowledge.getName().equals("gp:Component_Evidence_75016"));
+        assertTrue( knowledge.getNodeType() == NodeType.OR );
+        final List<PriorKnowledge> variants = grools.getSubKnowledge(knowledge);
+        assertNotNull( variants );
+    }
 
 }
