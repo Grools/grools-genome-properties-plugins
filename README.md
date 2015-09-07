@@ -8,14 +8,14 @@ These information is used to check the consistency and the completeness of genom
 Genome Properties data are structured as follow
 
 ```
-   -   ----------           ---------- 
-G |   | Property |         | Property |
-E |    ----------           ----------
-N |       \        And    /
-P |      -----------    -----------
-R |     | component |  | component |
-O |      -----------    -----------
-P |          \    And   /
+   -   ----------                ---------- 
+G |   | Property |              | Property |
+E |    ----------                ----------
+N |       \        And         /
+P |      -----------         -----------
+R |     | component |       | component |
+O |      -----------         -----------
+P |          \    And       /
   |        ----------      ----------
   |       | evidence |    | evidence |
   |        ----------      ----------
