@@ -54,10 +54,15 @@ import java.io.Serializable;
 public final class Mode implements Serializable {
 
     private static final long serialVersionUID = 3631557000997944353L;
+    private static int instanceCounter = 0;
     private String mode;
+    private int id;
 
     @NotNull
-    public Mode(@NotNull final String mode) { this.mode = mode; }
+    public Mode(@NotNull final String mode) {
+        this.mode = mode;
+        id = ++instanceCounter;
+    }
 
     @NotNull @Override
     public String toString() { return mode; }
@@ -69,5 +74,10 @@ public final class Mode implements Serializable {
 
     public void setMode( @NotNull final String mode ){
         this.mode = mode;
+    }
+
+    @NotNull
+    public int getId(){
+        return id;
     }
 }

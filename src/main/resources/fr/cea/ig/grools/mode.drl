@@ -38,6 +38,7 @@ import fr.cea.ig.grools.Mode;
 dialect "mvel"
 
 rule "set strong mode"
+    salience 1000
     when
         $s : String( this == "STRONG" )
         $m : Mode()
@@ -48,6 +49,7 @@ rule "set strong mode"
 end
 
 rule "set weak mode"
+    salience 1000
     when
         $s : String( this == "WEAK" )
         $m : Mode()
@@ -55,4 +57,25 @@ rule "set weak mode"
         $m.mode = $s;
         update($m);
         retract($s);
+end
+
+rule "set genprop mode"
+    salience 1000
+    when
+        $s : String( this == "GENPROP" )
+        $m : Mode()
+    then
+        $m.mode = $s;
+        update($m);
+        retract($s);
+end
+
+rule "retract old mode"
+    salience 1000
+    when
+        $m1 : Mode()
+        $m2 : Mode( this != $m1 )
+    then
+        Mode oldMode = ( $m1.id > $m2.id ) ?  $m2 : $m1;
+        retract(oldMode);
 end

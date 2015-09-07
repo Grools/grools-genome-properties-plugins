@@ -83,6 +83,19 @@ rule "And PriorKnowledge is absent weak mode"
 end
 
 
+rule "And PriorKnowledge is absent genprop mode"
+    when
+        $k: PriorKnowledge( presence != FourState.FALSE, nodeType == NodeType.AND )
+        Mode( mode == "GENPROP")
+        $childs: List( size > 0 ) from collect ( PriorKnowledge( $k memberOf partOf && isMandatory))
+        PriorKnowledge( presence == FourState.FALSE ) from $childs
+    then
+        modify( $k ){
+            presence = FourState.FALSE
+        }
+end
+
+
 rule "And PriorKnowledge is present strong mode"
     when
         $k: PriorKnowledge( presence != FourState.TRUE, nodeType == NodeType.AND )
@@ -102,6 +115,19 @@ rule "And PriorKnowledge is present weak mode"
         Mode( mode == "WEAK")
         $childs: List( size > 0 ) from collect ( PriorKnowledge( $k memberOf partOf && partOf.size == 1))
         PriorKnowledge(  presence == FourState.TRUE ) from $childs
+    then
+        modify( $k ){
+            presence = FourState.TRUE
+        }
+end
+
+
+rule "And PriorKnowledge is present genprop mode"
+    when
+        $k: PriorKnowledge( presence != FourState.TRUE, nodeType == NodeType.AND )
+        Mode( mode == "GENPROP")
+        $childs: List() from collect ( PriorKnowledge( $k memberOf partOf && isMandatory))
+        forall( PriorKnowledge( presence == FourState.TRUE ) from $childs )
     then
         modify( $k ){
             presence = FourState.TRUE

@@ -723,5 +723,93 @@ public class PriorKnowledgeTest {
         assertTrue(bk2.getPresence() == FourState.UNKNOWN);
     }
 
+    @Test
+    public void genpropMode1(){
+        LOG.debug("GenProp Mode (1)");
+        BioPriorKnowledge propG0     = new BioKnowledgeBuilder().setName("propG0")
+                                                                .setSource("junit")
+                                                                .setNodeType(NodeType.AND)
+                                                                .setIsMandatory(true)
+                                                                .create();
+        BioPriorKnowledge compG0     = new BioKnowledgeBuilder().setName("compG0")
+                                                                .setSource("junit")
+                                                                .setNodeType(NodeType.AND)
+                                                                .addPartOf(propG0)
+                                                                .setIsMandatory(true)
+                                                                .create();
+        BioPriorKnowledge evidenceG0 = new BioKnowledgeBuilder().setName("evidenceG0")
+                                                                .setSource("junit")
+                                                                .setNodeType(NodeType.OR)
+                                                                .addPartOf(compG0)
+                                                                .setIsMandatory(true)
+                                                                .create();
+        BioPriorKnowledge propG1     = new BioKnowledgeBuilder().setName("propG1")
+                                                                .setSource("junit")
+                                                                .setNodeType(NodeType.AND)
+                                                                .setIsMandatory(true)
+                                                                .create();
+        BioPriorKnowledge compG1     = new BioKnowledgeBuilder().setName("compG1")
+                                                                .setSource("junit")
+                                                                .setNodeType(NodeType.AND)
+                                                                .addPartOf(propG1)
+                                                                .setIsMandatory(true)
+                                                                .create();
+        BioPriorKnowledge evidenceG1 = new BioKnowledgeBuilder().setName("evidenceG1")
+                                                                .setSource("junit")
+                                                                .setNodeType(NodeType.OR)
+                                                                .addPartOf(compG1)
+                                                                .setIsMandatory(true)
+                                                                .create();
+        BioPriorKnowledge propT0     = new BioKnowledgeBuilder().setName("propT0")
+                                                                .setSource("junit")
+                                                                .setNodeType(NodeType.AND)
+                                                                .addPartOf(evidenceG0)
+                                                                .addPartOf(evidenceG1)
+                                                                .setIsMandatory(true)
+                                                                .create();
+        BioPriorKnowledge compT0     = new BioKnowledgeBuilder().setName("compT0")
+                                                                .setSource("junit")
+                                                                .setNodeType(NodeType.AND)
+                                                                .addPartOf(propT0)
+                                                                .setIsMandatory(true)
+                                                                .create();
+        BioPriorKnowledge evidenceT0 = new BioKnowledgeBuilder().setName("evidenceT0")
+                                                                .setSource("junit")
+                                                                .setNodeType(NodeType.OR)
+                                                                .addPartOf(compT0)
+                                                                .setIsMandatory(true)
+                                                                .create();
+        BioPriorKnowledge evidenceTL00= new BioKnowledgeBuilder().setName("evidenceTL00")
+                                                                .setSource("junit")
+                                                                .setNodeType(NodeType.LEAF)
+                                                                .addPartOf(evidenceT0)
+                                                                .setIsMandatory(true)
+                                                                .create();
+        BioPriorKnowledge evidenceTL01= new BioKnowledgeBuilder().setName("evidenceTL01")
+                                                                .setSource("junit")
+                                                                .setNodeType(NodeType.LEAF)
+                                                                .addPartOf(evidenceT0)
+                                                                .setIsMandatory(true)
+                                                                .create();
+        BioPrediction bp1   = new BioPredictionBuilder().setName("bp1")
+                                                        .setKnowledgeId("evidenceTL00")
+                                                        .setPresence(FourState.TRUE)
+                                                        .create();
+
+        grools.insert( propG0 );
+        grools.insert( compG0 );
+        grools.insert( evidenceG0 );
+        grools.insert( propG1 );
+        grools.insert( compG1 );
+        grools.insert( evidenceG1 );
+        grools.insert( propT0 );
+        grools.insert( compT0 );
+        grools.insert( evidenceT0 );
+        grools.insert( evidenceTL00 );
+        grools.insert( evidenceTL01 );
+        grools.insert( bp1 );
+        grools.setGenPropMode();
+        assertTrue(propG0.getPresence() == FourState.TRUE);
+    }
 
 }

@@ -180,6 +180,12 @@ public final class Grools {
         fireAllRules();
     }
 
+
+    public void setGenPropMode(){
+        kieSession.insert("GENPROP");
+        fireAllRules();
+    }
+
     @NotNull
     public List<KnowledgeStatistics> getStatistics(){
         final List<KnowledgeStatistics> results = new ArrayList<>();
