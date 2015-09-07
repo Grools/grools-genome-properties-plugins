@@ -1,9 +1,9 @@
-== Grools Checker genome properties integration ==
+# Grools Checker genome properties integration 
 
 This tools aim to use genome properties information.
 These information is used to check the consistency and the completeness of genome annotation.
 
-== Schema ==
+## Schema
 
 Genome Properties data are structured as follow
 
@@ -34,6 +34,8 @@ M  |        ----------     ----------
    - 
 ```
 
-Note:
+**Note:**
+
 Some Evidences from genome properties are note linked to Tigerfam's properties.
+
 In a such case these evidences and their parents are not inserted into grools.
