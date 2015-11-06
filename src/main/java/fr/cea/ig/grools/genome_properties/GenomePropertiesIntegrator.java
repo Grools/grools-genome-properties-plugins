@@ -40,9 +40,10 @@ import fr.cea.ig.genome_properties.model.ComponentEvidence;
 import fr.cea.ig.genome_properties.model.GenomeProperty;
 import fr.cea.ig.genome_properties.model.PropertyComponent;
 import fr.cea.ig.genome_properties.model.Term;
-import fr.cea.ig.grools.biology.BioKnowledgeBuilder;
-import fr.cea.ig.grools.model.NodeType;
-import fr.cea.ig.grools.model.PriorKnowledge;
+import fr.cea.ig.grools.Reasoner;
+import fr.cea.ig.grools.model.OperatorLogic;
+import fr.cea.ig.grools.relevant.RelevantTheory;
+import fr.cea.ig.grools.relevant.RelevantTheory.RelevantTheoryBuilder;
 import org.slf4j.LoggerFactory;
 
 import javax.validation.constraints.NotNull;
@@ -50,12 +51,11 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import fr.cea.ig.grools.Grools;
 
 final public class GenomePropertiesIntegrator {
     private static  final String SOURCE = "Genome Properties";
     private static  final Logger LOG = (Logger) LoggerFactory.getLogger( GenomePropertiesIntegrator.class );
-    private         final Grools grools;
+    private         final Reasoner grools;
 
     @NotNull
     private InputStream getFile(@NotNull final String fileName) {
@@ -77,51 +77,49 @@ final public class GenomePropertiesIntegrator {
     }
 
     @NotNull
-    private static PriorKnowledge toPriorKnowledge(@NotNull final Term term, @NotNull final GenomePropertiesParser rdfParser, @NotNull final Map<String, Set<String>> propertyToEvidence, @NotNull final Map<String, PriorKnowledge> knowledges){
-        final BioKnowledgeBuilder   knowledgeBuilder    = new BioKnowledgeBuilder();
+    private static RelevantTheory toTheory(@NotNull final Term term, @NotNull final GenomePropertiesParser rdfParser, @NotNull final Map<String, Set<String>> propertyToEvidence, @NotNull final Map<String, RelevantTheory> knowledges){
+        final RelevantTheoryBuilder fragmentTheory    = RelevantTheory.builder();
         Term                        parentTerm          = null;
-        PriorKnowledge parentKnowledge;
+        RelevantTheory theory;
         if( term instanceof PropertyComponent ){
             final PropertyComponent component = (PropertyComponent)term;
-            if( component.getRequiredBy() != null ) {
+            if( component.getRequiredBy() != null )
                 parentTerm = component.getRequiredBy();
-                knowledgeBuilder.setIsMandatory(true);
-            }
             else{
                 parentTerm = component.getPartOf();
-                knowledgeBuilder.setIsMandatory(false);
+                fragmentTheory.isMandatory( false );
             }
-            knowledgeBuilder.setNodeType( NodeType.OR );
+            fragmentTheory.operator( OperatorLogic.OR );
         }
         else if( term instanceof GenomeProperty ){
             final Set<String> accessionSet =  propertyToEvidence.get( term.getName());
-            knowledgeBuilder.setNodeType(NodeType.AND);
+            fragmentTheory.operator( OperatorLogic.AND );
 
             if( accessionSet != null ){
                 for( final String accession: accessionSet) {
                     final ComponentEvidence     evidence  = (ComponentEvidence) rdfParser.getTerm(accession);
-                    final PriorKnowledge        component = toPriorKnowledge(evidence.getSufficientFor(), rdfParser, propertyToEvidence, knowledges);
-                    final BioKnowledgeBuilder   evidenceKnowledgeBuilder = new BioKnowledgeBuilder().setName(evidence.getName())
-                                                                                                    .setId(evidence.getId())
-                                                                                                    .setNodeType(NodeType.OR)
-                                                                                                    .setSource( SOURCE )
-                                                                                                    .addPartOf(component);
-                    final PriorKnowledge evidenceKnowledge = evidenceKnowledgeBuilder.create();
+                    final RelevantTheory        component = toTheory( evidence.getSufficientFor(), rdfParser, propertyToEvidence, knowledges );
+                    final RelevantTheoryBuilder evidenceKnowledgeBuilder = RelevantTheory.builder().name( evidence.getName() )
+                                                                                                    .id( evidence.getId() )
+                                                                                                    .operator( OperatorLogic.OR )
+                                                                                                    .source( SOURCE )
+                                                                                                    .parent( component );
+                    final RelevantTheory evidenceKnowledge = evidenceKnowledgeBuilder.build();
                     knowledges.put(evidenceKnowledge.getName(), evidenceKnowledge );
-                    knowledgeBuilder.addPartOf(evidenceKnowledge);
+                    fragmentTheory.parent( evidenceKnowledge );
                 }
             }
         }
-        knowledgeBuilder.setName( term.getName() )
-                        .setSource(SOURCE)
-                        .setId(term.getId());
+        fragmentTheory.name( term.getName() )
+                        .source( SOURCE )
+                        .id( term.getId() );
         if( parentTerm != null ){
-            parentKnowledge = knowledges.get(parentTerm.getName());
-            if(parentKnowledge == null )
-                parentKnowledge = toPriorKnowledge( parentTerm , rdfParser, propertyToEvidence, knowledges);
-            knowledgeBuilder.addPartOf(parentKnowledge);
+            theory = knowledges.get(parentTerm.getName());
+            if(theory == null )
+                theory = toTheory( parentTerm, rdfParser, propertyToEvidence, knowledges );
+            fragmentTheory.parent( theory );
         }
-        final PriorKnowledge knowledge = knowledgeBuilder.create();
+        final RelevantTheory knowledge = fragmentTheory.build();
         knowledges.put(term.getName(), knowledge );
         return knowledge;
     }
@@ -149,7 +147,7 @@ final public class GenomePropertiesIntegrator {
         return result;
     }
 
-    public GenomePropertiesIntegrator(final Grools grools) {
+    public GenomePropertiesIntegrator(final Reasoner grools) {
         this.grools     = grools;
     }
 
@@ -159,25 +157,27 @@ final public class GenomePropertiesIntegrator {
     }
 
     public void use( @NotNull final InputStream rdf ) throws Exception {
-        final Map<String,PriorKnowledge>    knowledges          = new HashMap<>();
+        final Map<String,RelevantTheory>    knowledges          = new HashMap<>();
         final GenomePropertiesParser        rdfParser           = new GenomePropertiesParser( rdf );
         final Map<String,Set<String>>       propertyToEvidence  = getPropertyLinkedToEvidence( rdfParser.entrySet(), rdfParser );
         final Set<ComponentEvidence>        evidencesHMM        = rdfParser.entrySet()
                                                                            .stream()
                                                                            .filter(entry -> isHMMEvidence(entry))
-                .map(e -> (ComponentEvidence) e.getValue())
-                .collect(Collectors.toSet());
+                                                                           .map(e -> (ComponentEvidence) e.getValue())
+                                                                           .collect(Collectors.toSet());
         for( final ComponentEvidence evidence : evidencesHMM ){
-            final PriorKnowledge        component          = toPriorKnowledge(evidence.getSufficientFor(), rdfParser, propertyToEvidence, knowledges);
-            final BioKnowledgeBuilder   evidenceBuilder    = new BioKnowledgeBuilder();
+            final RelevantTheory        component          = toTheory( evidence.getSufficientFor(), rdfParser, propertyToEvidence, knowledges );
+            final RelevantTheoryBuilder   evidenceBuilder    = RelevantTheory.builder();
 
-            evidenceBuilder.setName( evidence.getName() )
-                    .setId(evidence.getId())
-                           .setNodeType(NodeType.AND)
-                           .addPartOf(component);
-            knowledges.put(evidence.getName(), evidenceBuilder.create());
+            evidenceBuilder.name( evidence.getName() )
+                           .id( evidence.getId() )
+                           .operator( OperatorLogic.AND )
+                           .parent( component );
+            knowledges.put(evidence.getName(), evidenceBuilder.build());
         }
-        // Now create leaf from evidencesHMM
+        // Now build leaf from evidencesHMM
+        // Many evidencesHMM identify a same tigrfam
+        // for this reason they are linked to a common RelevantTheory
         final Map<String, Set<ComponentEvidence>>leafSet = new HashMap<>();
         for( final ComponentEvidence evidence : evidencesHMM ){
             Set<ComponentEvidence> values = leafSet.get(evidence.getId() );
@@ -187,17 +187,16 @@ final public class GenomePropertiesIntegrator {
             leafSet.put(evidence.getId(), values);
         }
         for( final Map.Entry<String, Set<ComponentEvidence>> entry : leafSet.entrySet() ){
-            final List<PriorKnowledge>  parents     = entry.getValue()
+            final List<RelevantTheory>  parents     = entry.getValue()
                                                            .stream()
-                    .map(evidence -> knowledges.get(evidence.getName()))
+                                                           .map(evidence -> knowledges.get(evidence.getName()))
                                                            .collect(Collectors.toList());
-            final BioKnowledgeBuilder   leafBuilder = new BioKnowledgeBuilder();
-            leafBuilder.setName( entry.getKey() )
-                       .setId(entry.getKey())
-                       .setSource( SOURCE )
-                       .setNodeType(NodeType.LEAF)
-                       .setPartOf(parents);
-            knowledges.put(entry.getKey(), leafBuilder.create());
+            final RelevantTheoryBuilder   leafBuilder = RelevantTheory.builder();
+            leafBuilder.name( entry.getKey() )
+                       .id( entry.getKey() )
+                       .source( SOURCE )
+                       .parents( parents );
+            knowledges.put(entry.getKey(), leafBuilder.build());
         }
         knowledges.entrySet()
                   .parallelStream()
