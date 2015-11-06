@@ -34,55 +34,26 @@
  *
  */
 
-package fr.cea.ig.grools;
+package fr.cea.ig.grools.relevant.table;
 
-
-import sun.security.pkcs11.P11Util;
-
-import java.io.Serializable;
+import fr.cea.ig.grools.model.Category;
+import fr.cea.ig.grools.model.EvaluationCell;
+import fr.cea.ig.grools.model.OperatorLogic;
+import fr.cea.ig.grools.relevant.terms.ConclusionTerms;
+import fr.cea.ig.grools.relevant.terms.ObservationTerms;
+import lombok.NonNull;
 
 /**
- * Mode
+ * ConclusionEvaluationCell
  */
-public final class Mode implements Serializable{
+public final class ConclusionEvaluationCell extends EvaluationCell<ObservationTerms, ConclusionTerms>  {
 
-    private static final long serialVersionUID = -7818231145374064810L;
-    private boolean isSpecificRuleEnabled;
-    private boolean isMandatoryRuleEnabled;
-
-    private Mode(){
-        isSpecificRuleEnabled = false;
-        isMandatoryRuleEnabled= false;
-    }
-
-
-    public static final Mode MODE = new Mode();
-
-
-    public void setIsSpecificRuleEnabled( boolean value ){
-        isSpecificRuleEnabled = value;
-    }
-
-
-    public void setIsMandatoryRuleEnabled( boolean value ){
-        isMandatoryRuleEnabled = value;
-    }
-
-
-    public boolean getIsSpecificRuleEnabled(){
-        return isSpecificRuleEnabled;
-    }
-
-
-    public boolean getIsMandatoryRuleEnabled(){
-        return isMandatoryRuleEnabled;
-    }
-
-    @Override
-    public String toString() {
-        return "Mode(" +
-                       "isSpecificRuleEnabled=" + isSpecificRuleEnabled +
-                       ", isMandatoryRuleEnabled=" + isMandatoryRuleEnabled +
-                       ')';
+    public ConclusionEvaluationCell(
+                                           @NonNull final Category          category,
+                                           @NonNull final OperatorLogic     operator,
+                                           @NonNull final ObservationTerms  rowEntry,
+                                           @NonNull final ObservationTerms  columnEntry,
+                                           @NonNull final ConclusionTerms   value){
+        super( category, operator, rowEntry, columnEntry, value );
     }
 }

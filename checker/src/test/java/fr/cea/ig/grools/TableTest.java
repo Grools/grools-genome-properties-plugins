@@ -36,53 +36,25 @@
 
 package fr.cea.ig.grools;
 
+import fr.cea.ig.grools.relevant.table.ConclusionEvaluationCell;
+import fr.cea.ig.grools.relevant.table.ConclusionEvaluationTable;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
-import sun.security.pkcs11.P11Util;
-
-import java.io.Serializable;
 
 /**
- * Mode
+ * TableTest
  */
-public final class Mode implements Serializable{
+public class TableTest {
 
-    private static final long serialVersionUID = -7818231145374064810L;
-    private boolean isSpecificRuleEnabled;
-    private boolean isMandatoryRuleEnabled;
-
-    private Mode(){
-        isSpecificRuleEnabled = false;
-        isMandatoryRuleEnabled= false;
-    }
-
-
-    public static final Mode MODE = new Mode();
-
-
-    public void setIsSpecificRuleEnabled( boolean value ){
-        isSpecificRuleEnabled = value;
-    }
-
-
-    public void setIsMandatoryRuleEnabled( boolean value ){
-        isMandatoryRuleEnabled = value;
-    }
-
-
-    public boolean getIsSpecificRuleEnabled(){
-        return isSpecificRuleEnabled;
-    }
-
-
-    public boolean getIsMandatoryRuleEnabled(){
-        return isMandatoryRuleEnabled;
-    }
-
-    @Override
-    public String toString() {
-        return "Mode(" +
-                       "isSpecificRuleEnabled=" + isSpecificRuleEnabled +
-                       ", isMandatoryRuleEnabled=" + isMandatoryRuleEnabled +
-                       ')';
+    @Test
+    public void conclusionCellsTest() {
+        ConclusionEvaluationTable   table = ConclusionEvaluationTable.EVALUATION_TABLE;
+        ConclusionEvaluationCell[]  cells = table.toCells( ConclusionEvaluationCell.class );
+        assertNotNull( cells );
+        assertEquals( cells.length, 16 );
+        for(final ConclusionEvaluationCell cell: cells)
+            assertNotNull( cell );
     }
 }

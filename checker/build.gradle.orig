@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 /*
  *
  * Copyright LABGeM 2015
@@ -34,6 +36,7 @@
  *
  */
 
+>>>>>>> 0756dd93dd1b6ea43d486bfae2e4b86494c15ac3
 import java.text.SimpleDateFormat
 
 buildscript {
@@ -57,7 +60,11 @@ apply plugin: 'com.bmuschko.nexus'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+<<<<<<< HEAD
+version     = '1.0'
+=======
 version     = '2.0'
+>>>>>>> 0756dd93dd1b6ea43d486bfae2e4b86494c15ac3
 group       = 'fr.cea.ig'
 description = projectDescription
 
@@ -70,8 +77,13 @@ repositories {
 
 dependencies {
     testCompile group: 'junit',             name: 'junit',              version: '4.11'
+<<<<<<< HEAD
+    compile     group: 'javax.validation',  name: 'validation-api',     version: '1.1.0.Final'
+    compile     group: 'joda-time',         name: 'joda-time',          version: '2.7'
+=======
     compile     group: 'org.projectlombok', name: 'lombok',             version: '1.16.6'
     compile     group: 'javax.validation',  name: 'validation-api',     version: '1.1.0.Final'
+>>>>>>> 0756dd93dd1b6ea43d486bfae2e4b86494c15ac3
     compile     group: 'ch.qos.logback',    name: 'logback-classic',    version: '1.1.2'
     compile     group: 'org.drools',        name: 'drools-compiler',    version: droolsVersion
     compile     group: 'org.drools',        name: 'knowledge-api',      version: droolsVersion
@@ -86,7 +98,11 @@ jar {
                     "Product-Name":                 projectName,
                     "provider":                     "Genoscope",
                     "Created-By":                   "LABGeM",
+<<<<<<< HEAD
+                    "description":                  "GROOLS Application.",
+=======
                     "relevant":                  "GROOLS Application.",
+>>>>>>> 0756dd93dd1b6ea43d486bfae2e4b86494c15ac3
                     "Build-Date":                   new SimpleDateFormat("yyyy-MM-dd").format(new Date()),
                     "Build-JDK":                    System.getProperty("java.version"),
                     "Build-Gradle":                 project.gradle.gradleVersion
@@ -96,9 +112,12 @@ jar {
 }
 
 tasks.withType(Test) {
+<<<<<<< HEAD
+=======
     testLogging {
         events 'started','passed'
     }
+>>>>>>> 0756dd93dd1b6ea43d486bfae2e4b86494c15ac3
     jvmArgs  "-Dcom.sun.management.jmxremote.port=19988", "-Dcom.sun.management.jmxremote.ssl=false", "-Dcom.sun.management.jmxremote.authenticate=false", "-Ddrools.mbeans=enabled"
 }
 tasks.withType(JavaCompile) {

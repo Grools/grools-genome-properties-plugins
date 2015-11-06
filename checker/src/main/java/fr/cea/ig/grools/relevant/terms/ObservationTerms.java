@@ -34,55 +34,25 @@
  *
  */
 
-package fr.cea.ig.grools;
+package fr.cea.ig.grools.relevant.terms;
 
-
-import sun.security.pkcs11.P11Util;
-
-import java.io.Serializable;
+import fr.cea.ig.grools.model.Term;
+import lombok.Getter;
 
 /**
- * Mode
+ * ObservationTerms
  */
-public final class Mode implements Serializable{
+public enum ObservationTerms implements Term {
+    TRUE    ( "TRUE"    ),
+    FALSE   ( "FALSE"   ),
+    BOTH    ( "BOTH"    ),
+    UNKNOWN ( "UNKNOWN" );
 
-    private static final long serialVersionUID = -7818231145374064810L;
-    private boolean isSpecificRuleEnabled;
-    private boolean isMandatoryRuleEnabled;
+    @Getter
+    private final String term;
 
-    private Mode(){
-        isSpecificRuleEnabled = false;
-        isMandatoryRuleEnabled= false;
+    ObservationTerms( final String term ) {
+        this.term = term;
     }
 
-
-    public static final Mode MODE = new Mode();
-
-
-    public void setIsSpecificRuleEnabled( boolean value ){
-        isSpecificRuleEnabled = value;
-    }
-
-
-    public void setIsMandatoryRuleEnabled( boolean value ){
-        isMandatoryRuleEnabled = value;
-    }
-
-
-    public boolean getIsSpecificRuleEnabled(){
-        return isSpecificRuleEnabled;
-    }
-
-
-    public boolean getIsMandatoryRuleEnabled(){
-        return isMandatoryRuleEnabled;
-    }
-
-    @Override
-    public String toString() {
-        return "Mode(" +
-                       "isSpecificRuleEnabled=" + isSpecificRuleEnabled +
-                       ", isMandatoryRuleEnabled=" + isMandatoryRuleEnabled +
-                       ')';
-    }
 }

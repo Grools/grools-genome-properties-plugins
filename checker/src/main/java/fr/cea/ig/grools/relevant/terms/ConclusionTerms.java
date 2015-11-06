@@ -34,55 +34,37 @@
  *
  */
 
-package fr.cea.ig.grools;
+package fr.cea.ig.grools.relevant.terms;
 
-
-import sun.security.pkcs11.P11Util;
-
-import java.io.Serializable;
+import fr.cea.ig.grools.model.Term;
+import lombok.Getter;
 
 /**
- * Mode
+ * ConclusionTerms
  */
-public final class Mode implements Serializable{
+public enum ConclusionTerms implements Term {
 
-    private static final long serialVersionUID = -7818231145374064810L;
-    private boolean isSpecificRuleEnabled;
-    private boolean isMandatoryRuleEnabled;
+    CONFIRMED_PRESENCE          ( "CONFIRMED_PRESENCE"          ),
+    CONFIRMED_ABSENCE           ( "CONFIRMED_ABSENCE"           ),
+    UNEXPECTED_PRESENCE         ( "UNEXPECTED_PRESENCE"         ),
+    UNEXPECTED_ABSENCE          ( "UNEXPECTED_ABSENCE"          ),
+    CONTRADICTORY_PRESENCE      ( "CONTRADICTORY_PRESENCE"      ),
+    CONTRADICTORY_ABSENCE       ( "CONTRADICTORY_ABSENCE"       ),
+    AMBIGUOUS_PRESENCE          ( "AMBIGUOUS_PRESENCE"          ),
+    AMBIGUOUS_ABSENCE           ( "AMBIGUOUS_ABSENCE"           ),
+    AMBIGUOUS_CONTRADICTORY     ( "AMBIGUOUS_CONTRADICTORY"     ),
+    UNCONFIRMED_PRESENCE        ( "UNCONFIRMED_PRESENCE"        ),
+    UNCONFIRMED_ABSENCE         ( "UNCONFIRMED_ABSENCE"         ),
+    UNCONFIRMED_CONTRADICTORY   ( "UNCONFIRMED_CONTRADICTORY"   ),
+    MISSING                     ( "MISSING"                     ),
+    ABSENT                      ( "ABSENT"                      ),
+    AMBIGUOUS                   ( "AMBIGUOUS"                   ),
+    UNEXPLAINED                 ( "UNEXPLAINED"                 );
 
-    private Mode(){
-        isSpecificRuleEnabled = false;
-        isMandatoryRuleEnabled= false;
-    }
+    @Getter
+    private final String term;
 
-
-    public static final Mode MODE = new Mode();
-
-
-    public void setIsSpecificRuleEnabled( boolean value ){
-        isSpecificRuleEnabled = value;
-    }
-
-
-    public void setIsMandatoryRuleEnabled( boolean value ){
-        isMandatoryRuleEnabled = value;
-    }
-
-
-    public boolean getIsSpecificRuleEnabled(){
-        return isSpecificRuleEnabled;
-    }
-
-
-    public boolean getIsMandatoryRuleEnabled(){
-        return isMandatoryRuleEnabled;
-    }
-
-    @Override
-    public String toString() {
-        return "Mode(" +
-                       "isSpecificRuleEnabled=" + isSpecificRuleEnabled +
-                       ", isMandatoryRuleEnabled=" + isMandatoryRuleEnabled +
-                       ')';
+    ConclusionTerms( final String term ) {
+        this.term = term;
     }
 }

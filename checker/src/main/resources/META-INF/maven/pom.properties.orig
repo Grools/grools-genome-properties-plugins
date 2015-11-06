@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+version=1.0
+groupId=fr.cea.ig.grools
+artifactId=grools-core
+=======
 #
 #
 # Copyright LABGeM 2015
@@ -34,9 +39,7 @@
 #
 #
 
-droolsVersion       = 6.3.0.Final
-projectName         = grools-checker
-projectDescription  = GROOLS checker
-projectUrlCore      = Grools/grools-checker
-projectUrlBase      = https://github.com/
-projectGitBase      = scm:git@github.com:
+version=2.0
+groupId=fr.cea.ig.grools
+artifactId=grools-checker
+>>>>>>> 0756dd93dd1b6ea43d486bfae2e4b86494c15ac3
