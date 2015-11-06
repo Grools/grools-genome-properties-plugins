@@ -34,55 +34,36 @@
  *
  */
 
-package fr.cea.ig.grools;
+package fr.cea.ig.grools.model;
 
-
-import sun.security.pkcs11.P11Util;
-
-import java.io.Serializable;
+import lombok.Getter;
 
 /**
- * Mode
+ * OperatorLogic
  */
-public final class Mode implements Serializable{
+/*
+ * @startuml
+ * skinparam shadowing false
+ * skinparam defaultFontName courier
+ * enum OperatorLogic {
+ * + AND
+ * + OR
+ * + NOR
+ * + getNumber()    : int
+ * - number         : int
+ * }
+ * @enduml
+ */
+public enum OperatorLogic {
+    AND(0),
+    OR(1),
+    NOT(2);
 
-    private static final long serialVersionUID = -7818231145374064810L;
-    private boolean isSpecificRuleEnabled;
-    private boolean isMandatoryRuleEnabled;
+    @Getter
+    private final int number;
 
-    private Mode(){
-        isSpecificRuleEnabled = false;
-        isMandatoryRuleEnabled= false;
+    OperatorLogic(int number){
+        this.number = number;
     }
 
-
-    public static final Mode MODE = new Mode();
-
-
-    public void setIsSpecificRuleEnabled( boolean value ){
-        isSpecificRuleEnabled = value;
-    }
-
-
-    public void setIsMandatoryRuleEnabled( boolean value ){
-        isMandatoryRuleEnabled = value;
-    }
-
-
-    public boolean getIsSpecificRuleEnabled(){
-        return isSpecificRuleEnabled;
-    }
-
-
-    public boolean getIsMandatoryRuleEnabled(){
-        return isMandatoryRuleEnabled;
-    }
-
-    @Override
-    public String toString() {
-        return "Mode(" +
-                       "isSpecificRuleEnabled=" + isSpecificRuleEnabled +
-                       ", isMandatoryRuleEnabled=" + isMandatoryRuleEnabled +
-                       ')';
-    }
 }

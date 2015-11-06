@@ -36,53 +36,34 @@
 
 package fr.cea.ig.grools;
 
-
-import sun.security.pkcs11.P11Util;
-
-import java.io.Serializable;
+import org.kie.api.KieBase;
+import org.kie.api.KieBaseConfiguration;
+import org.kie.api.KieServices;
+import org.kie.api.conf.MBeansOption;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 
 /**
- * Mode
+ * DroolsBuilder
  */
-public final class Mode implements Serializable{
+public final class DroolsBuilder {
 
-    private static final long serialVersionUID = -7818231145374064810L;
-    private boolean isSpecificRuleEnabled;
-    private boolean isMandatoryRuleEnabled;
-
-    private Mode(){
-        isSpecificRuleEnabled = false;
-        isMandatoryRuleEnabled= false;
+    public static KieSession useKieSession( final String name ) {
+        final KieServices   ks          = KieServices.Factory.get();
+        final KieContainer  kContainer  = ks.getKieClasspathContainer();
+        final KieSession    kSession    = kContainer.newKieSession( name );
+        kSession.addEventListener( new DebugDRL() );
+        return kSession;
     }
 
-
-    public static final Mode MODE = new Mode();
-
-
-    public void setIsSpecificRuleEnabled( boolean value ){
-        isSpecificRuleEnabled = value;
-    }
-
-
-    public void setIsMandatoryRuleEnabled( boolean value ){
-        isMandatoryRuleEnabled = value;
-    }
-
-
-    public boolean getIsSpecificRuleEnabled(){
-        return isSpecificRuleEnabled;
-    }
-
-
-    public boolean getIsMandatoryRuleEnabled(){
-        return isMandatoryRuleEnabled;
-    }
-
-    @Override
-    public String toString() {
-        return "Mode(" +
-                       "isSpecificRuleEnabled=" + isSpecificRuleEnabled +
-                       ", isMandatoryRuleEnabled=" + isMandatoryRuleEnabled +
-                       ')';
+    public static KieSession useKieBase( final String name ) {
+        final KieServices           ks          = KieServices.Factory.get();
+        final KieContainer          kContainer  = ks.getKieClasspathContainer();
+        final KieBaseConfiguration  kbaseConf   = ks.newKieBaseConfiguration();
+        kbaseConf.setOption( MBeansOption.ENABLED );
+        final KieBase               kbase       = kContainer.newKieBase( name, kbaseConf );
+        final KieSession            kSession    = kbase.newKieSession();
+        kSession.addEventListener( new DebugDRL() );
+        return kSession;
     }
 }

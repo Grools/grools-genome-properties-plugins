@@ -1,7 +1,6 @@
-package fr.cea.ig.grools.model;
-
 /*
- * Copyright LABGeM 21/01/15
+ *
+ * Copyright LABGeM 2015
  *
  * author: Jonathan MERCIER
  *
@@ -32,33 +31,65 @@ package fr.cea.ig.grools.model;
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
+ *
  */
 
-import org.joda.time.DateTime;
-import javax.validation.constraints.NotNull;
+package fr.cea.ig.grools.model;
+
+import lombok.*;
+
+import java.io.*;
+import java.time.*;
+
 /**
+ * Fact
  */
 /*
  * @startuml
- * interface Fact {
- *  + getId()           : String
- *  + getName()         : String
- *  + getSource()       : String
- *  + getDate()         : DateTime
- *  + getPresence()     : FourState
+ * skinparam shadowing false
+ * skinparam defaultFontName courier
+ * abstract class Fact<T extends Term> extends Serializable {
+ *  + getId()        : String
+ *  + getName()      : String
+ *  + getSource()    : String
+ *  + getDate()      : LocalDate
  * }
- * hide Fact fields
  * @enduml
  */
-public interface Fact {
-    @NotNull
-    public String       getId();
-    @NotNull
-    public String       getName();
-    @NotNull
-    public String       getSource();
-    @NotNull
-    public DateTime     getDate();
-    @NotNull
-    public FourState getPresence();
+@Data
+public abstract class Fact implements Serializable {
+    private static final long serialVersionUID = -4743905609219574762L;
+    protected final String    id;
+    protected final String    name;
+    protected final String    source;
+    protected final LocalDate date;
+
+    protected Fact(
+                       @NonNull final String id,
+                       @NonNull final String name,
+                       @NonNull final String source,
+                       @NonNull final LocalDate date ) {
+        this.id     = id;
+        this.name   = name;
+        this.source = source;
+        this.date   = date;
+    }
+
+
+    protected Fact(
+                       @NonNull final String id,
+                       @NonNull final String source,
+                       @NonNull final LocalDate date ) {
+        this(id,  id, source, date );
+    }
+
+
+    protected Fact( @NonNull final String id, @NonNull final String source ) {
+        this( id, id, source, LocalDate.now() );
+    }
+
+
+    protected Fact( @NonNull final String id ) {
+        this( id, id, "UNKNOWN", LocalDate.now() );
+    }
 }

@@ -34,55 +34,24 @@
  *
  */
 
-package fr.cea.ig.grools;
-
-
-import sun.security.pkcs11.P11Util;
-
-import java.io.Serializable;
+package fr.cea.ig.grools.model;
 
 /**
- * Mode
+ * ObservationType
  */
-public final class Mode implements Serializable{
-
-    private static final long serialVersionUID = -7818231145374064810L;
-    private boolean isSpecificRuleEnabled;
-    private boolean isMandatoryRuleEnabled;
-
-    private Mode(){
-        isSpecificRuleEnabled = false;
-        isMandatoryRuleEnabled= false;
-    }
-
-
-    public static final Mode MODE = new Mode();
-
-
-    public void setIsSpecificRuleEnabled( boolean value ){
-        isSpecificRuleEnabled = value;
-    }
-
-
-    public void setIsMandatoryRuleEnabled( boolean value ){
-        isMandatoryRuleEnabled = value;
-    }
-
-
-    public boolean getIsSpecificRuleEnabled(){
-        return isSpecificRuleEnabled;
-    }
-
-
-    public boolean getIsMandatoryRuleEnabled(){
-        return isMandatoryRuleEnabled;
-    }
-
-    @Override
-    public String toString() {
-        return "Mode(" +
-                       "isSpecificRuleEnabled=" + isSpecificRuleEnabled +
-                       ", isMandatoryRuleEnabled=" + isMandatoryRuleEnabled +
-                       ')';
-    }
+/*
+ * @startuml
+ * skinparam shadowing false
+ * skinparam defaultFontName courier
+ * enum ObservationType {
+ *  ANNOTATION
+ *  COMPUTATIONAL_ANALYSIS
+ *  EXPERIMENTATION
+ * }
+ * @enduml
+ */
+public enum ObservationType {
+    ANNOTATION,
+    COMPUTATIONAL_ANALYSIS,
+    EXPERIMENTATION,
 }

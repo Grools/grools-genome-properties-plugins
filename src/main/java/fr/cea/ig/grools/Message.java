@@ -36,53 +36,26 @@
 
 package fr.cea.ig.grools;
 
-
-import sun.security.pkcs11.P11Util;
+import lombok.Data;
+import lombok.NonNull;
 
 import java.io.Serializable;
 
 /**
- * Mode
+ * Message
  */
-public final class Mode implements Serializable{
+@Data
+public final class Message implements Serializable{
+    private static final long serialVersionUID = 3059752850601063478L;
 
-    private static final long serialVersionUID = -7818231145374064810L;
-    private boolean isSpecificRuleEnabled;
-    private boolean isMandatoryRuleEnabled;
+    public static Message ENABLE_SPECIFIC   = new Message("enable specific reasoning");
+    public static Message DISABLE_SPECIFIC  = new Message("disable specific reasoning");
+    public static Message ENABLE_MANDATORY  = new Message("enable mandatory reasoning");
+    public static Message DISABLE_MANDATORY = new Message("disable mandatory reasoning");
 
-    private Mode(){
-        isSpecificRuleEnabled = false;
-        isMandatoryRuleEnabled= false;
-    }
+    private String message;
 
-
-    public static final Mode MODE = new Mode();
-
-
-    public void setIsSpecificRuleEnabled( boolean value ){
-        isSpecificRuleEnabled = value;
-    }
-
-
-    public void setIsMandatoryRuleEnabled( boolean value ){
-        isMandatoryRuleEnabled = value;
-    }
-
-
-    public boolean getIsSpecificRuleEnabled(){
-        return isSpecificRuleEnabled;
-    }
-
-
-    public boolean getIsMandatoryRuleEnabled(){
-        return isMandatoryRuleEnabled;
-    }
-
-    @Override
-    public String toString() {
-        return "Mode(" +
-                       "isSpecificRuleEnabled=" + isSpecificRuleEnabled +
-                       ", isMandatoryRuleEnabled=" + isMandatoryRuleEnabled +
-                       ')';
+    private Message( @NonNull final String text ){
+        this.message = text;
     }
 }

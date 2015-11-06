@@ -1,5 +1,5 @@
 /*
-* Copyright LABGeM (2014)
+* Copyright LABGeM 2014
 *
 * author: Jonathan MERCIER
 *
@@ -34,116 +34,24 @@
 
 package fr.cea.ig.grools;
 
-import fr.cea.ig.grools.model.PriorKnowledge;
-import fr.cea.ig.grools.model.FourState;
-import fr.cea.ig.grools.model.NodeType;
-import fr.cea.ig.grools.model.Conclusion;
-import fr.cea.ig.grools.model.KnowledgeStatistics;
 import fr.cea.ig.grools.Mode;
+import fr.cea.ig.grools.model.Theory;
+import fr.cea.ig.grools.model.Observation;
+
 import java.util.List;
 
 dialect "mvel"
 
-
-
-query allSubKnowledge( PriorKnowledge $parent )
-    $childs:= List() from collect ( PriorKnowledge( $parent memberOf partOf ) )
-end
-
-
-query allSubKnowledgeAreTrue( PriorKnowledge $parent, List $childs )
-    $childs:= List() from collect ( PriorKnowledge( $parent memberOf partOf ))
-    forall( PriorKnowledge( presence == FourState.TRUE ) from $childs )
-end
-
-
-query allSubKnowledgeAreNone( PriorKnowledge $parent, List $childs )
-    $childs:= List() from collect ( PriorKnowledge( $parent memberOf partOf ))
-    forall( PriorKnowledge( presence == FourState.UNKNOWN ) from $childs )
-end
-
-
-query allSubKnowledgeAreFalse( PriorKnowledge $parent, List $childs )
-    $childs:= List() from collect ( PriorKnowledge( $parent memberOf partOf ))
-    forall( PriorKnowledge( presence == FourState.FALSE ) from $childs )
-end
-
-
-query allSubKnowledgeAreTrueAndFalse( PriorKnowledge $parent, List $childs )
-    $childs:= List() from collect ( PriorKnowledge( $parent memberOf partOf ))
-    PriorKnowledge( presence == FourState.TRUE  ) from $childs
-    PriorKnowledge( presence == FourState.FALSE  ) from $childs
-    forall( PriorKnowledge( ( presence ( == FourState.TRUE || == FourState.FALSE) ) ) from $childs )
-end
-
-query knowledgeWithOneParent( PriorKnowledge $parent, List $childs )
-    $childs:= List( size > 0 ) from collect ( PriorKnowledge( $parent memberOf partOf && partOf.size == 1))
-end
-
-query subKnowledgeHaveFalse( List $childs )
-    PriorKnowledge( presence == FourState.FALSE ) from $childs
-end
-
-
-query subKnowledgeHaveTrue( List $childs )
-    PriorKnowledge(  presence == FourState.TRUE ) from $childs
-end
-
-
-query subKnowledgeHaveBoth( List $childs )
-    PriorKnowledge(  presence == FourState.BOTH ) from $childs
-end
-
-
-query subKnowledgeHaveUnknown( List $childs )
-    PriorKnowledge( presence == FourState.UNKNOWN ) from $childs
-end
-
-query presentSubknowledgeHaveOneParent( List $childs )
-    PriorKnowledge( presence == FourState.TRUE && partOf.size == 1 ) from $childs
-end
-
-query allKnowledges( List $knowledgeList )
-    $knowledgeList := List() from collect ( PriorKnowledge() )
-end
-
-query predictionIsTrueAndFalse( String n )
-    Prediction( n := priorKnowledgeId, presence == FourState.TRUE )
-    Prediction( n := priorKnowledgeId, presence == FourState.FALSE )
-    not(Prediction( n := priorKnowledgeId, presence == FourState.UNKNOWN ))
-end
-
-
-query allKnowledgeStatistics( List $knowledgeStatisticsList )
-    $knowledgeStatisticsList := List() from collect ( KnowledgeStatistics() )
-end
-
-
-query specificKnowledgeStatistics( String $priorKnowledgeId )
-    $k                      : PriorKnowledge( $priorKnowledgeId := id )
-    $knowledgeStatistics    : KnowledgeStatistics( $k := priorKnowledge )
-end
-
-
-query hasKnowledgeName( String $name )
-    $knowledges: List() from collect ( PriorKnowledge( name == $name ) )
-end
-
-
-query hasKnowledgeId( String $id )
-    $knowledge: PriorKnowledge( id == $id )
-end
-
-
-query knowledgePresenceIsUnknown(  )
-    $knowledges:= List() from collect ( PriorKnowledge( presence == FourState.UNKNOWN ) )
-end
-
-query knowledgeConclusionIsMissing(  )
-    $knowledges:= List() from collect ( PriorKnowledge( conclusion == Conclusion.MISSING ) )
-end
-
-
-query currentMode( )
+query getMode( )
     $mode : Mode()
+end
+
+query getTheories( )
+    $theories : List() from collect( Theory() )
+end
+
+
+
+query getObservations( )
+    $observations : List() from collect( Observation() )
 end

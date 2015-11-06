@@ -1,6 +1,6 @@
-package fr.cea.ig.grools.model;
 /*
- * Copyright LABGeM 10/02/15
+ *
+ * Copyright LABGeM 2015
  *
  * author: Jonathan MERCIER
  *
@@ -31,27 +31,90 @@ package fr.cea.ig.grools.model;
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
+ *
  */
 
+package fr.cea.ig.grools.model;
 
-import javax.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+
+import java.time.LocalDate;
 
 /**
- *
+ * Observation
  */
 /*
  * @startuml
- * interface Observation extends Fact {
- *  +getPriorKnowledgeId()      : String
- *  +getEvidence()              : Evidence
+ * skinparam shadowing false
+ * skinparam defaultFontName courier
+ * interface Observation<T extends State> extends Fact {
+ *  + getTheoryId()         : String
+ *  + getObservationType()         : ObservationType
+ *  + getState()            : T
+ *  + getIsExperimental()   : boolean
+ *  + getIsAPrediction()    : boolean
+ *  + getIsAnExpectation()  : boolean
  * }
- * hide  Observation fields
- * hide  Fact fields
  * @enduml
  */
-public interface Observation extends Fact {
-    @NotNull
-    String getPriorKnowledgeId();
-    @NotNull
-    public Evidence getEvidence();
+@Data
+@EqualsAndHashCode(callSuper=false)
+public abstract class Observation<T extends Term> extends Fact {
+    protected final String          theoryId;
+    protected final ObservationType observationType;
+    protected final T               state;
+    protected final boolean         isExperimental;
+    protected final boolean         isAPrediction;
+    protected final boolean         isAnExpectation;
+
+    protected Observation(
+            @NonNull final String id,
+            @NonNull final String name,
+            @NonNull final String source,
+            @NonNull final LocalDate date,
+            @NonNull final String theoryId,
+            @NonNull final ObservationType observationType,
+            @NonNull final T state,
+                     final boolean isExperimental){
+        super( id, name, source, date );
+        this.theoryId       = theoryId;
+        this.observationType = observationType;
+        this.state          = state;
+        this.isExperimental = isExperimental;
+        this.isAPrediction  = ( observationType == ObservationType.ANNOTATION ||
+                                observationType == ObservationType.COMPUTATIONAL_ANALYSIS );
+        this.isAnExpectation= ( observationType == ObservationType.EXPERIMENTATION ||
+                                ( observationType == ObservationType.ANNOTATION && isExperimental) );
+    }
+
+
+    public boolean getIsExperimental(){
+        return isExperimental;
+    }
+
+    public boolean getIsAPrediction(){
+        return isAPrediction;
+    }
+
+    public boolean getIsAnExpectation(){
+        return isAnExpectation;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Observation( \n" +
+               "                     id             = " + id               + ",\n" +
+               "                     theoryId       = " + theoryId         + ",\n" +
+               "                     name           = " + name             + ",\n" +
+               "                     source         = " + source           + ",\n" +
+               "                     isExperimental = " + isExperimental   + ",\n" +
+               "                     isAPrediction  = " + isAPrediction    + ",\n" +
+               "                     isAnExpectation= " + isAnExpectation  + ",\n" +
+               "                     observationType= " + observationType  + ",\n" +
+               "                     state          = " + state            + " )";
+    }
 }

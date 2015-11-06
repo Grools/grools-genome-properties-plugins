@@ -34,55 +34,35 @@
  *
  */
 
-package fr.cea.ig.grools;
+package fr.cea.ig.grools.model;
 
-
-import sun.security.pkcs11.P11Util;
+import lombok.Data;
+import lombok.NonNull;
 
 import java.io.Serializable;
 
 /**
- * Mode
+ * EvaluationCell
  */
-public final class Mode implements Serializable{
+@Data
+public abstract  class EvaluationCell<T extends Term,U extends Term> implements Serializable {
+    private static final long serialVersionUID = -7067576402293397707L;
+    protected final Category        category;
+    protected final OperatorLogic   operator;
+    protected final T               rowEntry;
+    protected final T               columnEntry;
+    protected final U               value;
 
-    private static final long serialVersionUID = -7818231145374064810L;
-    private boolean isSpecificRuleEnabled;
-    private boolean isMandatoryRuleEnabled;
-
-    private Mode(){
-        isSpecificRuleEnabled = false;
-        isMandatoryRuleEnabled= false;
-    }
-
-
-    public static final Mode MODE = new Mode();
-
-
-    public void setIsSpecificRuleEnabled( boolean value ){
-        isSpecificRuleEnabled = value;
-    }
-
-
-    public void setIsMandatoryRuleEnabled( boolean value ){
-        isMandatoryRuleEnabled = value;
-    }
-
-
-    public boolean getIsSpecificRuleEnabled(){
-        return isSpecificRuleEnabled;
-    }
-
-
-    public boolean getIsMandatoryRuleEnabled(){
-        return isMandatoryRuleEnabled;
-    }
-
-    @Override
-    public String toString() {
-        return "Mode(" +
-                       "isSpecificRuleEnabled=" + isSpecificRuleEnabled +
-                       ", isMandatoryRuleEnabled=" + isMandatoryRuleEnabled +
-                       ')';
+    protected EvaluationCell(
+                                    @NonNull final Category         category,
+                                    @NonNull final OperatorLogic    operator,
+                                    @NonNull final T                rowEntry,
+                                    @NonNull final T                columnEntry,
+                                    @NonNull final U                value){
+        this.category       = category;
+        this.operator       = operator;
+        this.rowEntry       = rowEntry;
+        this.columnEntry    = columnEntry;
+        this.value          = value;
     }
 }
