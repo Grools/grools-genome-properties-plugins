@@ -53,154 +53,153 @@ import java.util.stream.Collectors;
 
 
 final public class GenomePropertiesIntegrator {
-    private static  final String SOURCE = "Genome Properties";
-    private static  final Logger LOG = (Logger) LoggerFactory.getLogger( GenomePropertiesIntegrator.class );
-    private         final Reasoner grools;
+    private static final String SOURCE = "Genome Properties";
+    private static final Logger LOG = ( Logger ) LoggerFactory.getLogger( GenomePropertiesIntegrator.class );
+    private final Reasoner grools;
 
     @NotNull
-    private InputStream getFile(@NotNull final String fileName) {
+    private InputStream getFile( @NotNull final String fileName ) {
         ClassLoader classLoader = getClass().getClassLoader();
 
-        return classLoader.getResourceAsStream(fileName);
+        return classLoader.getResourceAsStream( fileName );
 
     }
 
 
     @NotNull
-    private static boolean isGenPropEvidence( @NotNull final Map.Entry<String,Term> entry ){
-        return (entry.getValue() instanceof ComponentEvidence && ((ComponentEvidence) entry.getValue()).getCategory().equals("GENPROP"));
+    private static boolean isGenPropEvidence( @NotNull final Map.Entry<String, Term> entry ) {
+        return ( entry.getValue() instanceof ComponentEvidence && ( ( ComponentEvidence ) entry.getValue() ).getCategory().equals( "GENPROP" ) );
     }
 
     @NotNull
-    private static boolean isHMMEvidence( @NotNull final Map.Entry<String,Term> entry ){
-        return (entry.getValue() instanceof ComponentEvidence && ((ComponentEvidence) entry.getValue()).getCategory().equals("HMM"));
+    private static boolean isHMMEvidence( @NotNull final Map.Entry<String, Term> entry ) {
+        return ( entry.getValue() instanceof ComponentEvidence && ( ( ComponentEvidence ) entry.getValue() ).getCategory().equals( "HMM" ) );
     }
 
     @NotNull
-    private static RelevantTheory toTheory(@NotNull final Term term, @NotNull final GenomePropertiesParser rdfParser, @NotNull final Map<String, Set<String>> propertyToEvidence, @NotNull final Map<String, RelevantTheory> knowledges){
-        final RelevantTheoryBuilder fragmentTheory    = RelevantTheory.builder();
-        Term                        parentTerm          = null;
+    private static RelevantTheory toTheory( @NotNull final Term term, @NotNull final GenomePropertiesParser rdfParser, @NotNull final Map<String, Set<String>> propertyToEvidence, @NotNull final Map<String, RelevantTheory> knowledges ) {
+        final RelevantTheoryBuilder fragmentTheory = RelevantTheory.builder();
+        Term parentTerm = null;
         RelevantTheory theory;
-        if( term instanceof PropertyComponent ){
-            final PropertyComponent component = (PropertyComponent)term;
-            if( component.getRequiredBy() != null )
+        if ( term instanceof PropertyComponent ) {
+            final PropertyComponent component = ( PropertyComponent ) term;
+            if ( component.getRequiredBy() != null )
                 parentTerm = component.getRequiredBy();
-            else{
+            else {
                 parentTerm = component.getPartOf();
                 fragmentTheory.isMandatory( false );
             }
             fragmentTheory.operator( OperatorLogic.OR );
-        }
-        else if( term instanceof GenomeProperty ){
-            final Set<String> accessionSet =  propertyToEvidence.get( term.getName());
+        } else if ( term instanceof GenomeProperty ) {
+            final Set<String> accessionSet = propertyToEvidence.get( term.getName() );
             fragmentTheory.operator( OperatorLogic.AND );
 
-            if( accessionSet != null ){
-                for( final String accession: accessionSet) {
-                    final ComponentEvidence     evidence  = (ComponentEvidence) rdfParser.getTerm(accession);
-                    final RelevantTheory        component = toTheory( evidence.getSufficientFor(), rdfParser, propertyToEvidence, knowledges );
+            if ( accessionSet != null ) {
+                for ( final String accession : accessionSet ) {
+                    final ComponentEvidence evidence = ( ComponentEvidence ) rdfParser.getTerm( accession );
+                    final RelevantTheory component = toTheory( evidence.getSufficientFor(), rdfParser, propertyToEvidence, knowledges );
                     final RelevantTheoryBuilder evidenceKnowledgeBuilder = RelevantTheory.builder().name( evidence.getName() )
-                                                                                                    .id( evidence.getId() )
-                                                                                                    .operator( OperatorLogic.OR )
-                                                                                                    .source( SOURCE )
-                                                                                                    .parent( component );
+                                                                                   .id( evidence.getId() )
+                                                                                   .operator( OperatorLogic.OR )
+                                                                                   .source( SOURCE )
+                                                                                   .parent( component );
                     final RelevantTheory evidenceKnowledge = evidenceKnowledgeBuilder.build();
-                    knowledges.put(evidenceKnowledge.getName(), evidenceKnowledge );
+                    knowledges.put( evidenceKnowledge.getName(), evidenceKnowledge );
                     fragmentTheory.parent( evidenceKnowledge );
                 }
             }
         }
         fragmentTheory.name( term.getName() )
-                        .source( SOURCE )
-                        .id( term.getId() );
-        if( parentTerm != null ){
-            theory = knowledges.get(parentTerm.getName());
-            if(theory == null )
+                .source( SOURCE )
+                .id( term.getId() );
+        if ( parentTerm != null ) {
+            theory = knowledges.get( parentTerm.getName() );
+            if ( theory == null )
                 theory = toTheory( parentTerm, rdfParser, propertyToEvidence, knowledges );
             fragmentTheory.parent( theory );
         }
         final RelevantTheory knowledge = fragmentTheory.build();
-        knowledges.put(term.getName(), knowledge );
+        knowledges.put( term.getName(), knowledge );
         return knowledge;
     }
 
     @NotNull
-    private static Map<String,Set<String>> getPropertyLinkedToEvidence(@NotNull final Set<Map.Entry<String, Term>> entries, @NotNull final GenomePropertiesParser rdfParser ){
-        Map<String,Set<String>> result = new HashMap<>();
+    private static Map<String, Set<String>> getPropertyLinkedToEvidence( @NotNull final Set<Map.Entry<String, Term>> entries, @NotNull final GenomePropertiesParser rdfParser ) {
+        Map<String, Set<String>> result = new HashMap<>();
         // value = evidence | key = property
-        for(final Map.Entry<String,Term> entry: entries){
+        for ( final Map.Entry<String, Term> entry : entries ) {
             final String value = entry.getValue().getName();
-            if( isGenPropEvidence( entry ) ){
+            if ( isGenPropEvidence( entry ) ) {
                 final GenomeProperty property = rdfParser.getTermFromAccession( entry.getValue().getId() );
                 // Some genprop evidence are not linked to a property ... Nothing to do
-                if( property != null ) {
-                    final String propertyName   = property.getName();
-                    Set<String>  values         = result.get( propertyName );
-                    if (values == null) {
+                if ( property != null ) {
+                    final String propertyName = property.getName();
+                    Set<String> values = result.get( propertyName );
+                    if ( values == null ) {
                         values = new HashSet<>();
-                        values.add(value);
+                        values.add( value );
                     }
-                    result.put( propertyName, values);
+                    result.put( propertyName, values );
                 }
             }
         }
         return result;
     }
 
-    public GenomePropertiesIntegrator(final Reasoner grools) {
-        this.grools     = grools;
+    public GenomePropertiesIntegrator( final Reasoner grools ) {
+        this.grools = grools;
     }
 
     public void useDefault() throws Exception {
-        final InputStream rdf = getFile("GenProp_3.2_release.RDF");
+        final InputStream rdf = getFile( "GenProp_3.2_release.RDF" );
         use( rdf );
     }
 
     public void use( @NotNull final InputStream rdf ) throws Exception {
-        final Map<String,RelevantTheory>    knowledges          = new HashMap<>();
-        final GenomePropertiesParser        rdfParser           = new GenomePropertiesParser( rdf );
-        final Map<String,Set<String>>       propertyToEvidence  = getPropertyLinkedToEvidence( rdfParser.entrySet(), rdfParser );
-        final Set<ComponentEvidence>        evidencesHMM        = rdfParser.entrySet()
-                                                                           .stream()
-                                                                           .filter(entry -> isHMMEvidence(entry))
-                                                                           .map(e -> (ComponentEvidence) e.getValue())
-                                                                           .collect(Collectors.toSet());
-        for( final ComponentEvidence evidence : evidencesHMM ){
-            final RelevantTheory        component          = toTheory( evidence.getSufficientFor(), rdfParser, propertyToEvidence, knowledges );
-            final RelevantTheoryBuilder   evidenceBuilder    = RelevantTheory.builder();
+        final Map<String, RelevantTheory> knowledges = new HashMap<>();
+        final GenomePropertiesParser rdfParser = new GenomePropertiesParser( rdf );
+        final Map<String, Set<String>> propertyToEvidence = getPropertyLinkedToEvidence( rdfParser.entrySet(), rdfParser );
+        final Set<ComponentEvidence> evidencesHMM = rdfParser.entrySet()
+                                                            .stream()
+                                                            .filter( entry -> isHMMEvidence( entry ) )
+                                                            .map( e -> ( ComponentEvidence ) e.getValue() )
+                                                            .collect( Collectors.toSet() );
+        for ( final ComponentEvidence evidence : evidencesHMM ) {
+            final RelevantTheory component = toTheory( evidence.getSufficientFor(), rdfParser, propertyToEvidence, knowledges );
+            final RelevantTheoryBuilder evidenceBuilder = RelevantTheory.builder();
 
             evidenceBuilder.name( evidence.getName() )
-                           .id( evidence.getId() )
-                           .operator( OperatorLogic.AND )
-                           .parent( component );
-            knowledges.put(evidence.getName(), evidenceBuilder.build());
+                    .id( evidence.getId() )
+                    .operator( OperatorLogic.AND )
+                    .parent( component );
+            knowledges.put( evidence.getName(), evidenceBuilder.build() );
         }
         // Now build leaf from evidencesHMM
         // Many evidencesHMM identify a same tigrfam
         // for this reason they are linked to a common RelevantTheory
-        final Map<String, Set<ComponentEvidence>>leafSet = new HashMap<>();
-        for( final ComponentEvidence evidence : evidencesHMM ){
-            Set<ComponentEvidence> values = leafSet.get(evidence.getId() );
-            if( values == null )
+        final Map<String, Set<ComponentEvidence>> leafSet = new HashMap<>();
+        for ( final ComponentEvidence evidence : evidencesHMM ) {
+            Set<ComponentEvidence> values = leafSet.get( evidence.getId() );
+            if ( values == null )
                 values = new HashSet<>();
-            values.add(evidence);
-            leafSet.put(evidence.getId(), values);
+            values.add( evidence );
+            leafSet.put( evidence.getId(), values );
         }
-        for( final Map.Entry<String, Set<ComponentEvidence>> entry : leafSet.entrySet() ){
-            final List<RelevantTheory>  parents     = entry.getValue()
-                                                           .stream()
-                                                           .map(evidence -> knowledges.get(evidence.getName()))
-                                                           .collect(Collectors.toList());
-            final RelevantTheoryBuilder   leafBuilder = RelevantTheory.builder();
+        for ( final Map.Entry<String, Set<ComponentEvidence>> entry : leafSet.entrySet() ) {
+            final List<RelevantTheory> parents = entry.getValue()
+                                                         .stream()
+                                                         .map( evidence -> knowledges.get( evidence.getName() ) )
+                                                         .collect( Collectors.toList() );
+            final RelevantTheoryBuilder leafBuilder = RelevantTheory.builder();
             leafBuilder.name( entry.getKey() )
-                       .id( entry.getKey() )
-                       .source( SOURCE )
-                       .parents( parents );
-            knowledges.put(entry.getKey(), leafBuilder.build());
+                    .id( entry.getKey() )
+                    .source( SOURCE )
+                    .parents( parents );
+            knowledges.put( entry.getKey(), leafBuilder.build() );
         }
         knowledges.entrySet()
-                  .parallelStream()
-                  .forEach((entry) -> grools.insert(entry.getValue()) );
+                .parallelStream()
+                .forEach( ( entry ) -> grools.insert( entry.getValue() ) );
     }
 
 }
