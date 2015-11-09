@@ -71,7 +71,7 @@ public abstract class Theory<T extends Term, U extends Term, V extends Theory> e
     protected       T                   isExpected;
     protected       U                   conclusion;
     protected final boolean             isSpecific;
-    protected       boolean             isUsable;
+    protected       boolean             needToReEvaluateParent;
 
 
     protected Theory(
@@ -94,14 +94,14 @@ public abstract class Theory<T extends Term, U extends Term, V extends Theory> e
         this.isExpected         = isExpected;
         this.conclusion         = conclusion;
         this.isSpecific         = isSpecific;
-        this.isUsable = false;
+        this.needToReEvaluateParent = false;
     }
 
     public T getIsPredicted(){
         return isPredicted;
     }
 
-    public void setIsPredicted( @NonNull final T value ){
+    public void setIsPredicted( final T value ){
         isPredicted = value;
     }
 
@@ -129,14 +129,6 @@ public abstract class Theory<T extends Term, U extends Term, V extends Theory> e
         return isMandatory;
     }
 
-    public boolean getIsUsable(){
-        return isUsable;
-    }
-
-    public void setIsUsable( boolean value ){
-        isUsable = value;
-    }
-
     @Override
     public String toString() {
         String parentStr = "[]";
@@ -149,17 +141,17 @@ public abstract class Theory<T extends Term, U extends Term, V extends Theory> e
             parentStr = stringBuilder.toString();
         }
         return "Theory( \n" +
-               "         parents            = " + parentStr             + '\n'  +
-               "         operator           = " + this.operator         + ",\n" +
-               "         id                 = " + this.id               + ",\n" +
-               "         name               = " + this.name             + ",\n" +
-               "         source             = " + this.source           + ",\n" +
-               "         date               = " + this.date             + ",\n" +
-               "         isSpecific         = " + this.isSpecific       + ",\n" +
-               "         isMandatory        = " + this.isMandatory      + ",\n" +
-               "         isPredicted        = " + this.isPredicted      + ",\n" +
-               "         isExpected         = " + this.isExpected       + ",\n" +
-               "         conclusion         = " + this.conclusion       + ",\n" +
-               "         isUsable   = " + this.isUsable + " )";
+               "         parents                = " + parentStr             + '\n'  +
+               "         operator               = " + this.operator         + ",\n" +
+               "         id                     = " + this.id               + ",\n" +
+               "         name                   = " + this.name             + ",\n" +
+               "         source                 = " + this.source           + ",\n" +
+               "         date                   = " + this.date             + ",\n" +
+               "         isSpecific             = " + this.isSpecific       + ",\n" +
+               "         isMandatory            = " + this.isMandatory      + ",\n" +
+               "         isPredicted            = " + this.isPredicted      + ",\n" +
+               "         isExpected             = " + this.isExpected       + ",\n" +
+               "         conclusion             = " + this.conclusion       + ",\n" +
+               "         needToReEvaluateParent = " + this.needToReEvaluateParent + " )";
     }
 }

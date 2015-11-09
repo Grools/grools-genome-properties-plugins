@@ -20,6 +20,8 @@ import fr.cea.ig.grools.model.OperatorLogic;
 import fr.cea.ig.grools.Mode;
 import fr.cea.ig.grools.Message;
 
+import java.util.List;
+
 
 dialect  "mvel"
 
@@ -60,12 +62,50 @@ rule "Prediction assignement"
                                         rowEntry    == $observation.state,
                                         columnEntry == $theory.isPredicted,
                                         value       != $theory.isPredicted )
+        not Theory( isPredicted != null, this memberOf $theory.parents )
     then
-        System.out.println($observation);
-        System.out.println($result);
         modify($theory){
             isPredicted = $result.value
         };
+end
+
+rule "Prediction assignement need to reevaluate parent"
+when
+    $theory:        Theory( $id := id, isPredicted != null )
+    $observation:   Observation( theoryId == $id, isAPrediction == true )
+    $result:        EvaluationCell(
+                                    category    == Category.OBSERVATION,
+                                    operator    == $theory.operator,
+                                    rowEntry    == $observation.state,
+                                    columnEntry == $theory.isPredicted,
+                                    value       != $theory.isPredicted )
+    Theory( isPredicted != null, this memberOf $theory.parents )
+then
+        modify($theory){
+            isPredicted = $result.value,
+            needToReEvaluateParent = true
+        };
+
+end
+
+rule "initialize parent"
+when
+    $theory:        Theory( $id := id, needToReEvaluateParent == true )
+    $parent:        Theory( isPredicted != null, this memberOf $theory.parents )
+then
+    modify($parent){
+        isPredicted = null
+    };
+end
+
+rule "end initialize parent"
+when
+    $theory:        Theory( $id := id, needToReEvaluateParent == true )
+    forall( Theory( isPredicted == null ) from $theory.parents  )
+then
+    modify($theory){
+        needToReEvaluateParent = false
+    };
 end
 
 
