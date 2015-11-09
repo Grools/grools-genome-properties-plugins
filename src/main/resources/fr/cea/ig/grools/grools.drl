@@ -88,7 +88,7 @@ then
 
 end
 
-rule "initialize parent"
+rule "Parent prediction is obselote"
 when
     $theory:        Theory( $id := id, needToReEvaluateParent == true )
     $parent:        Theory( isPredicted != null, this memberOf $theory.parents )
@@ -98,7 +98,7 @@ then
     };
 end
 
-rule "end initialize parent"
+rule "All Parent prediction has been set to obsolete"
 when
     $theory:        Theory( $id := id, needToReEvaluateParent == true )
     forall( Theory( isPredicted == null ) from $theory.parents  )
