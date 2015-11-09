@@ -42,16 +42,32 @@ import java.util.List;
 
 dialect "mvel"
 
+
 query getMode( )
     $mode : Mode()
 end
+
 
 query getTheories( )
     $theories : List() from collect( Theory() )
 end
 
 
+query getFragmentTheories( Theory $theory )
+    $theories : List() from collect( Theory( $theory memberOf parents ) )
+end
+
 
 query getObservations( )
     $observations : List() from collect( Observation() )
+end
+
+
+query getTheoryFromId( String $id )
+    $theory : Theory( $id := id )
+end
+
+
+query getTheoryFromRef( Theory $t )
+    $theory : Theory( $t := this )
 end

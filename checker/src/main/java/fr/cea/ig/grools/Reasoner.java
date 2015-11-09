@@ -36,6 +36,7 @@
 
 package fr.cea.ig.grools;
 
+import fr.cea.ig.grools.model.Theory;
 import fr.cea.ig.grools.relevant.RelevantTheory;
 import fr.cea.ig.grools.relevant.table.*;
 import lombok.Data;
@@ -217,6 +218,7 @@ public class Reasoner {
         }
     }
 
+
     @SuppressWarnings("unchecked")
     private <T> void query( @NonNull final String queryName, @NonNull final Object parameter, @NonNull final String field, @NonNull final List<T> results){
         final QueryResults  rows    = kieSession.getQueryResults( queryName, parameter );
@@ -228,9 +230,27 @@ public class Reasoner {
         }
     }
 
-    public List<RelevantTheory> getTheories() {
-        List<RelevantTheory> result = new ArrayList<>(  );
+
+    public List<Theory> getTheories() {
+        List<Theory> result = new ArrayList<>(  );
         query("getTheories", "$theories", result);
         return result;
+    }
+
+
+    public List<Theory> getFragmentTheories(@NonNull final Theory theory) {
+        List<Theory> result = new ArrayList<>(  );
+        query("getFragmentTheories", theory, "$theories", result);
+        return result;
+    }
+
+
+    public Theory getTheory( @NonNull final String id ) {
+        return query("getTheoryFromId", id, "$theory", Theory.class);
+    }
+
+
+    public Theory getTheory( @NonNull final Theory theory ) {
+        return query("getTheoryFromRef", theory, "$theory", Theory.class);
     }
 }

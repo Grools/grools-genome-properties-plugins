@@ -197,4 +197,72 @@ public class PredictionTest {
         assertTrue( theory0.getIsPredicted() == ObservationTerms.TRUE );
 
     }
+
+    @Test
+    public void predictionInferHisPresence2() throws Exception {
+        LOG.debug( "Prediction infer his none existence2" );
+        RelevantTheory theory0 = RelevantTheory.builder()
+                                         .name( "theory0" )
+                                         .source( "junit" )
+                                         .build();
+        grools.insert( theory0 );
+        grools.fireAllRules();
+        RelevantObservation observation0 = RelevantObservation.builder()
+                                                   .name( "observation0" )
+                                                   .theoryId( "theory0" )
+                                                   .category( ObservationType.COMPUTATIONAL_ANALYSIS )
+                                                   .state( "TRUE" )
+                                                   .build();
+        grools.insert( observation0 );
+        grools.fireAllRules();
+
+        assertTrue( theory0.getIsPredicted() == ObservationTerms.TRUE );
+
+    }
+
+    @Test
+    public void predictionInferHisPresence3() throws Exception {
+        LOG.debug( "Prediction infer his none existence3" );
+        RelevantTheory theory0 = RelevantTheory.builder()
+                                         .name( "theory0" )
+                                         .source( "junit" )
+                                         .build();
+        RelevantTheory theory1 = RelevantTheory.builder()
+                                         .name( "theory1" )
+                                         .source( "junit" )
+                                         .parent( theory0 )
+                                         .build();
+        RelevantTheory theory2 = RelevantTheory.builder()
+                                         .name( "theory2" )
+                                         .parent( theory0 )
+                                         .source( "junit" )
+                                         .build();
+        RelevantObservation observation1 = RelevantObservation.builder()
+                                                   .name( "observation1" )
+                                                   .theoryId( "theory1" )
+                                                   .category( ObservationType.COMPUTATIONAL_ANALYSIS )
+                                                   .state( "TRUE" )
+                                                   .build();
+
+        grools.insert( theory0 );
+        grools.insert( theory1 );
+        grools.insert( theory2 );
+        grools.insert( observation1 );
+        grools.fireAllRules();
+
+        System.out.println("----------------- end -----------------");
+
+        RelevantObservation observation2 = RelevantObservation.builder()
+                                                   .name( "observation2" )
+                                                   .theoryId( "theory2" )
+                                                   .category( ObservationType.COMPUTATIONAL_ANALYSIS )
+                                                   .state( "TRUE" )
+                                                   .build();
+
+        grools.insert( observation2 );
+        grools.fireAllRules();
+
+        assertTrue( theory0.getIsPredicted() == ObservationTerms.TRUE );
+
+    }
 }
