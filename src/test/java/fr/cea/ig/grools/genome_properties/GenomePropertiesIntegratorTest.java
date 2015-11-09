@@ -1,9 +1,10 @@
 package fr.cea.ig.grools.genome_properties;
 
 
-import fr.cea.ig.grools.Grools;
-import fr.cea.ig.grools.model.NodeType;
-import fr.cea.ig.grools.model.PriorKnowledge;
+import fr.cea.ig.grools.Reasoner;
+import fr.cea.ig.grools.model.OperatorLogic;
+import fr.cea.ig.grools.model.Theory;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,12 +14,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class GenomePropertiesIntegratorTest {
-    private Grools grools;
+    private Reasoner grools;
     private GenomePropertiesIntegrator integrator;
 
     @Before
     public void setUp() {
-        grools = new Grools();
+        grools = new Reasoner();
         assertNotNull(grools);
         integrator = new GenomePropertiesIntegrator(grools);
         assertNotNull(integrator);
@@ -30,22 +31,22 @@ public class GenomePropertiesIntegratorTest {
     }
     @Test
     public void testGenomePropertyIntegration() {
-        final PriorKnowledge knowledge = grools.hasKnowledgeId("4067");
-        assertNotNull(knowledge);
-        assertTrue(knowledge.getId().equals("4067"));
-        assertTrue(knowledge.getName().equals("gp:Genome_Property_4067"));
-        assertTrue( knowledge.getNodeType() == NodeType.AND );
-        final List<PriorKnowledge> variants = grools.getSubKnowledge(knowledge);
+        final Theory theory = grools.getTheory( "4067" );
+        assertNotNull(theory);
+        assertTrue(theory.getId().equals("4067"));
+        assertTrue(theory.getName().equals("gp:Genome_Property_4067"));
+        assertEquals( theory.getOperator(), OperatorLogic.AND );
+        final List<Theory> variants = grools.getFragmentTheories( theory );
         assertNotNull( variants );
     }
     @Test
     public void testComponentEvidenceOrNode() {
-        final PriorKnowledge knowledge = grools.hasKnowledgeId("GenProp0698");
-        assertNotNull(knowledge);
-        assertTrue(knowledge.getId().equals("GenProp0698"));
-        assertTrue(knowledge.getName().equals("gp:Component_Evidence_75016"));
-        assertTrue( knowledge.getNodeType() == NodeType.OR );
-        final List<PriorKnowledge> variants = grools.getSubKnowledge(knowledge);
+        final Theory theory = grools.getTheory( "GenProp0698" );
+        assertNotNull(theory);
+        assertTrue(theory.getId().equals("GenProp0698"));
+        assertTrue(theory.getName().equals("gp:Component_Evidence_75016"));
+        assertEquals( theory.getOperator(), OperatorLogic.OR );
+        final List<Theory> variants = grools.getFragmentTheories( theory );
         assertNotNull( variants );
     }
 

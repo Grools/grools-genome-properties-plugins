@@ -37,7 +37,7 @@ dependencies {
     compile     group: 'javax.validation',  name: 'validation-api'              ,   version: '1.1.0.Final'
     compile     group: 'ch.qos.logback'  ,  name: 'logback-classic'             ,   version: '1.1.2'
     compile     group: 'fr.cea.ig'       ,  name: 'grools-checker'              ,   version: '2.0'
-    compile     group: 'fr.cea.ig'       ,  name: 'genome-properties-parser'    ,   version: '1.1.0'
+    compile     group: 'fr.cea.ig'       ,  name: 'genome-properties-parser'    ,   version: '1.0.0'
 }
 
 jar {
