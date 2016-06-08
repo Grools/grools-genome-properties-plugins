@@ -7,9 +7,10 @@ buildscript {
     }
     dependencies {
         classpath 'be.jlr-home.gradle:plantumlPlugin:0.1.+'
-        classpath 'com.bmuschko:gradle-nexus-plugin:2.+'
     }
 }
+//plugins { id "me.champeau.gradle.jmh" version "0.3.0" }
+plugins { id "com.bmuschko.nexus"     version "2.3.1" }
 
 apply plugin: 'java'
 apply plugin: 'plantuml'
@@ -18,12 +19,13 @@ apply plugin: 'maven'
 apply plugin: 'findbugs'
 apply plugin: 'com.bmuschko.nexus'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = theCompatibility
+targetCompatibility = theCompatibility
 
-version = '0.0.1'
-group = 'fr.cea.ig'
-description = projectDescription
+group               = theGroup
+version             = theVersion
+description         = theDescription
+
 
 repositories {
     mavenLocal()
@@ -33,30 +35,29 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit'           ,  name: 'junit'                       ,   version: '4.11'
-    compile     group: 'javax.validation',  name: 'validation-api'              ,   version: '1.1.0.Final'
-    compile     group: 'ch.qos.logback'  ,  name: 'logback-classic'             ,   version: '1.1.2'
-    compile     group: 'fr.cea.ig'       ,  name: 'grools-checker'              ,   version: '2.0'
-    compile     group: 'fr.cea.ig'       ,  name: 'genome-properties-parser'    ,   version: '1.0.0'
+    testCompile group: 'junit'           ,  name: 'junit'                       ,   version: junitVersion
+    compile     group: 'ch.qos.logback'  ,  name: 'logback-classic'             ,   version: logbackVersion
+    compile     group: theGroup          ,  name: 'grools-checker'              ,   version: checkerVersion
+    compile     group: theGroup          ,  name: 'grools-drools-checker'       ,   version: checkerVersion
+    compile     group: theGroup          ,  name: 'genome-properties-parser'    ,   version: gpropparserVersion
 }
 
 jar {
     manifest {
-        attributes( "Implementation-Title":         projectName,
-                    "Implementation-Version":       version,
-                    "Implementation-Vendor":        "Genoscope, LABGeM",
-                    "Product-Name":                 projectName,
-                    "provider":                     "Genoscope",
-                    "Created-By":                   "LABGeM",
-                    "description":                  "Parser to read genome properties ontologies",
-                    "Build-Date":                   new SimpleDateFormat("yyyy-MM-dd").format(new Date()),
-                    "Build-JDK":                    System.getProperty("java.version"),
-                    "Build-Gradle":                 project.gradle.gradleVersion
-                   )
+        attributes( "Implementation-Title":     theName,
+                "Implementation-Version":       theVersion,
+                "Implementation-Vendor":        "Genoscope, LABGeM",
+                "Product-Name":                 theName,
+                "provider":                     "Genoscope",
+                "Created-By":                   "LABGeM",
+                "relevant":                     "GROOLS Application.",
+                "Build-Date":                   new SimpleDateFormat("yyyy-MM-dd").format(new Date()),
+                "Build-JDK":                    System.getProperty("java.version"),
+                "Build-Gradle":                 project.gradle.gradleVersion
+        )
     }
-    baseName = projectName
+    baseName = theName
 }
-
 tasks.withType(JavaForkOptions) {
     jvmArgs  "-Dcom.sun.management.jmxremote.port=19988", "-Dcom.sun.management.jmxremote.ssl=false", "-Dcom.sun.management.jmxremote.authenticate=false", "-Ddrools.mbeans=enabled"
 }
@@ -68,17 +69,18 @@ plantuml{
 findbugs {
      effort = "max"
  }
- 
+
+
 modifyPom {
     project {
-        name          projectName
-        description   projectDescription
-        url           projectUrlBase+projectUrlCore
+        name          theName
+        description   theDescription
+        url           urlBase+urlCore
         inceptionYear '2015'
         scm {
-            url                   projectUrlBase+projectUrlCore
-            connection            projectUrlBase+projectUrlCore+'.git'
-            developerConnection   projectGitBase+projectUrlCore+'.git'
+            url                   urlBase+urlCore
+            connection            urlBase+urlCore+'.git'
+            developerConnection   gitBase+urlCore+'.git'
         }
         licenses {
             license {
@@ -96,7 +98,6 @@ modifyPom {
         }
     }
 }
-
  extraArchive {
      sources  = true
      tests    = true
