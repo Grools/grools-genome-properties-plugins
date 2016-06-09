@@ -17,9 +17,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 public class GenomePropertiesIntegratorTest {

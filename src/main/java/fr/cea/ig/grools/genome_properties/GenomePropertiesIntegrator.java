@@ -91,8 +91,11 @@ final public class GenomePropertiesIntegrator {
     @NonNull
     private static PriorKnowledge toPriorKnowledge( @NonNull final Term term, boolean isDispensable, @NonNull Map<String, PriorKnowledge> knowledges ) {
         final String id = (term instanceof GenomeProperty ) ?  ((GenomeProperty)term).getAccession() : term.getId();
+        final String description = (term instanceof GenomeProperty ) ? ((GenomeProperty)term).getTitle() + ((GenomeProperty)term).getDefinition() : null;
         final PriorKnowledge pk = PriorKnowledgeImpl.builder()
                                                     .name( id )
+                                                    .label( term.getName() )
+                                                    .description( description )
                                                     .source( "Genome Properties v3.2" )
                                                     .isDispensable( isDispensable )
                                                     .build();
