@@ -1,6 +1,7 @@
 package fr.cea.ig.grools.genome_properties;
 
 
+import fr.cea.ig.genome_properties.model.Term;
 import fr.cea.ig.grools.Mode;
 import fr.cea.ig.grools.Reasoner;
 import fr.cea.ig.grools.Verbosity;
@@ -13,6 +14,7 @@ import fr.cea.ig.grools.fact.RelationType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+import org.junit.Before;
 
 
 import static org.junit.Assert.assertNotNull;
@@ -22,30 +24,67 @@ import java.util.Set;
 
 public class GenomePropertiesIntegratorTest {
 
+    Reasoner                    reasoner;
+    GenomePropertiesIntegrator  integrator;
+
+    @Before
+    public void setUp(){
+        reasoner = new ReasonerImpl( Mode.NORMAL, Verbosity.QUIET );
+        assertNotNull(reasoner);
+        try {
+            integrator = new GenomePropertiesIntegrator(reasoner);
+        } catch ( Exception e ) {
+            System.err.println( "Error while reading rdf content!" );
+            System.err.println( "    - " + e.getMessage() );
+        }
+        integrator.integration();
+    }
+
     @Test
     public void testGenomePropertyIntegration() throws Exception {
-        Reasoner reasoner = new ReasonerImpl( Mode.NORMAL, Verbosity.QUIET );
-        assertNotNull(reasoner);
-        GenomePropertiesIntegrator.integration(reasoner);
-        final PriorKnowledge pk = reasoner.getPriorKnowledge( "TIGR01350" );
-        assertNotNull(pk);
-        assertEquals("TIGR01350", pk.getName());
+        final Set<Term>           tigrs1 = integrator.getRdfParser().getTermsWithId( "TIGR01350" );
+        final Set<PriorKnowledge> tigrs2 = integrator.getPriorKnowledgeRelatedToObservationNamed( "TIGR01350" );
+        assertNotNull(tigrs1);
+        assertNotNull(tigrs2);
+        assertEquals( 2, tigrs1.size() );
+        assertEquals( 2, tigrs2.size() );
+        for( final Term tigr : tigrs1 )
+            assertEquals( "TIGR01350", tigr.getId() );
+        boolean term1 = tigrs1.stream()
+                                .filter( i -> i.getName()
+                                               .equals( "gp:Component_Evidence_57170" )  )
+                                .findFirst()
+                                .isPresent();
+        assertTrue( term1 );
+        boolean term2 = tigrs1.stream()
+                             .filter( i -> i.getName()
+                                            .equals( "gp:Component_Evidence_87" )  )
+                                .findFirst()
+                                .isPresent();
+        assertTrue( term2 );
+        final PriorKnowledge pk1 = reasoner.getPriorKnowledge( "Evidence_57170" );
+        final PriorKnowledge pk2 = reasoner.getPriorKnowledge( "Evidence_87" );
+        assertNotNull(pk1);
+        assertNotNull(pk2);
+        assertTrue( tigrs2.contains( pk1 ) );
+        assertTrue( tigrs2.contains( pk2 ) );
         /*final List<PriorKnowledge> variants = reasoner.PriorKnowledge( pk );
         assertNotNull( variants );*/
     }
     @Test
     public void testPropertyRelatedToEvidence() throws Exception {
-        Reasoner reasoner = new ReasonerImpl( Mode.NORMAL, Verbosity.QUIET );
-        assertNotNull(reasoner);
-        GenomePropertiesIntegrator.integration(reasoner);
-
         final PriorKnowledge pk1     = reasoner.getPriorKnowledge( "GenProp0698" ); // link to GenProp0698 by the accession field
         assertNotNull(pk1);
         assertEquals("GenProp0698", pk1.getName());
 
-        final PriorKnowledge pk2     = reasoner.getPriorKnowledge( "54100" ); //id GenProp0698
-        assertNotNull(pk2);
-        assertEquals("54100", pk2.getName());
+        final PriorKnowledge pk3     = reasoner.getPriorKnowledge( "Component_54100" ); //id GenProp0698
+        assertNotNull(pk3);
+        assertEquals("Component_54100", pk3.getName());
+
+        final PriorKnowledge pk2 = (PriorKnowledge) reasoner.getRelationsWithTarget( pk3 )
+                                                            .iterator()
+                                                            .next()
+                                                            .getSource();
 
         final Relation       relation= reasoner.getRelation( pk1, pk2, RelationType.PART );
         assertEquals( pk1, relation.getSource() );
@@ -58,7 +97,7 @@ public class GenomePropertiesIntegratorTest {
         assertEquals( relList.iterator().next().getSource(), pk1 );
         assertEquals( relList.iterator().next().getTarget(), pk2 );
 
-        final Set<Relation>  relList2 = reasoner.getRelationsWithSource( pk2 );
+        final Set<Relation>  relList2 = reasoner.getRelationsWithSource( pk3 );
         assertEquals( 1, relList2.size() );
         final Concept prop0700 = relList2.iterator().next().getTarget();
         assertTrue( prop0700 instanceof PriorKnowledge );

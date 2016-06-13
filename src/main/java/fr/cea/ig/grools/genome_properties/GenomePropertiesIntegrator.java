@@ -35,6 +35,8 @@ package fr.cea.ig.grools.genome_properties;
 
 
 
+import fr.cea.ig.grools.fact.Concept;
+import lombok.Getter;
 import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.Logger;
 
@@ -45,6 +47,7 @@ import fr.cea.ig.genome_properties.model.PropertyComponent;
 import fr.cea.ig.genome_properties.model.Term;
 
 import fr.cea.ig.grools.Reasoner;
+import fr.cea.ig.grools.Integrator;
 import fr.cea.ig.grools.fact.PriorKnowledge;
 import fr.cea.ig.grools.fact.PriorKnowledgeImpl;
 import fr.cea.ig.grools.fact.RelationImpl;
@@ -52,15 +55,26 @@ import fr.cea.ig.grools.fact.RelationType;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import lombok.NonNull;
 
 
-final public class GenomePropertiesIntegrator {
+final public class GenomePropertiesIntegrator implements Integrator{
     private static final String SOURCE = "Genome Properties";
     private static final Logger LOG = ( Logger ) LoggerFactory.getLogger( GenomePropertiesIntegrator.class );
+
+    @NonNull
+    private final InputStream rdf;
+
+    @NonNull
+    @Getter
+    private final GenomePropertiesParser rdfParser;
+    @NonNull
+    private final Reasoner grools;
 
     @NonNull
     private static InputStream getFile( @NonNull final String fileName ) {
@@ -90,8 +104,8 @@ final public class GenomePropertiesIntegrator {
      */
     @NonNull
     private static PriorKnowledge toPriorKnowledge( @NonNull final Term term, boolean isDispensable, @NonNull Map<String, PriorKnowledge> knowledges ) {
-        final String id = (term instanceof GenomeProperty ) ?  ((GenomeProperty)term).getAccession() : term.getId();
-        final String description = (term instanceof GenomeProperty ) ? ((GenomeProperty)term).getTitle() + ((GenomeProperty)term).getDefinition() : null;
+        final String id = (term instanceof GenomeProperty ) ?  ((GenomeProperty)term).getAccession() : simplifyName( term.getName() );
+        final String description = (term instanceof GenomeProperty ) ? ((GenomeProperty)term).getTitle() + ((GenomeProperty)term).getDefinition() : "";
         final PriorKnowledge pk = PriorKnowledgeImpl.builder()
                                                     .name( id )
                                                     .label( term.getName() )
@@ -103,17 +117,24 @@ final public class GenomePropertiesIntegrator {
         return pk;
     }
 
+    private static String simplifyName( final String name ){
+        int index = name.indexOf( "_" );
+        return name.substring( index+1 );
+    }
 
-    public static void integration( @NonNull final Reasoner grools ) throws Exception {
-        @NonNull
-        final InputStream rdf = getFile( "GenProp_3.2_release.RDF" );
-        @NonNull
+    public GenomePropertiesIntegrator( @NonNull final Reasoner reasoner ) throws Exception {
+        rdf         = getFile( "GenProp_3.2_release.RDF" );
+        rdfParser   =  new GenomePropertiesParser( rdf );
+        grools      = reasoner;
+    }
+
+
+    public void integration(  ) {
+
         final Map<String, PriorKnowledge> knowledges = new HashMap<>();
-        @NonNull
-        final GenomePropertiesParser rdfParser = new GenomePropertiesParser( rdf );
 
         for ( final Map.Entry<String, Term> entry : rdfParser.entrySet() ) {
-            final String key = entry.getKey();
+            //final String key = entry.getKey();
             final Term term = entry.getValue();
             if ( term instanceof GenomeProperty ) {
                 final GenomeProperty    gp      = ( GenomeProperty ) term;
@@ -122,20 +143,21 @@ final public class GenomePropertiesIntegrator {
                 for( final Term parentTerm : terms ) {
                     if ( parentTerm instanceof ComponentEvidence ) {
                         final ComponentEvidence ce = ( ComponentEvidence ) parentTerm;
-                        final PropertyComponent pc = ce.getSufficientFor();
-                        final PriorKnowledge parent = ( knowledges.containsKey( pc.getId() ) ) ? knowledges.get( pc.getId() ) : toPriorKnowledge( pc, false, knowledges );
+                        //final PropertyComponent pc = ce.getSufficientFor();
+                        //final PriorKnowledge parent = ( knowledges.containsKey( pc.getName() ) ) ? knowledges.get( pc.getName() ) : toPriorKnowledge( pc, false, knowledges );
+                        final PriorKnowledge parent = ( knowledges.containsKey( simplifyName( ce.getName() ) ) ) ? knowledges.get( simplifyName( ce.getName() ) ) : toPriorKnowledge( ce, false, knowledges );
                         grools.insert( new RelationImpl( child, parent, RelationType.PART ) );
                     }
                 }
             } else if ( term instanceof PropertyComponent ) {
                 final PropertyComponent pc = ( PropertyComponent ) term;
                 if ( pc.getPartOf() != null ) {
-                    final PriorKnowledge child  = ( knowledges.containsKey( pc.getId() ) ) ? knowledges.get( pc.getId() ) : toPriorKnowledge( pc, true, knowledges );
+                    final PriorKnowledge child  = ( knowledges.containsKey( simplifyName( pc.getName() ) ) ) ? knowledges.get( simplifyName( pc.getName() ) ) : toPriorKnowledge( pc, true, knowledges );
                     final GenomeProperty gp     =  pc.getPartOf();
                     final PriorKnowledge parent = ( knowledges.containsKey( gp.getAccession() ) ) ? knowledges.get( gp.getAccession() ) : toPriorKnowledge( gp, false, knowledges );
                     grools.insert( new RelationImpl( child, parent, RelationType.PART ) );
                 } else if ( pc.getRequiredBy() != null ) {
-                    final PriorKnowledge child = ( knowledges.containsKey( pc.getId() ) ) ? knowledges.get( pc.getId() ) : toPriorKnowledge( pc, false, knowledges );
+                    final PriorKnowledge child = ( knowledges.containsKey( simplifyName( pc.getName() ) ) ) ? knowledges.get( simplifyName( pc.getName() ) ) : toPriorKnowledge( pc, false, knowledges );
                     final GenomeProperty gp     = pc.getRequiredBy();
                     final PriorKnowledge parent = ( knowledges.containsKey( gp.getAccession() ) ) ? knowledges.get( gp.getAccession() ) : toPriorKnowledge( gp, false, knowledges );
                     grools.insert( new RelationImpl( child, parent, RelationType.PART ) );
@@ -143,16 +165,35 @@ final public class GenomePropertiesIntegrator {
                     LOG.warn( "Component " + pc.getName() + " with any parents!" );
             } else if ( term instanceof ComponentEvidence ) {
                 final ComponentEvidence ce      = ( ComponentEvidence ) term;
-                if( ce.getCategory().equals( "HMM" ) ) {
-                    final PriorKnowledge child = ( knowledges.containsKey( ce.getId() ) ) ? knowledges.get( ce.getId() ) : toPriorKnowledge( ce, false, knowledges );
+                //if( ce.getCategory().equals( "HMM" ) ) {
+                    final PriorKnowledge child = ( knowledges.containsKey( simplifyName( ce.getName() ) ) ) ? knowledges.get( simplifyName( ce.getName() ) ) : toPriorKnowledge( ce, false, knowledges );
                     final PropertyComponent pc = ce.getSufficientFor();
-                    final PriorKnowledge parent = ( knowledges.containsKey( pc.getId() ) ) ? knowledges.get( pc.getId() ) : toPriorKnowledge( pc, false, knowledges );
+                    final PriorKnowledge parent = ( knowledges.containsKey( simplifyName( pc.getName() ) ) ) ? knowledges.get( simplifyName( pc.getName() ) ) : toPriorKnowledge( pc, false, knowledges );
                     grools.insert( new RelationImpl( child, parent, RelationType.SUBTYPE ) );
-                }
+                //}
             } else
                 LOG.warn( "Term " + term.getName() + " has an unexpected type!" );
         }
         grools.insert( knowledges.values() );
+    }
+
+    public Set<PriorKnowledge> getPriorKnowledgeRelatedToObservationNamed( @NonNull final String tigrID ){
+        Set<PriorKnowledge> result = null;
+        if( tigrID.startsWith( "GenProp" ) ){
+            PriorKnowledge pk = grools.getPriorKnowledge( tigrID );
+            if( pk != null ) {
+                result = new HashSet<>( 1 );
+                result.add( pk );
+            }
+        }
+        else {
+            result = rdfParser.getTermsWithId( tigrID )
+                              .stream()
+                              .map( i -> simplifyName( i.getName() ) )
+                              .map( grools::getPriorKnowledge )
+                              .collect( Collectors.toSet() );
+        }
+        return result;
     }
 }
 
