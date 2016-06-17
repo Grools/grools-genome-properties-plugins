@@ -35,11 +35,12 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit'           ,  name: 'junit'                       ,   version: junitVersion
-    compile     group: 'ch.qos.logback'  ,  name: 'logback-classic'             ,   version: logbackVersion
-    compile     group: theGroup          ,  name: 'grools-checker'              ,   version: checkerVersion
-    compile     group: theGroup          ,  name: 'grools-drools-checker'       ,   version: checkerVersion
-    compile     group: theGroup          ,  name: 'genome-properties-parser'    ,   version: gpropparserVersion
+    testCompile group: 'junit'              ,  name: 'junit'                    , version: junitVersion
+    compile     group: 'ch.qos.logback'     ,  name: 'logback-classic'          , version: logbackVersion
+    compile     group: 'org.projectlombok'  , name: 'lombok'                    , version: lombokVersion
+    compile     group: theGroup             ,  name: 'grools-checker'           , version: checkerVersion
+    compile     group: theGroup             ,  name: 'grools-drools-checker'    , version: checkerVersion
+    compile     group: theGroup             ,  name: 'genome-properties-parser' , version: gpropparserVersion
 }
 
 jar {

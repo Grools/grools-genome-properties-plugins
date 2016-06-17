@@ -70,6 +70,7 @@ final public class GenomePropertiesIntegrator implements Integrator{
     @NonNull
     @Getter
     private final GenomePropertiesParser rdfParser;
+
     @NonNull
     private final Reasoner grools;
 
@@ -107,7 +108,7 @@ final public class GenomePropertiesIntegrator implements Integrator{
         }
         else if(term instanceof ComponentEvidence ){
             final ComponentEvidence ce = (ComponentEvidence)term;
-            result = ce.getId();
+            result = ce.getId() + " " + ce.getCategory();
         }
         else
             result = "";
@@ -170,6 +171,8 @@ final public class GenomePropertiesIntegrator implements Integrator{
                 final PropertyComponent pc = ( PropertyComponent ) term;
                 if ( pc.getPartOf() != null ) {
                     final PriorKnowledge child  = ( knowledges.containsKey( simplifyName( pc.getName() ) ) ) ? knowledges.get( simplifyName( pc.getName() ) ) : toPriorKnowledge( pc, true, knowledges );
+                    if( ! child.getIsDispensable() )
+                        child.setIsDispensable(true);
                     final GenomeProperty gp     =  pc.getPartOf();
                     final PriorKnowledge parent = ( knowledges.containsKey( gp.getAccession() ) ) ? knowledges.get( gp.getAccession() ) : toPriorKnowledge( gp, false, knowledges );
                     grools.insert( new RelationImpl( child, parent, RelationType.PART ) );
