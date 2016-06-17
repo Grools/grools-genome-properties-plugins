@@ -93,6 +93,27 @@ final public class GenomePropertiesIntegrator implements Integrator{
         return ( term instanceof ComponentEvidence && ( ( ComponentEvidence ) term ).getCategory().equals( category ) );
     }
 
+
+    @NonNull
+    private static String descriptionFromTerm( @NonNull final Term term){
+        String result;
+        if(term instanceof GenomeProperty ){
+            final GenomeProperty gp = (GenomeProperty)term;
+            result = gp.getTitle() + ":" + gp.getDefinition();
+        }
+        else if(term instanceof PropertyComponent ){
+            final PropertyComponent pc = (PropertyComponent)term;
+            result = pc.getTitle();
+        }
+        else if(term instanceof ComponentEvidence ){
+            final ComponentEvidence ce = (ComponentEvidence)term;
+            result = ce.getId();
+        }
+        else
+            result = "";
+        return result;
+    }
+
     /**
      * toPriorKnowledge
      *
@@ -102,11 +123,10 @@ final public class GenomePropertiesIntegrator implements Integrator{
     @NonNull
     private static PriorKnowledge toPriorKnowledge( @NonNull final Term term, boolean isDispensable, @NonNull Map<String, PriorKnowledge> knowledges ) {
         final String id = (term instanceof GenomeProperty ) ?  ((GenomeProperty)term).getAccession() : simplifyName( term.getName() );
-        final String description = (term instanceof GenomeProperty ) ? ((GenomeProperty)term).getTitle() + ":" + ((GenomeProperty)term).getDefinition() : "";
         final PriorKnowledge pk = PriorKnowledgeImpl.builder()
                                                     .name( id )
                                                     .label( term.getName() )
-                                                    .description( description )
+                                                    .description( descriptionFromTerm(term) )
                                                     .source( "Genome Properties v3.2" )
                                                     .isDispensable( isDispensable )
                                                     .build();
