@@ -34,24 +34,23 @@
 package fr.cea.ig.grools.genome_properties;
 
 
-
-import fr.cea.ig.grools.fact.Concept;
-import lombok.Getter;
-import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
 
 import fr.cea.ig.genome_properties.GenomePropertiesParser;
 import fr.cea.ig.genome_properties.model.ComponentEvidence;
 import fr.cea.ig.genome_properties.model.GenomeProperty;
 import fr.cea.ig.genome_properties.model.PropertyComponent;
 import fr.cea.ig.genome_properties.model.Term;
-
-import fr.cea.ig.grools.Reasoner;
 import fr.cea.ig.grools.Integrator;
+import fr.cea.ig.grools.Reasoner;
 import fr.cea.ig.grools.fact.PriorKnowledge;
 import fr.cea.ig.grools.fact.PriorKnowledgeImpl;
 import fr.cea.ig.grools.fact.RelationImpl;
 import fr.cea.ig.grools.fact.RelationType;
+
+import lombok.Getter;
+import lombok.NonNull;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -59,8 +58,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import lombok.NonNull;
 
 
 final public class GenomePropertiesIntegrator implements Integrator{
@@ -105,7 +102,7 @@ final public class GenomePropertiesIntegrator implements Integrator{
     @NonNull
     private static PriorKnowledge toPriorKnowledge( @NonNull final Term term, boolean isDispensable, @NonNull Map<String, PriorKnowledge> knowledges ) {
         final String id = (term instanceof GenomeProperty ) ?  ((GenomeProperty)term).getAccession() : simplifyName( term.getName() );
-        final String description = (term instanceof GenomeProperty ) ? ((GenomeProperty)term).getTitle() + ((GenomeProperty)term).getDefinition() : "";
+        final String description = (term instanceof GenomeProperty ) ? ((GenomeProperty)term).getTitle() + ":" + ((GenomeProperty)term).getDefinition() : "";
         final PriorKnowledge pk = PriorKnowledgeImpl.builder()
                                                     .name( id )
                                                     .label( term.getName() )
@@ -177,17 +174,17 @@ final public class GenomePropertiesIntegrator implements Integrator{
         grools.insert( knowledges.values() );
     }
 
-    public Set<PriorKnowledge> getPriorKnowledgeRelatedToObservationNamed( @NonNull final String tigrID ){
+    public Set<PriorKnowledge> getPriorKnowledgeRelatedToObservationNamed( @NonNull final String id ){
         Set<PriorKnowledge> result = null;
-        if( tigrID.startsWith( "GenProp" ) ){
-            PriorKnowledge pk = grools.getPriorKnowledge( tigrID );
+        if( id.startsWith( "GenProp" ) ){
+            PriorKnowledge pk = grools.getPriorKnowledge( id );
             if( pk != null ) {
                 result = new HashSet<>( 1 );
                 result.add( pk );
             }
         }
         else {
-            result = rdfParser.getTermsWithId( tigrID )
+            result = rdfParser.getTermsWithId( id )
                               .stream()
                               .map( i -> simplifyName( i.getName() ) )
                               .map( grools::getPriorKnowledge )
