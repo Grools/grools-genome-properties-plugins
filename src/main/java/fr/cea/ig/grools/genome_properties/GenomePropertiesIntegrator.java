@@ -35,8 +35,6 @@ package fr.cea.ig.grools.genome_properties;
 
 
 import ch.qos.logback.classic.Logger;
-import org.slf4j.LoggerFactory;
-
 import fr.cea.ig.genome_properties.GenomePropertiesParser;
 import fr.cea.ig.genome_properties.model.ComponentEvidence;
 import fr.cea.ig.genome_properties.model.GenomeProperty;
@@ -48,10 +46,12 @@ import fr.cea.ig.grools.fact.PriorKnowledge;
 import fr.cea.ig.grools.fact.PriorKnowledgeImpl;
 import fr.cea.ig.grools.fact.RelationImpl;
 import fr.cea.ig.grools.fact.RelationType;
-
 import lombok.Getter;
 import lombok.NonNull;
+import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -143,6 +143,12 @@ final public class GenomePropertiesIntegrator implements Integrator{
     public GenomePropertiesIntegrator( @NonNull final Reasoner reasoner ) throws Exception {
         rdf         = getFile( "GenProp_3.2_release.RDF" );
         rdfParser   =  new GenomePropertiesParser( rdf );
+        grools      = reasoner;
+    }
+
+    public GenomePropertiesIntegrator( @NonNull final Reasoner reasoner,  @NonNull final File rdfFile ) throws Exception {
+        rdf         = new FileInputStream( rdfFile );
+        rdfParser   = new GenomePropertiesParser( rdf );
         grools      = reasoner;
     }
 
