@@ -5,21 +5,17 @@ import fr.cea.ig.genome_properties.model.Term;
 import fr.cea.ig.grools.Mode;
 import fr.cea.ig.grools.Reasoner;
 import fr.cea.ig.grools.Verbosity;
+import fr.cea.ig.grools.drools.ReasonerImpl;
 import fr.cea.ig.grools.fact.Concept;
 import fr.cea.ig.grools.fact.PriorKnowledge;
-import fr.cea.ig.grools.drools.ReasonerImpl;
-
 import fr.cea.ig.grools.fact.Relation;
 import fr.cea.ig.grools.fact.RelationType;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
 import org.junit.Before;
-
-
-import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
 import java.util.Set;
+
+import static org.junit.Assert.*;
 
 
 public class GenomePropertiesIntegratorTest {
@@ -43,7 +39,7 @@ public class GenomePropertiesIntegratorTest {
     @Test
     public void testGenomePropertyIntegration() throws Exception {
         final Set<Term>           tigrs1 = integrator.getRdfParser().getTermsWithId( "TIGR01350" );
-        final Set<PriorKnowledge> tigrs2 = integrator.getPriorKnowledgeRelatedToObservationNamed( "TIGR01350" );
+        final Set<PriorKnowledge> tigrs2 = integrator.getPriorKnowledgeRelatedToObservationNamed( "TIGRFAM", "TIGR01350" );
         assertNotNull(tigrs1);
         assertNotNull(tigrs2);
         assertEquals( 2, tigrs1.size() );
