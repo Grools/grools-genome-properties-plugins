@@ -205,22 +205,22 @@ final public class GenomePropertiesIntegrator implements Integrator{
 
     public Set<PriorKnowledge> getPriorKnowledgeRelatedToObservationNamed( @NonNull final String source, @NonNull final String id ){
         Set<PriorKnowledge> result = null;
-        if( ! source.equals("TIGRFAM") && ! source.equals("PFAM") )
-            LOG.warn("Only observation from PFAM or TIGRFAM is supported");
-        else{
-            if( id.startsWith( "GenProp" ) ){
-                PriorKnowledge pk = grools.getPriorKnowledge( id );
-                if( pk != null ) {
-                    result = new HashSet<>( 1 );
-                    result.add( pk );
-                }
+        if( id.startsWith( "GenProp" ) ){
+            PriorKnowledge pk = grools.getPriorKnowledge( id );
+            if( pk != null ) {
+                result = new HashSet<>( 1 );
+                result.add( pk );
             }
+        }
+        else {
+            if( ! source.equals("TIGRFAM") && ! source.equals("PFAM") )
+                LOG.warn("Only observation from PFAM or TIGRFAM is supported! Source provided: "+source);
             else {
-                result = rdfParser.getTermsWithId( id )
+                result = rdfParser.getTermsWithId(id)
                                   .stream()
-                                  .map( i -> simplifyName( i.getName() ) )
-                                  .map( grools::getPriorKnowledge )
-                                  .collect( Collectors.toSet() );
+                                  .map(i -> simplifyName(i.getName()))
+                                  .map(grools::getPriorKnowledge)
+                                  .collect(Collectors.toSet());
             }
         }
         return result;
