@@ -17,8 +17,6 @@ build
 
 # gradle
 .gradle
-build
-gradle
 
 
 # svg file
