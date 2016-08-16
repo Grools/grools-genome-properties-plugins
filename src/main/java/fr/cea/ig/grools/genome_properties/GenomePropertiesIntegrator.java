@@ -35,17 +35,17 @@ package fr.cea.ig.grools.genome_properties;
 
 
 import ch.qos.logback.classic.Logger;
-import fr.cea.ig.genome_properties.GenomePropertiesParser;
-import fr.cea.ig.genome_properties.model.ComponentEvidence;
-import fr.cea.ig.genome_properties.model.GenomeProperty;
-import fr.cea.ig.genome_properties.model.PropertyComponent;
-import fr.cea.ig.genome_properties.model.Term;
 import fr.cea.ig.grools.Integrator;
 import fr.cea.ig.grools.Reasoner;
 import fr.cea.ig.grools.fact.PriorKnowledge;
 import fr.cea.ig.grools.fact.PriorKnowledgeImpl;
 import fr.cea.ig.grools.fact.RelationImpl;
 import fr.cea.ig.grools.fact.RelationType;
+import fr.cea.ig.io.reader.GenomePropertiesParser;
+import fr.cea.ig.model.genome_properties.ComponentEvidence;
+import fr.cea.ig.model.genome_properties.GenomeProperty;
+import fr.cea.ig.model.genome_properties.PropertyComponent;
+import fr.cea.ig.model.genome_properties.Term;
 import lombok.Getter;
 import lombok.NonNull;
 import org.slf4j.LoggerFactory;
@@ -91,7 +91,7 @@ final public class GenomePropertiesIntegrator implements Integrator{
      */
     @NonNull
     private static boolean isEvidence( @NonNull final Term term, @NonNull final String category ) {
-        return ( term instanceof ComponentEvidence && ( ( ComponentEvidence ) term ).getCategory().equals( category ) );
+        return ( term instanceof ComponentEvidence && ( ( ComponentEvidence ) term ).getCategory( ).equals( category ) );
     }
 
 

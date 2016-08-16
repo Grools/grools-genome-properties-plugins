@@ -30,17 +30,15 @@ description         = theDescription
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url "http://repository.jboss.org/nexus/content/groups/public" }
-    maven { url "https://gsphere.genoscope.cns.fr/nexus/content/groups/public" }
 }
 
 dependencies {
     testCompile group: 'junit'              ,  name: 'junit'                    , version: junitVersion
+    testCompile group: theGroup             ,  name: 'grools-reasoner-engine'   , version: engineVersion
     compile     group: 'ch.qos.logback'     ,  name: 'logback-classic'          , version: logbackVersion
-    compile     group: 'org.projectlombok'  , name: 'lombok'                    , version: lombokVersion
+    compile     group: 'org.projectlombok'  ,  name: 'lombok'                   , version: lombokVersion
     compile     group: theGroup             ,  name: 'grools-checker'           , version: checkerVersion
-    compile     group: theGroup             ,  name: 'grools-drools-checker'    , version: checkerVersion
-    compile     group: theGroup             ,  name: 'genome-properties-parser' , version: gpropparserVersion
+    compile     group: theGroup             ,  name: 'ig-io'                    , version: igioVersion
 }
 
 jar {
@@ -59,6 +57,7 @@ jar {
     }
     baseName = theName
 }
+
 tasks.withType(JavaForkOptions) {
     jvmArgs  "-Dcom.sun.management.jmxremote.port=19988", "-Dcom.sun.management.jmxremote.ssl=false", "-Dcom.sun.management.jmxremote.authenticate=false", "-Ddrools.mbeans=enabled"
 }
@@ -67,6 +66,7 @@ tasks.withType(JavaForkOptions) {
 plantuml{
     fileFormat = 'SVG'
 }
+
 findbugs {
      effort = "max"
  }
@@ -99,13 +99,9 @@ modifyPom {
         }
     }
 }
- extraArchive {
+
+extraArchive {
      sources  = true
      tests    = true
      javadoc  = true
  }
-nexus {
-    sign                  = false
-    repositoryUrl         = 'https://gsphere.genoscope.cns.fr/nexus/content/repositories/releases/'
-    snapshotRepositoryUrl = 'https://gsphere.genoscope.cns.fr/nexus/content/repositories/snapshots/'
-}

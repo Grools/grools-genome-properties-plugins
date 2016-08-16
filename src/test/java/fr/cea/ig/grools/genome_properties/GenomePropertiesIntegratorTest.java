@@ -1,21 +1,23 @@
 package fr.cea.ig.grools.genome_properties;
 
 
-import fr.cea.ig.genome_properties.model.Term;
 import fr.cea.ig.grools.Mode;
 import fr.cea.ig.grools.Reasoner;
 import fr.cea.ig.grools.Verbosity;
-import fr.cea.ig.grools.drools.ReasonerImpl;
+import fr.cea.ig.grools.reasoner.ReasonerImpl;
 import fr.cea.ig.grools.fact.Concept;
 import fr.cea.ig.grools.fact.PriorKnowledge;
 import fr.cea.ig.grools.fact.Relation;
 import fr.cea.ig.grools.fact.RelationType;
+import fr.cea.ig.model.genome_properties.Term;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 
 public class GenomePropertiesIntegratorTest {
@@ -38,7 +40,7 @@ public class GenomePropertiesIntegratorTest {
 
     @Test
     public void testGenomePropertyIntegration() throws Exception {
-        final Set<Term>           tigrs1 = integrator.getRdfParser().getTermsWithId( "TIGR01350" );
+        final Set<Term>           tigrs1 = integrator.getRdfParser( ).getTermsWithId( "TIGR01350" );
         final Set<PriorKnowledge> tigrs2 = integrator.getPriorKnowledgeRelatedToObservationNamed( "TIGRFAM", "TIGR01350" );
         assertNotNull(tigrs1);
         assertNotNull(tigrs2);
@@ -67,6 +69,9 @@ public class GenomePropertiesIntegratorTest {
         /*final List<PriorKnowledge> variants = reasoner.PriorKnowledge( pk );
         assertNotNull( variants );*/
     }
+    
+    
+    
     @Test
     public void testPropertyRelatedToEvidence() throws Exception {
         final PriorKnowledge pk1     = reasoner.getPriorKnowledge( "GenProp0698" ); // link to GenProp0698 by the accession field
