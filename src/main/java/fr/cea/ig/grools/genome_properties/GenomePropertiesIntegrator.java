@@ -35,17 +35,17 @@ package fr.cea.ig.grools.genome_properties;
 
 
 import ch.qos.logback.classic.Logger;
-import fr.cea.ig.grools.Integrator;
-import fr.cea.ig.grools.Reasoner;
+import fr.cea.ig.bio.model.genome_properties.ComponentEvidence;
+import fr.cea.ig.bio.model.genome_properties.GenomeProperty;
+import fr.cea.ig.bio.model.genome_properties.PropertyComponent;
+import fr.cea.ig.bio.model.genome_properties.Term;
+import fr.cea.ig.bio.scribe.GenomePropertiesReader;
+import fr.cea.ig.grools.reasoner.Integrator;
+import fr.cea.ig.grools.reasoner.Reasoner;
 import fr.cea.ig.grools.fact.PriorKnowledge;
 import fr.cea.ig.grools.fact.PriorKnowledgeImpl;
 import fr.cea.ig.grools.fact.RelationImpl;
 import fr.cea.ig.grools.fact.RelationType;
-import fr.cea.ig.io.reader.GenomePropertiesParser;
-import fr.cea.ig.model.genome_properties.ComponentEvidence;
-import fr.cea.ig.model.genome_properties.GenomeProperty;
-import fr.cea.ig.model.genome_properties.PropertyComponent;
-import fr.cea.ig.model.genome_properties.Term;
 import lombok.Getter;
 import lombok.NonNull;
 import org.slf4j.LoggerFactory;
@@ -69,7 +69,7 @@ final public class GenomePropertiesIntegrator implements Integrator{
 
     @NonNull
     @Getter
-    private final GenomePropertiesParser rdfParser;
+    private final GenomePropertiesReader rdfReader;
 
     @NonNull
     private final Reasoner grools;
@@ -142,13 +142,13 @@ final public class GenomePropertiesIntegrator implements Integrator{
 
     public GenomePropertiesIntegrator( @NonNull final Reasoner reasoner ) throws Exception {
         rdf         = getFile( "GenProp_3.2_release.RDF" );
-        rdfParser   =  new GenomePropertiesParser( rdf );
+        rdfReader =  new GenomePropertiesReader( rdf );
         grools      = reasoner;
     }
 
     public GenomePropertiesIntegrator( @NonNull final Reasoner reasoner,  @NonNull final File rdfFile ) throws Exception {
         rdf         = new FileInputStream( rdfFile );
-        rdfParser   = new GenomePropertiesParser( rdf );
+        rdfReader = new GenomePropertiesReader( rdf );
         grools      = reasoner;
     }
 
@@ -157,13 +157,13 @@ final public class GenomePropertiesIntegrator implements Integrator{
 
         final Map<String, PriorKnowledge> knowledges = new HashMap<>();
 
-        for ( final Map.Entry<String, Term> entry : rdfParser.entrySet() ) {
+        for ( final Map.Entry<String, Term> entry : rdfReader.entrySet( ) ) {
             //final String key = entry.getKey();
             final Term term = entry.getValue();
             if ( term instanceof GenomeProperty ) {
                 final GenomeProperty    gp      = ( GenomeProperty ) term;
                 final PriorKnowledge    child   = ( knowledges.containsKey( gp.getAccession() ) ) ? knowledges.get( gp.getAccession() ) : toPriorKnowledge( gp, false, knowledges );
-                Set<Term> terms = rdfParser.getTermsWithId( gp.getAccession());
+                Set<Term> terms = rdfReader.getTermsWithId( gp.getAccession( ) );
                 for( final Term parentTerm : terms ) {
                     if ( parentTerm instanceof ComponentEvidence ) {
                         final ComponentEvidence ce = ( ComponentEvidence ) parentTerm;
@@ -216,7 +216,7 @@ final public class GenomePropertiesIntegrator implements Integrator{
             if( ! source.equals("TIGRFAM") && ! source.equals("PFAM") )
                 LOG.warn("Only observation from PFAM or TIGRFAM is supported! Source provided: "+source);
             else {
-                result = rdfParser.getTermsWithId(id)
+                result = rdfReader.getTermsWithId( id )
                                   .stream()
                                   .map(i -> simplifyName(i.getName()))
                                   .map(grools::getPriorKnowledge)
