@@ -100,7 +100,7 @@ final public class GenomePropertiesIntegrator implements Integrator{
         String result;
         if(term instanceof GenomeProperty ){
             final GenomeProperty gp = (GenomeProperty)term;
-            result = gp.getTitle() + ":" + gp.getDefinition();
+            result = gp.getTitle() + "~" + gp.getDefinition();
         }
         else if(term instanceof PropertyComponent ){
             final PropertyComponent pc = (PropertyComponent)term;

@@ -72,7 +72,7 @@ public class GenomePropertiesIntegratorTest {
 
     @Test
     public void testGenomePropertyIntegration() throws Exception {
-        final Set<Term >           tigrs1 = integrator.getRdfReader( ).getTermsWithId( "TIGR01350" );
+        final Set<Term >          tigrs1 = integrator.getRdfReader( ).getTermsWithId( "TIGR01350" );
         final Set<PriorKnowledge> tigrs2 = integrator.getPriorKnowledgeRelatedToObservationNamed( "TIGRFAM", "TIGR01350" );
         assertNotNull(tigrs1);
         assertNotNull(tigrs2);
